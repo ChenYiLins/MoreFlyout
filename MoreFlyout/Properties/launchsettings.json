@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "MoreFlyout (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "MoreFlyout (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
