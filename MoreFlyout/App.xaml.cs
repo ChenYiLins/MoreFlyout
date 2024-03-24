@@ -6,9 +6,7 @@ using MoreFlyout.Activation;
 using MoreFlyout.Contracts.Services;
 using MoreFlyout.Core.Contracts.Services;
 using MoreFlyout.Core.Services;
-using MoreFlyout.Models;
 using MoreFlyout.Services;
-using MoreFlyout.Taskbar;
 using MoreFlyout.ViewModels;
 using MoreFlyout.Views;
 
@@ -38,14 +36,7 @@ public partial class App : Application
         return service;
     }
 
-    public static WindowEx MainWindow { get; } = new MainWindow();
-
-    public static UIElement? AppTitlebar
-    {
-        get; set;
-    }
-
-    public static SystemTrayIcon SystemTrayIcon { get; } = new();
+    public static WindowEx FlyoutWindow { get; } = new FlyoutWindow();
 
     public App()
     {
@@ -62,8 +53,6 @@ public partial class App : Application
             // Other Activation Handlers
 
             // Services
-            services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
-            services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
@@ -72,13 +61,12 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<FlyoutViewModel>();
+            services.AddTransient<FlyoutPage>();
             services.AddTransient<MenuViewModel>();
             services.AddTransient<MenuPage>();
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<MainPage>();
 
             // Configuration
-            services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
         Build();
 
@@ -97,6 +85,6 @@ public partial class App : Application
 
         await App.GetService<IActivationService>().ActivateAsync(args);
 
-        SystemTrayIcon.Show();
+        App.Current.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
     }
 }

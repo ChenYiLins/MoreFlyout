@@ -10,12 +10,12 @@ namespace MoreFlyout.Services;
 
 public class PageService : IPageService
 {
-    private readonly Dictionary<string, Type> _pages = new();
+    private readonly Dictionary<string, Type> _pages = [];
 
     public PageService()
     {
-        Configure<MainViewModel, MainPage>();
         Configure<MenuViewModel, MenuPage>();
+        Configure<FlyoutViewModel, FlyoutPage>();
     }
 
     public Type GetPageType(string key)

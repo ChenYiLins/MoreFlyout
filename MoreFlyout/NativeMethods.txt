@@ -1,4 +1,4 @@
-﻿User32.*
+﻿﻿User32.*
 dwmapi.*
 
 Shell_NotifyIcon

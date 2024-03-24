@@ -64,22 +64,16 @@
   <data name="AppDescription" xml:space="preserve">
 		<value>MoreFlyout</value>
   	</data>
-  <data name="StatusWords_NumLock" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="StatusWords_NumUnlock" xml:space="preserve">
-    <value></value>
+    <value>The number keys are not locked</value>
   </data>
-  <data name="StatusWords_CapsLock" xml:space="preserve">
-    <value></value>
+  <data name="StatusWords_Numlock" xml:space="preserve">
+    <value>The number keys are locked</value>
   </data>
   <data name="StatusWords_CapsUnlock" xml:space="preserve">
-    <value></value>
+    <value>The caps keys are not locked</value>
   </data>
-  <data name="MenuFlyoutItem_Project.Text" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="MenuFlyoutItem_Close.Text" xml:space="preserve">
-    <value></value>
+  <data name="StatusWords_Capslock" xml:space="preserve">
+    <value>The caps keys are locked</value>
   </data>
 </root>

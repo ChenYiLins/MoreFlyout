@@ -10,14 +10,12 @@ public class ActivationService : IActivationService
 {
     private readonly ActivationHandler<LaunchActivatedEventArgs> _defaultHandler;
     private readonly IEnumerable<IActivationHandler> _activationHandlers;
-    private readonly IThemeSelectorService _themeSelectorService;
     private UIElement? _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService)
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
-        _themeSelectorService = themeSelectorService;
     }
 
     public async Task ActivateAsync(object activationArgs)
@@ -25,17 +23,17 @@ public class ActivationService : IActivationService
         // Execute tasks before activation.
         await InitializeAsync();
 
-        // Set the MainWindow Content.
-        if (App.MainWindow.Content == null)
+        // Set the FlyoutWindow Content.
+        if (App.FlyoutWindow.Content == null)
         {
-            App.MainWindow.Content = _shell ?? new Frame();
+            App.FlyoutWindow.Content = _shell ?? new Frame();
         }
 
         // Handle activation via ActivationHandlers.
         await HandleActivationAsync(activationArgs);
 
-        // Activate the MainWindow.
-        App.MainWindow.Activate();
+        // Activate the FlyoutWindow.
+        App.FlyoutWindow.Activate();
 
         // Execute tasks after activation.
         await StartupAsync();
@@ -58,13 +56,11 @@ public class ActivationService : IActivationService
 
     private async Task InitializeAsync()
     {
-        await _themeSelectorService.InitializeAsync().ConfigureAwait(false);
         await Task.CompletedTask;
     }
 
     private async Task StartupAsync()
     {
-        await _themeSelectorService.SetRequestedThemeAsync();
         await Task.CompletedTask;
     }
 }

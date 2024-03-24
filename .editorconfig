@@ -50,7 +50,7 @@ csharp_preserve_single_line_blocks = false
 #Style - Code block preferences
 
 #prefer curly braces even for one line of code
-csharp_prefer_braces = true:none
+csharp_prefer_braces = true:suggestion
 
 #Style - expression bodied member options
 
@@ -200,3 +200,4 @@ dotnet_style_prefer_inferred_tuple_names = true:suggestion
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_compound_assignment = true:warning
 dotnet_style_prefer_simplified_interpolation = true:suggestion
+dotnet_analyzer_diagnostic.severity = none

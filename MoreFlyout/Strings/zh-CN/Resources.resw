@@ -117,28 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppDescription" xml:space="preserve">
-    <value>MoreFlyout</value>
+  <data name="StatusWords_NumUnlock" xml:space="preserve">
+    <value>数字键未锁定</value>
   </data>
   <data name="AppDisplayName" xml:space="preserve">
     <value>MoreFlyout</value>
   </data>
-  <data name="StatusWords_NumLock" xml:space="preserve">
+  <data name="AppDescription" xml:space="preserve">
+    <value>MoreFlyout</value>
+  </data>
+  <data name="StatusWords_Numlock" xml:space="preserve">
     <value>数字键已锁定</value>
-  </data>
-  <data name="StatusWords_NumUnlock" xml:space="preserve">
-    <value>数字键未锁定</value>
-  </data>
-  <data name="StatusWords_CapsLock" xml:space="preserve">
-    <value>大写键已锁定</value>
   </data>
   <data name="StatusWords_CapsUnlock" xml:space="preserve">
     <value>大写键未锁定</value>
   </data>
-  <data name="MenuFlyoutItem_Project.Text" xml:space="preserve">
-    <value>项目</value>
-  </data>
-  <data name="MenuFlyoutItem_Close.Text" xml:space="preserve">
-    <value>退出</value>
+  <data name="StatusWords_Capslock" xml:space="preserve">
+    <value>大写键已锁定</value>
   </data>
 </root>
