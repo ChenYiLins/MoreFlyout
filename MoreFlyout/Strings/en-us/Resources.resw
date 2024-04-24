@@ -76,4 +76,13 @@
   <data name="StatusWords_Capslock" xml:space="preserve">
     <value>The caps keys are locked</value>
   </data>
+  <data name="MenuFlyoutItem_Project.Text" xml:space="preserve">
+    <value>About this project</value>
+  </data>
+  <data name="MenuFlyoutItem_Close.Text" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="MenuFlyoutItem_StartWithWindows.Text" xml:space="preserve">
+    <value>Start with computer</value>
+  </data>
 </root>

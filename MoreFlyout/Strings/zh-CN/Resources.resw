@@ -135,4 +135,13 @@
   <data name="StatusWords_Capslock" xml:space="preserve">
     <value>大写键已锁定</value>
   </data>
+  <data name="MenuFlyoutItem_Project.Text" xml:space="preserve">
+    <value>关于这个项目</value>
+  </data>
+  <data name="MenuFlyoutItem_Close.Text" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="MenuFlyoutItem_StartWithWindows.Text" xml:space="preserve">
+    <value>开机自启</value>
+  </data>
 </root>
