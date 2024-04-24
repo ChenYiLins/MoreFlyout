@@ -6,7 +6,9 @@ using MoreFlyout.Activation;
 using MoreFlyout.Contracts.Services;
 using MoreFlyout.Core.Contracts.Services;
 using MoreFlyout.Core.Services;
+using MoreFlyout.Models;
 using MoreFlyout.Services;
+using MoreFlyout.Taskbar;
 using MoreFlyout.ViewModels;
 using MoreFlyout.Views;
 
@@ -38,6 +40,8 @@ public partial class App : Application
 
     public static WindowEx FlyoutWindow { get; } = new FlyoutWindow();
 
+    public static SystemTrayIcon SystemTrayIcon { get; } = new();
+
     public App()
     {
         InitializeComponent();
@@ -53,6 +57,7 @@ public partial class App : Application
             // Other Activation Handlers
 
             // Services
+            services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
@@ -67,6 +72,7 @@ public partial class App : Application
             services.AddTransient<MenuPage>();
 
             // Configuration
+            services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
         Build();
 
@@ -86,5 +92,13 @@ public partial class App : Application
         await App.GetService<IActivationService>().ActivateAsync(args);
 
         App.Current.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+
+        if (FlyoutWindow.Content is FrameworkElement rootElement)
+        {
+            rootElement.RequestedTheme = ElementTheme.Dark;
+            FlyoutWindow.Content = rootElement;
+        }
+
+        SystemTrayIcon.Show();
     }
 }
