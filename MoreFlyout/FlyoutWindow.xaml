@@ -6,7 +6,6 @@
     xmlns:local="using:MoreFlyout"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:windowex="using:WinUIEx"
-    IsAlwaysOnTop="True"
     IsResizable="False"
     IsShownInSwitchers="False"
     PersistenceId="FlyoutWindow"
