@@ -11,7 +11,11 @@
     </Page.Resources>
 
     <Page.ContextFlyout>
-        <Flyout x:Name="FlyoutWindowContextFlyout" ShouldConstrainToRootBounds="False">
+        <Flyout
+            x:Name="FlyoutPageContextFlyout"
+            AllowFocusOnInteraction="False"
+            ShouldConstrainToRootBounds="False"
+            ShowMode="Transient">
             <Flyout.SystemBackdrop>
                 <local:AcrylicSystemBackdrop />
             </Flyout.SystemBackdrop>
