@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Project\\Source\\CSharp\\MoreFlyout\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{34D3ADCB-BD03-4782-A57C-2B6658C7B3F8}|MoreFlyout\\MoreFlyout.csproj|d:\\project\\source\\csharp\\moreflyout\\moreflyout\\properties\\publishprofiles\\win-x64.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{34D3ADCB-BD03-4782-A57C-2B6658C7B3F8}|MoreFlyout\\MoreFlyout.csproj|solutionrelative:moreflyout\\properties\\publishprofiles\\win-x64.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{34D3ADCB-BD03-4782-A57C-2B6658C7B3F8}|MoreFlyout\\MoreFlyout.csproj|d:\\project\\source\\csharp\\moreflyout\\moreflyout\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{34D3ADCB-BD03-4782-A57C-2B6658C7B3F8}|MoreFlyout\\MoreFlyout.csproj|solutionrelative:moreflyout\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +35,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "win-x64.pubxml",
+              "DocumentMoniker": "D:\\Project\\Source\\CSharp\\MoreFlyout\\MoreFlyout\\Properties\\PublishProfiles\\win-x64.pubxml",
+              "RelativeDocumentMoniker": "MoreFlyout\\Properties\\PublishProfiles\\win-x64.pubxml",
+              "ToolTip": "D:\\Project\\Source\\CSharp\\MoreFlyout\\MoreFlyout\\Properties\\PublishProfiles\\win-x64.pubxml",
+              "RelativeToolTip": "MoreFlyout\\Properties\\PublishProfiles\\win-x64.pubxml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2024-05-02T12:40:35.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "D:\\Project\\Source\\CSharp\\MoreFlyout\\MoreFlyout\\App.xaml.cs",
+              "RelativeDocumentMoniker": "MoreFlyout\\App.xaml.cs",
+              "ToolTip": "D:\\Project\\Source\\CSharp\\MoreFlyout\\MoreFlyout\\App.xaml.cs",
+              "RelativeToolTip": "MoreFlyout\\App.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-02T12:39:00.616Z",
+              "EditorCaption": ""
             }
           ]
         }
