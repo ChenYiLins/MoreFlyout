@@ -2,6 +2,10 @@
 
 ## 开发日志
 
+### v1.0.0-2024.06.01
+
+- 在分支CppVersion中曾考虑将主程序改为C++重构，但经过多次的压力测试，不得不面对C++ WinUI程序长时间运行下极易出现的内存泄露问题，决定保留主程序为C#编写，同时删除托盘图标功能，将项目分为MoreFlyout.Server和MoreFlyout.Shell，同时MoreFlyout.Shell部分由C++编写，作为程序的可视化管理外壳。
+
 ### beta3 v0.0.3-2024.03.12
 
 - 更改了程序结构，精简之前由TemplateStudio自动生成的模板，同时更改了部分命名，例如：MainWindow改为FlyoutWindow更加直观。精简了部分逻辑代码。
