@@ -1,9 +1,0 @@
-namespace MoreFlyout_Shell
-{
-    [default_interface]
-    runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page
-    {
-        MainPage();
-        Int32 MyProperty;
-    }
-}
