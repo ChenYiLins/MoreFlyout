@@ -1,0 +1,9 @@
+MoreFlyout.Server.Core/obj/
+MoreFlyout.Server.Core/bin/
+MoreFlyout.Server/bin/
+MoreFlyout.Server/obj/
+MoreFlyout.Shell.Core/bin/
+MoreFlyout.Shell.Core/obj/
+MoreFlyout.Shell/bin/
+MoreFlyout.Shell/obj/
+.vs/
