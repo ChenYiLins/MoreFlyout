@@ -21,6 +21,14 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
+  <Target Name="RemoveFoldersWithMuiFiles" AfterTargets="Publish">
+    <ItemGroup>
+      <RemovingFiles Include="$(PublishDir)**\*.mui" Exclude="$(PublishDir)zh-cn\*.mui;$(PublishDir)en-us\*.mui" />
+      <RemovingFolders Include="@(RemovingFiles->'%(RootDir)%(Directory)')" />
+    </ItemGroup>
+    <RemoveDir Directories="@(RemovingFolders)" />
+  </Target>
+		
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
