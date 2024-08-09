@@ -30,9 +30,9 @@ public sealed partial class MainPage : Page
             {
                 try
                 {
-                    Process.Start("MoreFlyout.Server.exe");
+                    Process.Start(AppDomain.CurrentDomain.BaseDirectory.Substring(0, AppDomain.CurrentDomain.BaseDirectory.Length - @"MoreFlyout.Shell\".Length) + @"MoreFlyout.Server\MoreFlyout.Server.exe");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine($"Error terminating processes: {ex.Message}");
                 }
@@ -74,7 +74,7 @@ public sealed partial class MainPage : Page
                     var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
                     // MoreFlyout.Server.exe's path
-                    var exePath = "\""+AppDomain.CurrentDomain.BaseDirectory + "MoreFlyout.Server.exe"+ "\"";
+                    var exePath = "\"" + AppDomain.CurrentDomain.BaseDirectory.Substring(0, AppDomain.CurrentDomain.BaseDirectory.Length - @"MoreFlyout.Shell\".Length) + @"MoreFlyout.Server\MoreFlyout.Server.exe" + "\"";
 
                     // SetValue
                     key?.SetValue("MoreFlyout.Server", exePath);
