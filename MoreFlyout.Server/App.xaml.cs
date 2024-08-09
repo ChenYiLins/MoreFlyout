@@ -65,8 +65,6 @@ public partial class App : Application
             // Views and ViewModels
             services.AddTransient<FlyoutViewModel>();
             services.AddTransient<FlyoutPage>();
-            services.AddTransient<MenuViewModel>();
-            services.AddTransient<MenuPage>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

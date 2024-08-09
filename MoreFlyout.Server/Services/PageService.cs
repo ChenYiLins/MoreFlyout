@@ -14,7 +14,6 @@ public class PageService : IPageService
 
     public PageService()
     {
-        Configure<MenuViewModel, MenuPage>();
         Configure<FlyoutViewModel, FlyoutPage>();
     }
 
