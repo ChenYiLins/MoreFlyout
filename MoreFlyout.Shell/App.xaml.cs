@@ -6,7 +6,6 @@ using MoreFlyout.Shell.Activation;
 using MoreFlyout.Shell.Contracts.Services;
 using MoreFlyout.Shell.Core.Contracts.Services;
 using MoreFlyout.Shell.Core.Services;
-using MoreFlyout.Shell.Helpers;
 using MoreFlyout.Shell.Models;
 using MoreFlyout.Shell.Services;
 using MoreFlyout.Shell.ViewModels;
@@ -40,7 +39,10 @@ public partial class App : Application
 
     public static WindowEx MainWindow { get; } = new MainWindow();
 
-    public static UIElement? AppTitlebar { get; set; }
+    public static UIElement? AppTitlebar
+    {
+        get; set;
+    }
 
     public App()
     {

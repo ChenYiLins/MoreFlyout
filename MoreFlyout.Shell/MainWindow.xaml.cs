@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
-using Microsoft.UI.Xaml;
-using MoreFlyout.Shell.Helpers;
+﻿using MoreFlyout.Shell.Helpers;
 
 using Windows.UI.ViewManagement;
 
