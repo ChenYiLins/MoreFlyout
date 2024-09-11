@@ -2,6 +2,12 @@
 
 ## 开发日志
 
+### v1.1.0-2024.07.24
+
+- 删除C++构建的MoreFlyout.Shell，改为C#编写。
+- 统一MoreFlyout.Server和MoreFlyout.Shell的 .Net、Windows App SDK版本。
+- 新增Preview分支，作为预览更新，在更新完毕时并入main分支，Preview分支可能会采用预览版Window App SDK，在使用预览版时不会并入main分支。
+
 ### v1.0.0-2024.06.01
 
 - 在分支CppVersion中曾考虑将主程序改为C++重构，但经过多次的压力测试，不得不面对C++ WinUI程序长时间运行下极易出现的内存泄露问题，决定保留主程序为C#编写，同时删除托盘图标功能，将项目分为MoreFlyout.Server和MoreFlyout.Shell，同时MoreFlyout.Shell部分由C++编写，作为程序的可视化管理外壳。
