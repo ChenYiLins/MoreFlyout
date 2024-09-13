@@ -42,11 +42,11 @@
             VerticalScrollMode="Auto">
             <StackPanel Spacing="4" Margin="15">
                 <controls:SettingsCard x:Uid="SettingsCard_Server" HeaderIcon="{ui:FontIcon Glyph=&#xECAA;}">
-                    <ToggleSwitch Toggled="ToggleSwitch_Server_Toggled" />
+                    <ToggleSwitch Toggled="ToggleSwitch_Server_Toggled" x:Name="RunServerToggleSwitch"/>
                 </controls:SettingsCard>
 
                 <controls:SettingsCard x:Uid="SettingsCard_RunWithWindows" HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
-                    <ToggleSwitch Toggled="ToggleSwitch_RunWithWindows_Toggled"/>
+                    <ToggleSwitch Toggled="ToggleSwitch_RunWithWindows_Toggled" x:Name="RunWithWindowsToggleSwitch"/>
                 </controls:SettingsCard>
 
                 <controls:SettingsExpander x:Uid="SettingsCard_Version" HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/WindowIcon.ico}">

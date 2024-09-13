@@ -19,6 +19,30 @@ public sealed partial class MainPage : Page
         InitializeComponent();
 
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+
+        // Check MoreFlyout.Server is running?
+        var isProcessRunning = false;
+        foreach (var process in Process.GetProcesses())
+        {
+            if (process.ProcessName.Equals("MoreFlyout.Server", StringComparison.CurrentCultureIgnoreCase))
+            {
+                isProcessRunning = true;
+                break;
+            }
+        }
+
+        if (isProcessRunning == true)
+        {
+            RunServerToggleSwitch.IsEnabled = true;
+        }
+
+        // Check MoreFlyout.Server is run with windows?
+        using var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        if (key != null)
+        {
+            RunWithWindowsToggleSwitch.IsEnabled = true;
+        }
+
     }
 
     private void ToggleSwitch_Server_Toggled(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
