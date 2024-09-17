@@ -1,5 +1,7 @@
 # MoreFlyout
 
+<img src="Assest\Readme_Title.jpg" style="zoom:100%;" alt="Title" />
+
 Provide OSD display similar Win11 FluentUI style. Maybe this application looks like [MordenFlyouts](https://github.com/ModernFlyouts-Community/ModernFlyouts), but this application is developed based on C# WinUI3, it's looks like Win11 native flyouts.
 
 [Release note](./RELEASENOTE.md)
@@ -10,7 +12,8 @@ Provide OSD display similar Win11 FluentUI style. Maybe this application looks l
 
 ## Screenshots
 
-Building......🔨⛏️⚒️🛠️🔧
+<img src="Assest\Readme_Screenshots_1.jpg" style="zoom:50%;" alt="Screenshots" />
+<img src="Assest\Readme_Screenshots_2.jpg" style="zoom:50%;" alt="Screenshots" />
 
 ## Download
 
