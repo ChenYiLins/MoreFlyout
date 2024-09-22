@@ -50,7 +50,7 @@
                 </controls:SettingsCard>
 
                 <controls:SettingsExpander x:Uid="SettingsCard_Version" HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/WindowIcon.ico}">
-                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="1.0.1" />
+                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="1.1.2" />
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard HorizontalContentAlignment="Left" ContentAlignment="Left">
                             <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
