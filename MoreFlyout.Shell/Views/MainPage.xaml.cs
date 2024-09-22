@@ -33,14 +33,14 @@ public sealed partial class MainPage : Page
 
         if (isProcessRunning == true)
         {
-            RunServerToggleSwitch.IsEnabled = true;
+            RunServerToggleSwitch.IsOn = true;
         }
 
         // Check MoreFlyout.Server is run with windows?
         using var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
         if (key != null)
         {
-            RunWithWindowsToggleSwitch.IsEnabled = true;
+            RunWithWindowsToggleSwitch.IsOn = true;
         }
 
     }
