@@ -1,8 +1,8 @@
 ﻿﻿User32.*
 dwmapi.*
 
-Shell_NotifyIcon
-Shell_NotifyIconGetRect
+RegisterWindowMessage
 GetModuleHandle
+GetCurrentThreadId
 
 WM_*

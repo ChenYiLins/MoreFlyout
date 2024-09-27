@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
@@ -15,18 +17,30 @@ namespace MoreFlyout.Server.Views;
 public sealed partial class FlyoutPage : Page
 {
     // DispatcherTimer to instead Timer
-    private DispatcherTimer hiddenTimer;
+    private readonly DispatcherTimer hiddenTimer;
 
     // This static assignment will ensure GC doesn't move the procedure around
     private static readonly HOOKPROC _hook = GlobalHookCallback;
+    private static readonly HOOKPROC _callWndProcHook = CallWndProcCallback;
     private static readonly UnhookWindowsHookExSafeHandle _hookId;
+    private static readonly UnhookWindowsHookExSafeHandle _callWndProcHookId;
 
+    // Define different key event codes
     private const int WM_KEYDOWN = 0x0100;
     private const int VK_NUMLOCK = 0x90;
     private const int VK_CAPSLOCK = 0x14;
 
+    // Define key state
     private static bool numKeyState = false;
     private static bool capsKeyState = false;
+
+    private struct CWPSTRUCT
+    {
+        public IntPtr lParam;
+        public IntPtr wParam;
+        public uint message;
+        public IntPtr hwnd;
+    }
 
     public FlyoutViewModel ViewModel
     {
@@ -37,9 +51,12 @@ public sealed partial class FlyoutPage : Page
     {
         // Hook here (expected to be done in UI thread in our case, it facilitates everything)
         _hookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _hook, null, 0);
+        var hModule = PInvoke.GetModuleHandle(Process.GetCurrentProcess().MainModule!.ModuleName);
+        _callWndProcHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_CALLWNDPROC, _callWndProcHook, hModule, PInvoke.GetCurrentThreadId());
 
         // Unhook on exit (more or less useless)
         AppDomain.CurrentDomain.ProcessExit += (s, e) => { _hookId.Close(); };
+        AppDomain.CurrentDomain.ProcessExit += (s, e) => { _callWndProcHookId.Close(); };
     }
 
     public FlyoutPage()
@@ -47,10 +64,14 @@ public sealed partial class FlyoutPage : Page
         ViewModel = App.GetService<FlyoutViewModel>();
         InitializeComponent();
 
-        hiddenTimer = new DispatcherTimer();
-        hiddenTimer.Interval = new TimeSpan(0, 0, 0, 0, 2800);
+        // Set DispatcherTimer to control the window will disappear after a certain period of time
+        hiddenTimer = new DispatcherTimer
+        {
+            Interval = new TimeSpan(0, 0, 0, 0, 2800)
+        };
         hiddenTimer.Stop();
 
+        // Get the key state
         numKeyState = (PInvoke.GetKeyState(VK_NUMLOCK) & 1) == 1;
         capsKeyState = (PInvoke.GetKeyState(VK_CAPSLOCK) & 1) == 1;
     }
@@ -75,7 +96,26 @@ public sealed partial class FlyoutPage : Page
                 page.HookCallback(nCode, wParam, lParam);
             }
         }
-        return PInvoke.CallNextHookEx(null, nCode, wParam, lParam);
+        return PInvoke.CallNextHookEx(_hookId, nCode, wParam, lParam);
+    }
+
+    private static LRESULT CallWndProcCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    {
+        // Get your navigation service and defer to the instance method if found
+        var navigation = App.GetService<INavigationService>();
+        if (navigation?.Frame != null)
+        {
+            if (navigation.Frame.Content is not FlyoutPage)
+            {
+                navigation.NavigateTo(typeof(FlyoutViewModel).FullName!);
+            }
+
+            if (navigation.Frame.Content is FlyoutPage page)
+            {
+                page.CallWndProcHookCallback(nCode, wParam, lParam);
+            }
+        }
+        return PInvoke.CallNextHookEx(_callWndProcHookId, nCode, wParam, lParam);
     }
 
     private void HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
@@ -107,6 +147,19 @@ public sealed partial class FlyoutPage : Page
         }
     }
 
+    private void CallWndProcHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    {
+        if (nCode >= 0)
+        {
+            var msg = Marshal.PtrToStructure<CWPSTRUCT>(lParam);
+            if (msg.message == PInvoke.RegisterWindowMessage("TaskbarCreated"))
+            {
+                App.FlyoutWindow.IsShownInSwitchers = true;
+                App.FlyoutWindow.IsShownInSwitchers = false;
+            }
+        }
+    }
+
     private void RunTimer()
     {
         if (hiddenTimer.IsEnabled == false)
@@ -127,12 +180,12 @@ public sealed partial class FlyoutPage : Page
 
     private unsafe bool IsFullScreenActive()
     {
-        bool isFullScreen = true;
+        var isFullScreen = true;
         const int MAX_PATH = 260;
         Span<char> buffer = new char[MAX_PATH + 1];
 
-        int screenWidth = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN);
-        int screenHeight = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN);
+        var screenWidth = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN);
+        var screenHeight = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN);
 
         System.Drawing.Point[] screenCorners = new System.Drawing.Point[]
         {
@@ -142,12 +195,12 @@ public sealed partial class FlyoutPage : Page
 
         foreach (System.Drawing.Point corner in screenCorners)
         {
-            HWND hWnd = PInvoke.WindowFromPoint(corner);
+            var hWnd = PInvoke.WindowFromPoint(corner);
 
             fixed (char* pBuffer = buffer)
             {
                 PWSTR pWSTR = pBuffer;
-                PInvoke.GetClassName(hWnd, pWSTR, MAX_PATH);
+                _ = PInvoke.GetClassName(hWnd, pWSTR, MAX_PATH);
                 if (pWSTR.ToString() == "Shell_TrayWnd" || pWSTR.ToString() == "TrayNotifyWnd") isFullScreen = false;
             }
         }
@@ -175,7 +228,7 @@ public class AcrylicSystemBackdrop : Microsoft.UI.Xaml.Media.SystemBackdrop
         acrylicController = new DesktopAcrylicController();
 
         // Set configuration.
-        SystemBackdropConfiguration defaultConfig = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
+        var defaultConfig = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
         defaultConfig.IsInputActive = true;
         defaultConfig.Theme = SystemBackdropTheme.Dark;
         acrylicController.SetSystemBackdropConfiguration(defaultConfig);
