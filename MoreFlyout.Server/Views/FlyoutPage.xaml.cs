@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
@@ -20,9 +19,9 @@ public sealed partial class FlyoutPage : Page
     private readonly DispatcherTimer hiddenTimer;
 
     // This static assignment will ensure GC doesn't move the procedure around
-    private static readonly HOOKPROC _hook = GlobalHookCallback;
+    private static readonly HOOKPROC _keyboardHook = KeyboardCallback;
     private static readonly HOOKPROC _callWndProcHook = CallWndProcCallback;
-    private static readonly UnhookWindowsHookExSafeHandle _hookId;
+    private static readonly UnhookWindowsHookExSafeHandle _keyboardHookId;
     private static readonly UnhookWindowsHookExSafeHandle _callWndProcHookId;
 
     // Define different key event codes
@@ -50,12 +49,12 @@ public sealed partial class FlyoutPage : Page
     static FlyoutPage()
     {
         // Hook here (expected to be done in UI thread in our case, it facilitates everything)
-        _hookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _hook, null, 0);
+        _keyboardHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _keyboardHook, null, 0);
         var hModule = PInvoke.GetModuleHandle(Process.GetCurrentProcess().MainModule!.ModuleName);
         _callWndProcHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_CALLWNDPROC, _callWndProcHook, hModule, PInvoke.GetCurrentThreadId());
 
         // Unhook on exit (more or less useless)
-        AppDomain.CurrentDomain.ProcessExit += (s, e) => { _hookId.Close(); };
+        AppDomain.CurrentDomain.ProcessExit += (s, e) => { _keyboardHookId.Close(); };
         AppDomain.CurrentDomain.ProcessExit += (s, e) => { _callWndProcHookId.Close(); };
     }
 
@@ -77,7 +76,7 @@ public sealed partial class FlyoutPage : Page
     }
 
     // The hook function must be static
-    private static LRESULT GlobalHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    private static LRESULT KeyboardCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
         // Lucky us WH_KEYBOARD_LL calls back on initial hooking thread, ie: the UI thread
         // so no need for Dispatcher mumbo jumbo
@@ -93,10 +92,10 @@ public sealed partial class FlyoutPage : Page
 
             if (navigation.Frame.Content is FlyoutPage page)
             {
-                page.HookCallback(nCode, wParam, lParam);
+                page.KeyboardHookCallback(nCode, wParam, lParam);
             }
         }
-        return PInvoke.CallNextHookEx(_hookId, nCode, wParam, lParam);
+        return PInvoke.CallNextHookEx(_keyboardHookId, nCode, wParam, lParam);
     }
 
     private static LRESULT CallWndProcCallback(int nCode, WPARAM wParam, LPARAM lParam)
@@ -118,7 +117,7 @@ public sealed partial class FlyoutPage : Page
         return PInvoke.CallNextHookEx(_callWndProcHookId, nCode, wParam, lParam);
     }
 
-    private void HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    private void KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
         if (nCode >= 0 && wParam == WM_KEYDOWN)
         {
@@ -187,13 +186,13 @@ public sealed partial class FlyoutPage : Page
         var screenWidth = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN);
         var screenHeight = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN);
 
-        System.Drawing.Point[] screenCorners = new System.Drawing.Point[]
-        {
-            new System.Drawing.Point(1, screenHeight - 1),
-            new System.Drawing.Point(screenWidth - 1, screenHeight - 1)
-        };
+        System.Drawing.Point[] screenCorners =
+        [
+            new(1, screenHeight - 1),
+            new(screenWidth - 1, screenHeight - 1)
+        ];
 
-        foreach (System.Drawing.Point corner in screenCorners)
+        foreach (var corner in screenCorners)
         {
             var hWnd = PInvoke.WindowFromPoint(corner);
 
