@@ -2,10 +2,10 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MoreFlyout"
-#define MyAppVersion "0.0.3"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "ChenYiLins"
 #define MyAppURL "https://github.com/ChenYiLins/MoreFlyout"
-#define MyAppExeName "MoreFlyout.exe"
+#define MyAppExeName "MoreFlyout.Shell.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -30,7 +30,7 @@ SetupIconFile=D:\Project\Source\CSharp\MoreFlyout\Assest\WindowIcon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
-ArchitecturesInstallIn64BitMode=x64 ia64
+ArchitecturesInstallIn64BitMode=x64compatible
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -40,11 +40,11 @@ Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.i
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\Project\Source\Packge\MoreFlyout\MoreFlyout\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Project\Source\Packge\MoreFlyout\MoreFlyout\MoreFlyout.Shell\{#MyAppExeName}"; DestDir: "{app}\MoreFlyout.Shell"; Flags: ignoreversion
 Source: "D:\Project\Source\Packge\MoreFlyout\MoreFlyout\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\MoreFlyout.Shell\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
