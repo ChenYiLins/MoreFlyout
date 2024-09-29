@@ -2,6 +2,15 @@
 
 ## 开发日志
 
+### v1.1.2-health action1-2024.09.22
+
+- 此版本主要目的为修复程序目前存在的错误，优化程序结构，同时完善日志。
+- 修复了Shell主程序打开时，主页的按钮始终处于关闭状态的bug。
+
+### v1.1.1-2024.09.16
+
+- 现在修复了程序启动时所有按钮默认处于关闭的bug。
+
 ### v1.1.0-2024.07.24
 
 - 删除C++构建的MoreFlyout.Shell，改为C#编写。
@@ -12,7 +21,7 @@
 
 - 在分支CppVersion中曾考虑将主程序改为C++重构，但经过多次的压力测试，不得不面对C++ WinUI程序长时间运行下极易出现的内存泄露问题，决定保留主程序为C#编写，同时删除托盘图标功能，将项目分为MoreFlyout.Server和MoreFlyout.Shell，同时MoreFlyout.Shell部分由C++编写，作为程序的可视化管理外壳。
 
-### beta3 v0.0.3-2024.03.12
+### v0.0.3-beta3-2024.03.12
 
 - 更改了程序结构，精简之前由TemplateStudio自动生成的模板，同时更改了部分命名，例如：MainWindow改为FlyoutWindow更加直观。精简了部分逻辑代码。
 - 感谢[Simon Mourier](https://github.com/smourier)的[回答](https://stackoverflow.com/questions/78210920/in-c-sharp-winui-a-crash-about-system-executioninexception-is-caused-for-unk)，成功解决了因为CG回收导致WinUI的严重崩溃。
@@ -25,7 +34,7 @@
 - 添加托盘图标功能，加入开机自启选项。
 - 将Windows App SDK升级到1.5.240404000。
 
-### beta2 v0.0.2
+### v0.0.2-beta2
 
 - 修复了在高DPI情况下窗口位置、大小错位的问题。
 - Acrylic效果单独创建，避免窗口在失焦的情况下变为纯色效果。
@@ -33,11 +42,19 @@
 
 ## 更新日志
 
-### beta2 v0.0.2-2024.03.11
+### v1.1.1-2024.09.18
+
+1. 原程序变更为MoreFlyout.Server，作为基础服务部分，删除了托盘图标的功能。
+2. 新增MoreFlyout.Shell，作为程序的可视化管理设置外壳，同时同步Server与Shell的Windows App SDK和.Net版本。
+3. 修复了在v1.0.0版本开始存在的：Shell主程序打开时，主页的按钮始终处于关闭状态的bug。
+
+- 经测试，第3点并未成功修复，将在下一个版本修复。😭
+
+### v0.0.2-beta2-2024.03.11
 
 1. 现在能够提供正常的Acrylic效果。
 2. 现在程序能够正常在托盘图标显示。
 
-### beta1 v0.0.1-2024.02.26
+### v0.0.1-beta1-2024.02.26
 
 1. 基础功能更新。
