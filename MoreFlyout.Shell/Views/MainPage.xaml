@@ -5,10 +5,8 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="using:CommunityToolkit.WinUI"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
-
 
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
@@ -41,15 +39,24 @@
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Auto">
             <StackPanel Margin="15" Spacing="4">
-                <controls:SettingsCard x:Uid="SettingsCard_Server" HeaderIcon="{ui:FontIcon Glyph=&#xECAA;}">
+                <controls:SettingsCard x:Uid="SettingsCard_Server">
+                    <controls:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xECAA;" />
+                    </controls:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="RunServerToggleSwitch" Toggled="ToggleSwitch_Server_Toggled" />
                 </controls:SettingsCard>
 
-                <controls:SettingsCard x:Uid="SettingsCard_RunWithWindows" HeaderIcon="{ui:FontIcon Glyph=&#xE7E8;}">
+                <controls:SettingsCard x:Uid="SettingsCard_RunWithWindows">
+                    <controls:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7E8;" />
+                    </controls:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="RunWithWindowsToggleSwitch" Toggled="ToggleSwitch_RunWithWindows_Toggled" />
                 </controls:SettingsCard>
 
-                <controls:SettingsExpander x:Uid="SettingsCard_Version" HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/WindowIcon.ico}">
+                <controls:SettingsExpander x:Uid="SettingsCard_Version">
+                    <controls:SettingsExpander.HeaderIcon>
+                        <ImageIcon Source="/Assets/WindowIcon.ico" />
+                    </controls:SettingsExpander.HeaderIcon>
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="1.1.2" />
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard HorizontalContentAlignment="Left" ContentAlignment="Left">
@@ -62,14 +69,13 @@
                             HorizontalContentAlignment="Left"
                             ContentAlignment="Vertical">
                             <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
-                                <HyperlinkButton Content="Windows App SDK 1.5.5" NavigateUri="https://github.com/microsoft/WindowsAppSDK/releases/tag/v1.5.5" />
-                                <HyperlinkButton Content="Windows Community Toolkit 8.0.240109" NavigateUri="https://github.com/CommunityToolkit/Windows/releases/tag/v8.0.240109" />
-                                <HyperlinkButton Content=".NET Community Toolkit 8.2.2" NavigateUri="https://github.com/CommunityToolkit/dotnet/releases/tag/v8.2.2" />
-                                <HyperlinkButton Content="WinUIEx 2.3.4" NavigateUri="https://github.com/dotMorten/WinUIEx/releases/tag/v2.3.4" />
+                                <HyperlinkButton Content="Windows App SDK 1.6.0" NavigateUri="https://github.com/microsoft/WindowsAppSDK/releases" />
+                                <HyperlinkButton Content="Windows Community Toolkit 8.1.240916" NavigateUri="https://github.com/CommunityToolkit/Windows/releases" />
+                                <HyperlinkButton Content=".NET Community Toolkit 8.3.2" NavigateUri="https://github.com/CommunityToolkit/dotnet/releases" />
+                                <HyperlinkButton Content="WinUIEx 2.4.2" NavigateUri="https://github.com/dotMorten/WinUIEx/releases" />
                             </StackPanel>
                         </controls:SettingsCard>
                     </controls:SettingsExpander.Items>
-
                 </controls:SettingsExpander>
             </StackPanel>
         </ScrollViewer>
