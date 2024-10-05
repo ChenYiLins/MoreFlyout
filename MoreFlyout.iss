@@ -48,3 +48,5 @@ Source: "D:\Project\Source\Packge\MoreFlyout\MoreFlyout\*"; DestDir: "{app}"; Fl
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\MoreFlyout.Shell\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
+[UninstallDelete]
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run\MoreFlyout.Server"
