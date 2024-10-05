@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 
@@ -39,6 +40,7 @@ public partial class App : Application
 
     public static WindowEx FlyoutWindow { get; } = new FlyoutWindow();
 
+    [RequiresUnreferencedCode("DynamicBehavior is incompatible with trimming.")]
     public App()
     {
         InitializeComponent();
