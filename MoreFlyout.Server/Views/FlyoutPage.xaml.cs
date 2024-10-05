@@ -102,9 +102,9 @@ public sealed partial class FlyoutPage : Page
                 navigation.NavigateTo(typeof(FlyoutViewModel).FullName!);
             }
 
-            if (navigation.Frame.Content is FlyoutPage page)
+            if (navigation.Frame.Content is FlyoutPage)
             {
-                page.CallWndProcHookCallback(nCode, wParam, lParam);
+                CallWndProcHookCallback(nCode, wParam, lParam);
             }
         }
         return PInvoke.CallNextHookEx(_callWndProcHookId, nCode, wParam, lParam);
@@ -139,7 +139,7 @@ public sealed partial class FlyoutPage : Page
         }
     }
 
-    private void CallWndProcHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    private static void CallWndProcHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
         if (nCode >= 0)
         {
@@ -202,9 +202,9 @@ public sealed partial class FlyoutPage : Page
 
 }
 
-public class AcrylicSystemBackdrop : Microsoft.UI.Xaml.Media.SystemBackdrop
+public partial class AcrylicSystemBackdrop : Microsoft.UI.Xaml.Media.SystemBackdrop
 {
-    DesktopAcrylicController? acrylicController;
+    private DesktopAcrylicController? acrylicController;
 
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
     {
@@ -233,7 +233,7 @@ public class AcrylicSystemBackdrop : Microsoft.UI.Xaml.Media.SystemBackdrop
     {
         base.OnTargetDisconnected(disconnectedTarget);
 
-        if (acrylicController != null) acrylicController.RemoveSystemBackdropTarget(disconnectedTarget);
+        acrylicController?.RemoveSystemBackdropTarget(disconnectedTarget);
         acrylicController = null;
     }
 }
