@@ -38,7 +38,7 @@ public sealed partial class MainPage : Page
 
         // Check MoreFlyout.Server is run with windows?
         using var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        if (key != null)
+        if (key?.GetValue("MoreFlyout.Server") != null)
         {
             RunWithWindowsToggleSwitch.IsOn = true;
         }
@@ -54,7 +54,7 @@ public sealed partial class MainPage : Page
             {
                 try
                 {
-                    Process.Start(AppDomain.CurrentDomain.BaseDirectory.Substring(0, AppDomain.CurrentDomain.BaseDirectory.Length - @"MoreFlyout.Shell\".Length) + @"MoreFlyout.Server\MoreFlyout.Server.exe");
+                    Process.Start(string.Concat(AppDomain.CurrentDomain.BaseDirectory.AsSpan(0, AppDomain.CurrentDomain.BaseDirectory.Length - @"MoreFlyout.Shell\".Length), @"MoreFlyout.Server\MoreFlyout.Server.exe"));
                 }
                 catch (Exception ex)
                 {
@@ -98,7 +98,7 @@ public sealed partial class MainPage : Page
                     var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
                     // MoreFlyout.Server.exe's path
-                    var exePath = "\"" + AppDomain.CurrentDomain.BaseDirectory.Substring(0, AppDomain.CurrentDomain.BaseDirectory.Length - @"MoreFlyout.Shell\".Length) + @"MoreFlyout.Server\MoreFlyout.Server.exe" + "\"";
+                    var exePath = string.Concat("\"", AppDomain.CurrentDomain.BaseDirectory.AsSpan(0, AppDomain.CurrentDomain.BaseDirectory.Length - @"MoreFlyout.Shell\".Length), @"MoreFlyout.Server\MoreFlyout.Server.exe", "\"");
 
                     // SetValue
                     key?.SetValue("MoreFlyout.Server", exePath);
