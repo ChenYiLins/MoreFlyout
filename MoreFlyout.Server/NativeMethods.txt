@@ -6,3 +6,4 @@ GetModuleHandle
 GetCurrentThreadId
 
 WM_*
+CWPSTRUCT

@@ -33,14 +33,6 @@ public sealed partial class FlyoutPage : Page
     private static bool numKeyState = false;
     private static bool capsKeyState = false;
 
-    private struct CWPSTRUCT
-    {
-        public IntPtr lParam;
-        public IntPtr wParam;
-        public uint message;
-        public IntPtr hwnd;
-    }
-
     public FlyoutViewModel ViewModel
     {
         get;
@@ -53,6 +45,7 @@ public sealed partial class FlyoutPage : Page
         var hModule = PInvoke.GetModuleHandle(Process.GetCurrentProcess().MainModule!.ModuleName);
         _callWndProcHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_CALLWNDPROC, _callWndProcHook, hModule, PInvoke.GetCurrentThreadId());
 
+        
         // Unhook on exit (more or less useless)
         AppDomain.CurrentDomain.ProcessExit += (s, e) => { _keyboardHookId.Close(); };
         AppDomain.CurrentDomain.ProcessExit += (s, e) => { _callWndProcHookId.Close(); };
