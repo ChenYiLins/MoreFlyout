@@ -4,7 +4,7 @@
 
 Provide OSD display similar Win11 FluentUI style. Maybe this application looks like [MordenFlyouts](https://github.com/ModernFlyouts-Community/ModernFlyouts), but this application is developed based on C# WinUI3, it's looks like Win11 native flyouts.
 
-[Release note](./RELEASENOTE.md)
+[Release note](./RELEASENOTE_EN.md)
 
 ## Overview 
 
