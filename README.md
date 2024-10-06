@@ -12,8 +12,7 @@ Provide OSD display similar Win11 FluentUI style. Maybe this application looks l
 
 ## Screenshots
 
-<img src="Assest\Readme_Screenshots_1.jpg" style="zoom:50%;" alt="Screenshots" />
-<img src="Assest\Readme_Screenshots_2.jpg" style="zoom:50%;" alt="Screenshots" />
+<img src="Assest\Readme_Screenshots_1.jpg" style="zoom:100%;" alt="Screenshots" />
 
 ## Download
 
@@ -22,4 +21,4 @@ You can download application from [Github Release](https://github.com/ChenYiLins
 System Requirements:
 
 - Windows10 build 1809 and above
-- x64 bit system
+- x86 bit system
