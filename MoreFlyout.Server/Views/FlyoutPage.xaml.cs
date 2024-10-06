@@ -45,7 +45,6 @@ public sealed partial class FlyoutPage : Page
         var hModule = PInvoke.GetModuleHandle(Process.GetCurrentProcess().MainModule!.ModuleName);
         _callWndProcHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_CALLWNDPROC, _callWndProcHook, hModule, PInvoke.GetCurrentThreadId());
 
-        
         // Unhook on exit (more or less useless)
         AppDomain.CurrentDomain.ProcessExit += (s, e) => { _keyboardHookId.Close(); };
         AppDomain.CurrentDomain.ProcessExit += (s, e) => { _callWndProcHookId.Close(); };
@@ -66,6 +65,8 @@ public sealed partial class FlyoutPage : Page
         // Get the key state
         numKeyState = (PInvoke.GetKeyState(VK_NUMLOCK) & 1) == 1;
         capsKeyState = (PInvoke.GetKeyState(VK_CAPSLOCK) & 1) == 1;
+
+        //Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-us";
     }
 
     // The hook function must be static
