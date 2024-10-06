@@ -14,3 +14,4 @@ MoreFlyout.Server/Properties/PublishProfiles/win-x64.pubxml.user
 MoreFlyout.Server/MoreFlyout.Server.csproj.user
 MoreFlyout.Shell/Properties/PublishProfiles/win-x64.pubxml.user
 MoreFlyout.Shell/MoreFlyout.Shell.csproj.user
+MoreFlyout.Shell/Properties/PublishProfiles/win-x86.pubxml.user
