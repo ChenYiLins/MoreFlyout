@@ -18,3 +18,6 @@ MoreFlyout.Shell/Properties/PublishProfiles/win-x86.pubxml.user
 MoreFlyout.Server/Properties/PublishProfiles/win-arm64.pubxml.user
 MoreFlyout.Server/Properties/PublishProfiles/win-x86.pubxml.user
 MoreFlyout.Shell/Properties/PublishProfiles/win-arm64.pubxml.user
+MoreFlyout.Shell/Generated Files/CsWinRT/cswinrt.rsp
+MoreFlyout.Shell/Generated Files/CsWinRT/cswinrt_internal.rsp
+MoreFlyout.Shell/Generated Files/CsWinRT/WinRTEventHelpers.cs
