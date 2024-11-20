@@ -30,19 +30,11 @@ public sealed partial class MainPage : Page
                 break;
             }
         }
-
-        if (isProcessRunning == true)
-        {
-            RunServerToggleSwitch.IsOn = true;
-        }
+        if (isProcessRunning == true) RunServerToggleSwitch.IsOn = true;
 
         // Check MoreFlyout.Server is run with windows?
         using var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        if (key?.GetValue("MoreFlyout.Server") != null)
-        {
-            RunWithWindowsToggleSwitch.IsOn = true;
-        }
-
+        if (key?.GetValue("MoreFlyout.Server") != null) RunWithWindowsToggleSwitch.IsOn = true;
     }
 
     private void ToggleSwitch_Server_Toggled(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
