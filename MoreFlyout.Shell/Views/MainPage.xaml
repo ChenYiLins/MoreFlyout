@@ -43,14 +43,14 @@
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xECAA;" />
                     </controls:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="RunServerToggleSwitch" Toggled="ToggleSwitch_Server_Toggled" />
+                    <ToggleSwitch x:Name="RunServerToggleSwitch" IsOn="{x:Bind ViewModel.IsServerRunning, Mode=TwoWay}" />
                 </controls:SettingsCard>
 
                 <controls:SettingsCard x:Uid="SettingsCard_RunWithWindows">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE7E8;" />
                     </controls:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Name="RunWithWindowsToggleSwitch" Toggled="ToggleSwitch_RunWithWindows_Toggled" />
+                    <ToggleSwitch x:Name="RunWithWindowsToggleSwitch" IsOn="{x:Bind ViewModel.IsRunWithWindows, Mode=TwoWay}" />
                 </controls:SettingsCard>
 
                 <controls:SettingsExpander x:Uid="SettingsCard_Version">
