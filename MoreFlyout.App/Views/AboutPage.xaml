@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="MoreFlyout.App.Views.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:MoreFlyout.App.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <ScrollView>
+        <StackPanel Style="{StaticResource PageBaseStackPanelStyle}">
+
+            <!--  Logo  -->
+            <StackPanel Orientation="Horizontal" Spacing="32">
+                <Image
+                    Width="64"
+                    Height="64"
+                    Source="/Assets/AppIcon.ico" />
+                <StackPanel Orientation="Vertical" Spacing="8">
+                    <TextBlock
+                        x:Name="AppNameTextBlock"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="MoreFlyout" />
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="© 2026 ChenYiLins and community partner" />
+                </StackPanel>
+            </StackPanel>
+
+            <!--  Version information  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=About}" />
+            <controls:SettingsExpander
+                Header="{helpers:ResourceString Name=Version}"
+                HeaderIcon="{ui:FontIcon Glyph=&#xe946;}"
+                IsExpanded="True">
+                <!--  Click="CopyVersionInfoButton_Click"  -->
+                <Button x:Name="CopyVersionInfoButton" Content="{helpers:ResourceString Name=Copy}" />
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard ContentAlignment="Left">
+                        <StackPanel
+                            Padding="0,6,0,6"
+                            Orientation="Horizontal"
+                            Spacing="20">
+                            <StackPanel Orientation="Vertical" Spacing="8">
+                                <TextBlock Text="App/Service" />
+                                <TextBlock Text="Commit" />
+                                <TextBlock Text=".Net" />
+                                <TextBlock Text="Windows" />
+                                <TextBlock Text="Arch" />
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Spacing="8">
+                                <!--
+                                <TextBlock Text="{x:Bind ViewModel.xxx, Mode=OneWay}" />
+                                -->
+                            </StackPanel>
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+
+        </StackPanel>
+    </ScrollView>
+</Page>
+

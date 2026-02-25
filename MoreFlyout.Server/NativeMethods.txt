@@ -1,0 +1,9 @@
+﻿﻿User32.*
+dwmapi.*
+
+RegisterWindowMessage
+GetModuleHandle
+GetCurrentThreadId
+
+WM_*
+CWPSTRUCT

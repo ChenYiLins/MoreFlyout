@@ -1,0 +1,103 @@
+<Page
+    x:Class="MoreFlyout.Server.Views.MediaFlyoutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="using:MoreFlyout.Server.Styles"
+    mc:Ignorable="d">
+
+    <Page.ContextFlyout>
+        <Flyout
+            x:Name="PageContextFlyout"
+            FlyoutPresenterStyle="{StaticResource TransparentFlyoutPresenterStyle}"
+            ShouldConstrainToRootBounds="False"
+            ShowMode="Transient">
+            <Flyout.SystemBackdrop>
+                <styles:AcrylicSystemBackdrop />
+            </Flyout.SystemBackdrop>
+
+            <Grid
+                MinWidth="180"
+                MinHeight="130"
+                Background="Transparent"
+                ColumnSpacing="8"
+                PointerEntered="MediaGrid_PointerEntered"
+                PointerExited="MediaGrid_PointerExited"
+                RowSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Width="56"
+                    Height="56"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+                    <Image Source="{x:Bind ViewModel.MediaCoverImage, Mode=OneWay}" />
+                </Border>
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Orientation="Vertical"
+                    Spacing="2">
+                    <TextBlock Text="{x:Bind ViewModel.MediaTitle, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind ViewModel.MediaArtist, Mode=OneWay}" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button
+                        Width="32"
+                        Height="32"
+                        Padding="2"
+                        Command="{x:Bind ViewModel.PreviousCommand}"
+                        IsEnabled="{x:Bind ViewModel.IsPreviousButtonEnabled, Mode=OneWay}"
+                        Style="{ThemeResource SubtleButtonStyle}">
+                        <FontIcon
+                            FontSize="12"
+                            Foreground="White"
+                            Glyph="&#xE892;" />
+                    </Button>
+                    <Button
+                        Width="32"
+                        Height="32"
+                        Padding="2"
+                        Command="{x:Bind ViewModel.PlayPauseCommand}"
+                        IsEnabled="{x:Bind ViewModel.IsPlayPauseButtonEnabled, Mode=OneWay}"
+                        Style="{ThemeResource AccentButtonStyle}">
+                        <FontIcon
+                            FontSize="12"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="{x:Bind ViewModel.PlayPauseFontIconGlyph, Mode=OneWay}" />
+                    </Button>
+                    <Button
+                        Width="32"
+                        Height="32"
+                        Padding="2"
+                        Command="{x:Bind ViewModel.NextCommand}"
+                        IsEnabled="{x:Bind ViewModel.IsNextButtonEnabled, Mode=OneWay}"
+                        Style="{StaticResource SubtleButtonStyle}">
+                        <FontIcon
+                            FontSize="12"
+                            Foreground="White"
+                            Glyph="&#xE893;" />
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+
+        </Flyout>
+    </Page.ContextFlyout>
+
+</Page>

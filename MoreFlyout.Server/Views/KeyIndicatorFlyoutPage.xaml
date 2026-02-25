@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="MoreFlyout.Server.Views.KeyIndicatorFlyoutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="using:MoreFlyout.Server.Styles"
+    mc:Ignorable="d">
+
+    <Page.ContextFlyout>
+        <Flyout
+            x:Name="PageContextFlyout"
+            FlyoutPresenterStyle="{StaticResource TransparentFlyoutPresenterStyle}"
+            ShouldConstrainToRootBounds="False"
+            ShowMode="Transient">
+            <Flyout.SystemBackdrop>
+                <styles:AcrylicSystemBackdrop />
+            </Flyout.SystemBackdrop>
+
+            <Grid
+                MinWidth="164"
+                Padding="-8"
+                ColumnSpacing="8"
+                PointerEntered="KeyIndicatorGrid_PointerEntered"
+                PointerExited="KeyIndicatorGrid_PointerExited">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <HyperlinkButton
+                    x:Name="IconHyperlinkButton"
+                    Grid.Column="0"
+                    Width="32"
+                    Height="32"
+                    Command="{x:Bind ViewModel.ToggleLockCommand}">
+                    <FontIcon
+                        x:Name="StatusFontIcon"
+                        Margin="-4"
+                        FontSize="12"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        Glyph="&#xE72E;" />
+                </HyperlinkButton>
+
+                <FontIcon
+                    x:Name="ModeFontIcon"
+                    Grid.Column="1"
+                    Margin="-12,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="18" />
+                <TextBlock
+                    x:Name="StatusTextBlock"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind ViewModel.Status, Mode=TwoWay}"
+                    TextAlignment="Center" />
+            </Grid>
+
+        </Flyout>
+    </Page.ContextFlyout>
+
+</Page>

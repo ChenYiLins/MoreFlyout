@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Transparent background for flyout  -->
+    <Style
+        x:Key="TransparentFlyoutPresenterStyle"
+        BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
+        TargetType="FlyoutPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+</ResourceDictionary>
