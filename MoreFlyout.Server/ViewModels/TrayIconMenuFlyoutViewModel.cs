@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using MoreFlyout.Config;
 
 namespace MoreFlyout.Server.ViewModels;
@@ -13,6 +12,9 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
 
     [ObservableProperty]
     public partial bool MediaFlyoutEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool DarkModeFlyoutEnabled { get; set; }
 
     [RelayCommand]
     private void OpenLogFile()
@@ -30,7 +32,7 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
         Environment.Exit(0);
     }
 
-    public TrayIconMenuFlyoutViewModel() 
+    public TrayIconMenuFlyoutViewModel()
     {
         InitializeProperties();
     }
@@ -41,6 +43,7 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
 
         KeyIndicatorFlyoutEnabled = ConfigManager.Instance.KeyIndicatorFlyout.IsEnabled;
         MediaFlyoutEnabled = ConfigManager.Instance.MediaFlyout.IsEnabled;
+        DarkModeFlyoutEnabled = ConfigManager.Instance.DarkModeFlyout.IsEnabled;
 
         _isInitializing = false;
     }
@@ -62,6 +65,16 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
             return;
         }
         ConfigManager.Instance.MediaFlyout.IsEnabled = value;
+        ConfigManager.Save();
+    }
+
+    partial void OnDarkModeFlyoutEnabledChanged(bool value)
+    {
+        if (_isInitializing)
+        {
+            return;
+        }
+        ConfigManager.Instance.DarkModeFlyout.IsEnabled = value;
         ConfigManager.Save();
     }
 }
