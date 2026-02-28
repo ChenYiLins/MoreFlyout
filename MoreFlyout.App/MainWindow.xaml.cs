@@ -10,9 +10,9 @@ public sealed partial class MainWindow : Window
 {
     private readonly INavigationService _navigationService;
 
-    public MainWindow()
+    public MainWindow(INavigationService navigationService)
     {
-        _navigationService = App.GetService<INavigationService>();
+        _navigationService = navigationService;
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;

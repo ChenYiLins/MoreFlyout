@@ -1,7 +1,7 @@
-﻿using MoreFlyout.Config;
+﻿using System.Diagnostics;
+using MoreFlyout.Config;
 using MoreFlyout.Server.Utils;
 using MoreFlyout.Server.Views;
-using System.Diagnostics;
 
 namespace MoreFlyout.Server;
 

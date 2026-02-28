@@ -28,6 +28,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
+        services.AddSingleton<MainWindow>();
         services.AddSingleton<IActivationService, ActivationService>();
         services.AddSingleton<IPageService, PageService>();
         services.AddSingleton<INavigationService, NavigationService>();
@@ -45,7 +46,7 @@ public partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        MainWindow = new MainWindow();
+        MainWindow = App.GetService<MainWindow>();
 
         _ = ActivateAsync(args);
     }
