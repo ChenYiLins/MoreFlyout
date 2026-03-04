@@ -4,6 +4,8 @@ using MoreFlyout.Server.Utils;
 using MoreFlyout.Server.ViewModels;
 using Windows.Win32;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
+using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace MoreFlyout.Server.Views;
 
@@ -27,11 +29,17 @@ public sealed partial class KeyIndicatorFlyoutPage : Page
         // Set DispatcherTimer to control the window will disappear after a certain period of time
         var timeoutSeconds = ConfigManager.Instance.KeyIndicatorFlyout.TimeoutHiding;
         _hiddenTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, timeoutSeconds) };
-        _hiddenTimer.Stop();
+        _hiddenTimer.Tick += OnTimerTick;
 
         // Get the key state
         _NumKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_NUMLOCK) & 1) == 1;
         _CapsKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_CAPITAL) & 1) == 1;
+    }
+
+    private void OnTimerTick(object? sender, object e)
+    {
+        _hiddenTimer.Stop();
+        AnimatedPopupHelpers.HidePopupWithAnimation(PagePopup, FlyoutBorder);
     }
 
     public void InitializeFlyout(int vkCode)
@@ -64,26 +72,20 @@ public sealed partial class KeyIndicatorFlyoutPage : Page
                 StatusFontIcon.Glyph = _CapsKeyState ? "\uE785" : "\uE72E";
                 if (_CapsKeyState)
                 {
-                    VisualStateManager.GoToState(IconHyperlinkButton, "Normal", true);
+                    IconHyperlinkButton.Style = (Style)Application.Current.Resources["HyperlinkButtonStyle"];
                 }
                 else
                 {
-                    DispatcherQueue.TryEnqueue(
-                        Microsoft.UI.Dispatching.DispatcherQueuePriority.Low,
-                        () =>
-                        {
-                            VisualStateManager.GoToState(IconHyperlinkButton, "PointerOver", true);
-                        }
-                    );
+                    IconHyperlinkButton.Style = (Style)Application.Current.Resources["HyperlinkButtonStylePointerOver"];
                 }
                 _CapsKeyState = !_CapsKeyState;
                 break;
         }
 
         bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
-        if (!PageContextFlyout.IsOpen && flyoutEnabled)
+        if (!PagePopup.IsOpen && flyoutEnabled)
         {
-            PageContextFlyout.ShowAt(this);
+            AnimatedPopupHelpers.OpenPopupWithAnimation(PagePopup, FlyoutBorder);
         }
 
         RunTimer();
@@ -91,22 +93,7 @@ public sealed partial class KeyIndicatorFlyoutPage : Page
 
     private void RunTimer()
     {
-        if (!_hiddenTimer.IsEnabled)
-        {
-            _hiddenTimer.Start();
-            _hiddenTimer.Tick += (sender, e) =>
-            {
-                if (PageContextFlyout.IsOpen)
-                {
-                    PageContextFlyout.Hide();
-                }
-                _hiddenTimer.Stop();
-            };
-        }
-        else
-        {
-            _hiddenTimer.Stop();
-        }
+        _hiddenTimer.Stop();
         _hiddenTimer.Start();
     }
 
