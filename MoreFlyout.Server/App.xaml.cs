@@ -46,7 +46,14 @@ public partial class App : Application
 
         LogManager.Shutdown();
 
-        _TrayIcon?.Dispose();
+        try
+        {
+            _TrayIcon?.Dispose();
+        }
+        catch
+        {
+
+        }
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)

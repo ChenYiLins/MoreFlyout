@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:MoreFlyout.Server"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="using:MoreFlyout.Server.Styles"
+    xmlns:userControls="using:MoreFlyout.Server.UserControls.AnimationFlyout"
     xmlns:windowex="using:WinUIEx"
     PersistenceId="FlyoutWindow"
     mc:Ignorable="d" />

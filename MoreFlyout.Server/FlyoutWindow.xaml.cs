@@ -1,11 +1,14 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Microsoft.UI.Dispatching;
 using MoreFlyout.Config;
+using MoreFlyout.Server.UserControls.AnimationFlyout;
 using MoreFlyout.Server.Views;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -76,15 +79,38 @@ public sealed partial class FlyoutWindow : WindowEx
         IsResizable = false;
 
         var hWnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(this);
-        _ = PInvoke.SetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, PInvoke.GetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE) | (int)WINDOW_EX_STYLE.WS_EX_NOACTIVATE);
-        this.SetWindowOpacity(0);
+        _ = PInvoke.SetWindowLong(
+            hWnd,
+            WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+            PInvoke.GetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE)
+                | (int)WINDOW_EX_STYLE.WS_EX_LAYERED
+                | (int)WINDOW_EX_STYLE.WS_EX_NOACTIVATE
+                | (int)WINDOW_EX_STYLE.WS_EX_TOPMOST
+                | (int)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW
+        );
+        _ = PInvoke.SetWindowLong(
+            hWnd,
+            WINDOW_LONG_PTR_INDEX.GWL_STYLE,
+            PInvoke.GetWindowLong(hWnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE) | unchecked((int)WINDOW_STYLE.WS_POPUP) | (int)WINDOW_STYLE.WS_CLIPCHILDREN
+        );
+        //this.SetWindowOpacity(0);
+        PInvoke.SetLayeredWindowAttributes(hWnd, (COLORREF)0, 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+        var margins = new MARGINS
+        {
+            cxLeftWidth = -1,
+            cxRightWidth = -1,
+            cyBottomHeight = -1,
+            cyTopHeight = -1,
+        };
+        PInvoke.DwmExtendFrameIntoClientArea(hWnd, in margins);
 
         var screenWidth = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CXSCREEN);
         var screenHeight = PInvoke.GetSystemMetrics(SYSTEM_METRICS_INDEX.SM_CYSCREEN);
         var dpiForWindow = PInvoke.GetDpiForWindow(hWnd);
-        var windowRatio = dpiForWindow / 96.0;
-        AppWindow.Resize(new Windows.Graphics.SizeInt32((int)(195 * windowRatio), (int)(62 * windowRatio)));
-        AppWindow.Move(new Windows.Graphics.PointInt32(screenWidth / 2 - (int)(195 / 2 * windowRatio), screenHeight - (int)(86 * windowRatio)));
+        //var windowRatio = dpiForWindow / 96.0;
+        AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(0, 0, screenWidth, screenHeight));
+        //AppWindow.Resize(new Windows.Graphics.SizeInt32(screenWidth, screenHeight));
+        //AppWindow.Move(new Windows.Graphics.PointInt32(screenWidth / 2 - (int)(195 / 2 * windowRatio), screenHeight - (int)(86 * windowRatio)));
     }
 
     private void InitializeInstanceModules()
@@ -163,7 +189,6 @@ public sealed partial class FlyoutWindow : WindowEx
         }
     }
 
-
     // The hook function must be static
     private static LRESULT KeyboardCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
@@ -180,7 +205,7 @@ public sealed partial class FlyoutWindow : WindowEx
         return PInvoke.CallNextHookEx(_CallWndProcHookId, nCode, wParam, lParam);
     }
 
-    private static void KeyboardHookCallbackAsync(int nCode, WPARAM wParam, LPARAM lParam)
+    private static async void KeyboardHookCallbackAsync(int nCode, WPARAM wParam, LPARAM lParam)
     {
         if (nCode >= 0 && wParam == PInvoke.WM_KEYDOWN)
         {
@@ -198,8 +223,7 @@ public sealed partial class FlyoutWindow : WindowEx
 
             if (vkCode == (int)VIRTUAL_KEY.VK_NUMLOCK || vkCode == (int)VIRTUAL_KEY.VK_CAPITAL && ConfigManager.Instance.KeyIndicatorFlyout.IsEnabled)
             {
-                App.FlyoutWindow.Content = _KeyIndicatorFlyoutPage;
-                App.FlyoutWindow.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => _KeyIndicatorFlyoutPage.InitializeFlyout(vkCode));
+                _KeyIndicatorFlyoutPage.InitializeFlyout(vkCode);
             }
             else if (
                 vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PLAY_PAUSE
@@ -229,5 +253,10 @@ public sealed partial class FlyoutWindow : WindowEx
                 App.FlyoutWindow.IsShownInSwitchers = false;
             }
         }
+    }
+
+    private void Flyout_Closed(object sender, object e)
+    {
+        this.Hide();
     }
 }

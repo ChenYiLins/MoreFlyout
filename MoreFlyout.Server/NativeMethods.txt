@@ -4,6 +4,19 @@ dwmapi.*
 RegisterWindowMessage
 GetModuleHandle
 GetCurrentThreadId
+CreateRectRgn
+UnregisterClass
 
 WM_*
 CWPSTRUCT
+WA_INACTIVE
+HWND_TOP
+
+CW_USEDEFAULT
+WA_INACTIVE
+S_OK
+HSTRING
+
+IDesktopWindowXamlSourceNative2
+ICoreWindowInterop
+IUnknown

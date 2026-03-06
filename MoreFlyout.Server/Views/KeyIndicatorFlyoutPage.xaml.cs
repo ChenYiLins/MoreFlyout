@@ -4,12 +4,10 @@ using MoreFlyout.Server.Utils;
 using MoreFlyout.Server.ViewModels;
 using Windows.Win32;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
-using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Media.Animation;
 
-namespace MoreFlyout.Server.Views;
+namespace MoreFlyout.Server.UserControls.AnimationFlyout;
 
-public sealed partial class KeyIndicatorFlyoutPage : Page
+public sealed partial class KeyIndicatorFlyoutPage : AnimationFlyout
 {
     public KeyIndicatorFlyoutViewModel ViewModel { get; set; }
 
@@ -24,7 +22,8 @@ public sealed partial class KeyIndicatorFlyoutPage : Page
     {
         ViewModel = new KeyIndicatorFlyoutViewModel();
         InitializeComponent();
-        RequestedTheme = SystemTheme.GetCurrentSystemTheme();
+        //RequestedTheme = SystemTheme.GetCurrentSystemTheme();
+        this.BackdropKind = BackdropKind.Acrylic;
 
         // Set DispatcherTimer to control the window will disappear after a certain period of time
         var timeoutSeconds = ConfigManager.Instance.KeyIndicatorFlyout.TimeoutHiding;
@@ -36,10 +35,10 @@ public sealed partial class KeyIndicatorFlyoutPage : Page
         _CapsKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_CAPITAL) & 1) == 1;
     }
 
-    private void OnTimerTick(object? sender, object e)
+    private async void OnTimerTick(object? sender, object e)
     {
         _hiddenTimer.Stop();
-        AnimatedPopupHelpers.HidePopupWithAnimation(PagePopup, FlyoutBorder);
+        this.Hide();
     }
 
     public void InitializeFlyout(int vkCode)
@@ -82,10 +81,10 @@ public sealed partial class KeyIndicatorFlyoutPage : Page
                 break;
         }
 
-        bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
-        if (!PagePopup.IsOpen && flyoutEnabled)
+        var flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
+        if (!this.IsOpen && flyoutEnabled)
         {
-            AnimatedPopupHelpers.OpenPopupWithAnimation(PagePopup, FlyoutBorder);
+            this.Show();
         }
 
         RunTimer();
