@@ -24,8 +24,8 @@ public class FlyoutMoudles
     private UISettings? _settings;
 
     private static readonly KeyIndicatorFlyout _KeyIndicatorFlyout = new();
-    private static readonly MediaFlyoutPage _MediaFlyoutPage = new();
-    private static readonly DarkModeFlyoutPage _DarkModeFlyoutPage = new();
+    private static readonly MediaFlyout _MediaFlyout = new();
+    private static readonly DarkModeFlyout _DarkModeFlyout = new();
 
     public FlyoutMoudles()
     {
@@ -55,11 +55,11 @@ public class FlyoutMoudles
 
                 var darkModeEnabled = _settings.GetColorValue(UIColorType.Foreground) == Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
 
-                //App.FlyoutWindow.DispatcherQueue.TryEnqueue(() =>
-                //{
-                //    App.FlyoutWindow.Content = _DarkModeFlyoutPage;
-                //    App.FlyoutWindow.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => _DarkModeFlyoutPage.InitializeFlyout(darkModeEnabled));
-                //});
+                App.FlyoutControl.DispatcherQueue.TryEnqueue(()=>
+                {
+                    App.FlyoutControl.RootContent = _DarkModeFlyout;
+                    _DarkModeFlyout.InitializeFlyout(darkModeEnabled);
+                });
             };
 
             _Logger.Info("Auto Dark Mode flyout is enabled");
@@ -135,7 +135,6 @@ public class FlyoutMoudles
     private static LRESULT CallWndProcCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
         KeyboardHookCallbackAsync(nCode, wParam, lParam);
-        //CallWndProcHookCallback(nCode, wParam, lParam);
         return PInvoke.CallNextHookEx(_CallWndProcHookId, nCode, wParam, lParam);
     }
 
@@ -153,7 +152,6 @@ public class FlyoutMoudles
             if (vkCode == (int)VIRTUAL_KEY.VK_NUMLOCK || vkCode == (int)VIRTUAL_KEY.VK_CAPITAL && ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled)
             {
                 App.FlyoutControl.RootContent = _KeyIndicatorFlyout;
-                //App.FlyoutControl.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => _KeyIndicatorFlyout.InitializeFlyout(vkCode));
                 _KeyIndicatorFlyout.InitializeFlyout(vkCode);
             }
             else if (
@@ -163,8 +161,8 @@ public class FlyoutMoudles
                 || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_STOP && ConfigManager.Instance.MediaFlyoutSettings.IsEnabled
             )
             {
-                //App.FlyoutWindow.Content = _MediaFlyoutPage;
-                //App.FlyoutWindow.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => _MediaFlyoutPage.InitializeFlyout(vkCode));
+                App.FlyoutControl.RootContent = _MediaFlyout;
+                _MediaFlyout.InitializeFlyout(vkCode);
             }
         }
     }

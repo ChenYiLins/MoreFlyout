@@ -6,14 +6,14 @@ using MoreFlyout.Server.ViewModels;
 
 namespace MoreFlyout.Server.Views;
 
-public sealed partial class DarkModeFlyoutPage : Page
+public sealed partial class DarkModeFlyout : UserControl
 {
     public DarkModeFlyoutViewModel ViewModel { get; }
 
     // DispatcherTimer to instead Timer
     private readonly DispatcherTimer _hiddenTimer;
 
-    public DarkModeFlyoutPage()
+    public DarkModeFlyout()
     {
         ViewModel = new DarkModeFlyoutViewModel();
         InitializeComponent();
@@ -28,9 +28,9 @@ public sealed partial class DarkModeFlyoutPage : Page
     public void InitializeFlyout(bool darkModeEnabled)
     {
         bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
-        if (!PageContextFlyout.IsOpen && flyoutEnabled)
+        if (!App.FlyoutControl.IsOpen && flyoutEnabled)
         {
-            PageContextFlyout.ShowAt(this);
+            App.FlyoutControl.Show();
         }
 
         StatusTextBlock.Text = darkModeEnabled ? "DarkMode".GetLocalized() : "LightMode".GetLocalized();
@@ -46,9 +46,9 @@ public sealed partial class DarkModeFlyoutPage : Page
             _hiddenTimer.Start();
             _hiddenTimer.Tick += (sender, e) =>
             {
-                if (PageContextFlyout.IsOpen && !ToggleModeButton.Flyout.IsOpen)
+                if (App.FlyoutControl.IsOpen && !ToggleModeButton.Flyout.IsOpen)
                 {
-                    PageContextFlyout.Hide();
+                    App.FlyoutControl.Hide();
                 }
                 _hiddenTimer.Stop();
             };

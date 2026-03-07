@@ -83,7 +83,7 @@ public partial class App : Application
         {
             TrayIcon = new TrayIcon(1, "Assets/AppIcon.ico", "MoreFlyout") { IsVisible = ConfigManager.Instance.ServiceSettings.ShowTrayIcon };
 
-            var trayIconMenuFlyout = new TrayIconMenuFlyoutPage();
+            var trayIconMenuFlyout = new TrayIconMenuFlyout();
 
             foreach (var item in (trayIconMenuFlyout.ContextFlyout as MenuFlyout)!.Items)
             {

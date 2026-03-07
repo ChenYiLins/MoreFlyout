@@ -4,18 +4,17 @@ using MoreFlyout.Server.ViewModels;
 
 namespace MoreFlyout.Server.Views;
 
-public sealed partial class MediaFlyoutPage : Page
+public sealed partial class MediaFlyout : UserControl
 {
     public MediaFlyoutViewModel ViewModel { get; set; }
 
     // DispatcherTimer to instead Timer
     private readonly DispatcherTimer _hiddenTimer;
 
-    public MediaFlyoutPage()
+    public MediaFlyout()
     {
         ViewModel = new MediaFlyoutViewModel();
         InitializeComponent();
-        RequestedTheme = SystemTheme.GetCurrentSystemTheme();
 
         Unloaded += (s, e) =>
         {
@@ -30,10 +29,10 @@ public sealed partial class MediaFlyoutPage : Page
 
     public void InitializeFlyout(int vkCode)
     {
-        bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
-        if (!PageContextFlyout.IsOpen && flyoutEnabled)
+        var flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
+        if (!App.FlyoutControl.IsOpen && flyoutEnabled)
         {
-            PageContextFlyout.ShowAt(this);
+            App.FlyoutControl.Show();
         }
 
         RunTimer();
@@ -46,9 +45,9 @@ public sealed partial class MediaFlyoutPage : Page
             _hiddenTimer.Start();
             _hiddenTimer.Tick += (sender, e) =>
             {
-                if (PageContextFlyout.IsOpen)
+                if (App.FlyoutControl.IsOpen)
                 {
-                    PageContextFlyout.Hide();
+                    App.FlyoutControl.Hide();
                 }
                 _hiddenTimer.Stop();
             };
