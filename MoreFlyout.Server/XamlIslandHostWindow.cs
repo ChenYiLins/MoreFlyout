@@ -1,5 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿// NOTE: Thanks for 0x5bfa! For the code of Flyout display, please refer to: https://github.com/0x5bfa/TrayIconFlyout
+// Copyright (c) 0x5BFA. All rights reserved.
+// Licensed under the MIT license.
+using System.Runtime.CompilerServices;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Hosting;
 using MoreFlyout.Server.Helpers;
@@ -7,15 +9,14 @@ using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace MoreFlyout.Server.UserControls.AnimationFlyout;
+namespace MoreFlyout.Server;
 
 internal unsafe partial class XamlIslandHostWindow : IDisposable
 {
-    private const string WindowClassName = "TrayIconFlyoutHostClass";
-    private const string WindowName = "TrayIconFlyoutHostWindow";
+    private const string WindowClassName = "FlyoutControlHostClass";
+    private const string WindowName = "FlyoutControlHostWindow";
 
     private readonly Windows.Win32.UI.WindowsAndMessaging.WNDPROC _wndProc;
     private HWND _xamlHwnd = default;
@@ -103,7 +104,7 @@ internal unsafe partial class XamlIslandHostWindow : IDisposable
 
     internal void SetHWndRectRegion(RectInt32 rect)
     {
-        HRGN region = PInvoke.CreateRectRgn(rect.X, rect.Y, rect.Width, rect.Height);
+        var region = PInvoke.CreateRectRgn(rect.X, rect.Y, rect.Width, rect.Height);
         PInvoke.SetWindowRgn(HWnd, region, false);
         PInvoke.SetWindowRgn(_xamlHwnd, region, false);
     }
@@ -112,9 +113,13 @@ internal unsafe partial class XamlIslandHostWindow : IDisposable
     {
         PInvoke.ShowWindow(HWnd, isVisible ? SHOW_WINDOW_CMD.SW_SHOW : SHOW_WINDOW_CMD.SW_HIDE);
         if (isVisible)
+        {
             DesktopWindowXamlSource?.SiteBridge.Show();
+        }
         else
+        {
             DesktopWindowXamlSource?.SiteBridge.Hide();
+        }
     }
 
     private void InitializeDesktopWindowXamlSource()
@@ -126,8 +131,10 @@ internal unsafe partial class XamlIslandHostWindow : IDisposable
 
     private LRESULT WndProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
     {
-        if (uMsg == PInvoke.WM_ACTIVATE && LOWORD((nint)(nuint)wParam) == PInvoke.WA_INACTIVE)
+        if (uMsg == PInvoke.WM_ACTIVATE && ((int)wParam.Value & 0xFFFF) == PInvoke.WA_INACTIVE)
+        {
             WindowInactivated?.Invoke(this, EventArgs.Empty);
+        }
 
         return PInvoke.DefWindowProc(hWnd, uMsg, wParam, lParam);
     }

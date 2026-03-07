@@ -7,7 +7,7 @@ namespace MoreFlyout.Server.Helpers;
 
 internal static unsafe class WindowHelpers
 {
-    internal static Point GetBottomRightCornerPoint()
+    public static Point GetBottomRightCornerPoint()
     {
         RECT rect;
         PInvoke.SystemParametersInfo(SYSTEM_PARAMETERS_INFO_ACTION.SPI_GETWORKAREA, 0, &rect, 0);

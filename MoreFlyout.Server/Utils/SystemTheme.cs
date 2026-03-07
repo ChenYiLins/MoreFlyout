@@ -24,4 +24,12 @@ internal class SystemTheme
             return ElementTheme.Dark;
         }
     }
+
+    public static bool IsTaskbarColorPrevalenceEnabled()
+    {
+        const string keyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+        using var key = Registry.CurrentUser.OpenSubKey(keyPath);
+        var value = key?.GetValue("ColorPrevalence");
+        return value is int v && v != 0;
+    }
 }

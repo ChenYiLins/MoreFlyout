@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Composition.SystemBackdrops;
+﻿// Copyright (c) 0x5BFA. All rights reserved.
+// Licensed under the MIT license.
+using Microsoft.UI.Composition.SystemBackdrops;
 using Windows.UI;
 
 namespace MoreFlyout.Server.Helpers;
@@ -15,7 +17,9 @@ internal static class BackdropControllerHelpers
         if (isAccented)
         {
             if (!resources.TryGetValue("SystemAccentColorDark2", out var raw) || raw is not Color accentColor)
+            {
                 return null;
+            }
             fallback = tint = accentColor;
             luminosity = 0.8F;
             tintOpacity = 0.8F;
@@ -29,10 +33,10 @@ internal static class BackdropControllerHelpers
         }
         else
         {
-            fallback = Color.FromArgb(0xFF, 0x1C, 0x1C, 0x1C);
-            tint = Color.FromArgb(0xFF, 0x20, 0x20, 0x20);
+            fallback = Color.FromArgb(0xFF, 0x2C, 0x2C, 0x2C);
+            tint = Color.FromArgb(0xFF, 0x2C, 0x2C, 0x2C);
             luminosity = 0.96F;
-            tintOpacity = 0.5F;
+            tintOpacity = 0.15F;
         }
 
         return kind is BackdropKind.Acrylic

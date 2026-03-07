@@ -7,11 +7,12 @@ namespace MoreFlyout.Server;
 
 public partial class App : Application
 {
-    public static WindowEx? FlyoutWindow { get; set; }
+    public static FlyoutControl? FlyoutControl { get; private set; }
+    public static TrayIcon? TrayIcon { get; private set; }
+    public static FlyoutMoudles? FlyoutMoudles { get; private set; }
 
     private static Logger? _Logger;
     private static readonly Mutex _Mutex = new(false, "24043650-DED6-4E6B-8AFF-6BB03DFE3BDA");
-    private static TrayIcon? _TrayIcon;
 
     public App()
     {
@@ -42,18 +43,12 @@ public partial class App : Application
 
     private void OnProcessExit(object? sender, EventArgs e)
     {
+        FlyoutControl = null;
+        FlyoutMoudles = null;
+        TrayIcon = null;
+
         _Logger?.Info("Application is exiting");
-
         LogManager.Shutdown();
-
-        try
-        {
-            _TrayIcon?.Dispose();
-        }
-        catch
-        {
-
-        }
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -70,9 +65,9 @@ public partial class App : Application
             AutoStart.SetAutoStart(true);
         }
 
-        FlyoutWindow = new FlyoutWindow();
+        FlyoutControl = new FlyoutControl();
 
-        FlyoutWindow.Activate();
+        FlyoutMoudles = new FlyoutMoudles();
 
         _Logger?.Info("Flyout window activated");
 
@@ -82,11 +77,11 @@ public partial class App : Application
         }
     }
 
-    private void InitializeTrayIcon()
+    private static void InitializeTrayIcon()
     {
         try
         {
-            _TrayIcon = new TrayIcon(1, "Assets/AppIcon.ico", "MoreFlyout") { IsVisible = ConfigManager.Instance.ServiceSettings.ShowTrayIcon };
+            TrayIcon = new TrayIcon(1, "Assets/AppIcon.ico", "MoreFlyout") { IsVisible = ConfigManager.Instance.ServiceSettings.ShowTrayIcon };
 
             var trayIconMenuFlyout = new TrayIconMenuFlyoutPage();
 
@@ -99,7 +94,7 @@ public partial class App : Application
                 }
             }
 
-            _TrayIcon.ContextMenu += (window, eventArgs) =>
+            TrayIcon.ContextMenu += (window, eventArgs) =>
             {
                 eventArgs.Flyout = trayIconMenuFlyout.ContextFlyout;
             };
