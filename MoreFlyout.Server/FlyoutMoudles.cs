@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using MoreFlyout.Config;
 using MoreFlyout.Server.Views;
@@ -23,9 +24,12 @@ public class FlyoutMoudles
 
     private UISettings? _settings;
 
-    private static readonly KeyIndicatorFlyout _KeyIndicatorFlyout = new();
-    private static readonly MediaFlyout _MediaFlyout = new();
-    private static readonly DarkModeFlyout _DarkModeFlyout = new();
+    [AllowNull]
+    private static KeyIndicatorFlyout KeyIndicatorFlyout { get => field ??= new(); set; }
+    [AllowNull]
+    private static MediaFlyout MediaFlyout { get => field ??= new(); set; }
+    [AllowNull]
+    private static DarkModeFlyout DarkModeFlyout { get => field ??= new(); set; }
 
     public FlyoutMoudles()
     {
@@ -57,8 +61,8 @@ public class FlyoutMoudles
 
                 App.FlyoutControl.DispatcherQueue.TryEnqueue(()=>
                 {
-                    App.FlyoutControl.RootContent = _DarkModeFlyout;
-                    _DarkModeFlyout.InitializeFlyout(darkModeEnabled);
+                    App.FlyoutControl.RootContent = DarkModeFlyout;
+                    DarkModeFlyout.InitializeFlyout(darkModeEnabled);
                 });
             };
 
@@ -110,17 +114,24 @@ public class FlyoutMoudles
             _CallWndProcHookId.Close();
             _CallWndProcHookId = null;
         }
+
+        KeyIndicatorFlyout = null;
+        MediaFlyout = null;
+        DarkModeFlyout = null;
     }
 
     private void OnConfigChanged(object? sender, EventArgs e)
     {
         TeardownInstanceModules();
-        InitializeInstanceModules();
-
         TeardownStaticModules();
-        InitializeStaticModules();
 
         _Logger.Info("The program exits and all modules are removed");
+
+        App.FlyoutControl?.DispatcherQueue.TryEnqueue(() =>
+        {
+            InitializeStaticModules();
+            InitializeInstanceModules();
+        });
     }
 
     // The hook function must be static
@@ -149,20 +160,20 @@ public class FlyoutMoudles
                 return;
             }
 
-            if (vkCode == (int)VIRTUAL_KEY.VK_NUMLOCK || vkCode == (int)VIRTUAL_KEY.VK_CAPITAL && ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled)
+            if ((vkCode == (int)VIRTUAL_KEY.VK_NUMLOCK || vkCode == (int)VIRTUAL_KEY.VK_CAPITAL) && ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled)
             {
-                App.FlyoutControl.RootContent = _KeyIndicatorFlyout;
-                _KeyIndicatorFlyout.InitializeFlyout(vkCode);
+                App.FlyoutControl.RootContent = KeyIndicatorFlyout;
+                KeyIndicatorFlyout.InitializeFlyout(vkCode);
             }
             else if (
-                vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PLAY_PAUSE
+                (vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PLAY_PAUSE
                 || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_NEXT_TRACK
                 || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PREV_TRACK
-                || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_STOP && ConfigManager.Instance.MediaFlyoutSettings.IsEnabled
+                || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_STOP) && ConfigManager.Instance.MediaFlyoutSettings.IsEnabled
             )
             {
-                App.FlyoutControl.RootContent = _MediaFlyout;
-                _MediaFlyout.InitializeFlyout(vkCode);
+                App.FlyoutControl.RootContent = MediaFlyout;
+                MediaFlyout.InitializeFlyout(vkCode);
             }
         }
     }
