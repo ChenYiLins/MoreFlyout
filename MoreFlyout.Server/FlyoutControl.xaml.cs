@@ -116,6 +116,12 @@ public sealed partial class FlyoutControl : UserControl
         UpdateBackdrop(true, true);
     }
 
+    private void Content_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        UpdateBackdropVisual();
+        UpdateFlyoutRegion();
+    }
+
     private void UpdateBackdrop(bool isEnabled, bool coerce = false)
     {
         if (isEnabled)
@@ -228,10 +234,19 @@ public sealed partial class FlyoutControl : UserControl
 
     partial void OnRootContentChanged(UIElement? newValue)
     {
-        if (newValue is not null)
+        if (newValue is null || newValue is not FrameworkElement newContent)
         {
-            GridContentPresenter.Content = newValue;
+            return;
         }
+
+        GridContentPresenter.Content = newContent;
+
+        if (GridContentPresenter.Content is FrameworkElement oldContent)
+        {
+            oldContent.SizeChanged -= Content_SizeChanged;
+        }
+
+        newContent.SizeChanged += Content_SizeChanged;
     }
 
     public void Dispose()
