@@ -17,7 +17,7 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
     public partial bool DarkModeFlyoutEnabled { get; set; }
 
     [RelayCommand]
-    private void OpenLogFile()
+    private static void OpenLogFile()
     {
         var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"MoreFlyout/service.log");
         if (File.Exists(logDir))
@@ -27,8 +27,12 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    private void Close()
+    private static void Close()
     {
+        App.FlyoutMoudles?.Dispose();
+        App.FlyoutControl?.Dispose();
+        App.TrayIcon?.Dispose();
+
         Environment.Exit(0);
     }
 
@@ -41,9 +45,9 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
     {
         _isInitializing = true;
 
-        KeyIndicatorFlyoutEnabled = ConfigManager.Instance.KeyIndicatorFlyout.IsEnabled;
-        MediaFlyoutEnabled = ConfigManager.Instance.MediaFlyout.IsEnabled;
-        DarkModeFlyoutEnabled = ConfigManager.Instance.DarkModeFlyout.IsEnabled;
+        KeyIndicatorFlyoutEnabled = ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled;
+        MediaFlyoutEnabled = ConfigManager.Instance.MediaFlyoutSettings.IsEnabled;
+        DarkModeFlyoutEnabled = ConfigManager.Instance.DarkModeFlyoutSettings.IsEnabled;
 
         _isInitializing = false;
     }
@@ -54,7 +58,7 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
         {
             return;
         }
-        ConfigManager.Instance.KeyIndicatorFlyout.IsEnabled = value;
+        ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled = value;
         ConfigManager.Save();
     }
 
@@ -64,7 +68,7 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
         {
             return;
         }
-        ConfigManager.Instance.MediaFlyout.IsEnabled = value;
+        ConfigManager.Instance.MediaFlyoutSettings.IsEnabled = value;
         ConfigManager.Save();
     }
 
@@ -74,7 +78,7 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
         {
             return;
         }
-        ConfigManager.Instance.DarkModeFlyout.IsEnabled = value;
+        ConfigManager.Instance.DarkModeFlyoutSettings.IsEnabled = value;
         ConfigManager.Save();
     }
 }
