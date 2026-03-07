@@ -1,4 +1,5 @@
 ﻿using MoreFlyout.Config;
+using MoreFlyout.Server.Helpers;
 using MoreFlyout.Server.Utils;
 using MoreFlyout.Server.ViewModels;
 using Windows.Win32;
@@ -14,28 +15,21 @@ public sealed partial class KeyIndicatorFlyout : UserControl
     private static bool _NumKeyState;
     private static bool _CapsKeyState;
 
-    // DispatcherTimer to instead Timer
-    private readonly DispatcherTimer _hiddenTimer;
+    // Timer helper for auto-hide functionality
+    private readonly FlyoutTimerHelper _timerHelper;
 
     public KeyIndicatorFlyout()
     {
         ViewModel = new KeyIndicatorFlyoutViewModel();
         InitializeComponent();
 
-        // Set DispatcherTimer to control the window will disappear after a certain period of time
+        // Set up timer to control the window will disappear after a certain period of time
         var timeoutSeconds = ConfigManager.Instance.KeyIndicatorFlyoutSettings.TimeoutHiding;
-        _hiddenTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, timeoutSeconds) };
-        _hiddenTimer.Tick += OnTimerTick;
+        _timerHelper = new FlyoutTimerHelper(timeoutSeconds, () => App.FlyoutControl?.Hide());
 
         // Get the key state
         _NumKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_NUMLOCK) & 1) == 1;
         _CapsKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_CAPITAL) & 1) == 1;
-    }
-
-    private void OnTimerTick(object? sender, object e)
-    {
-        _hiddenTimer.Stop();
-        App.FlyoutControl?.Hide();
     }
 
     public void InitializeFlyout(int vkCode)
@@ -43,6 +37,11 @@ public sealed partial class KeyIndicatorFlyout : UserControl
         if (App.FlyoutControl is null)
         {
             return;
+        }
+
+        if(App.FlyoutControl.IsOpen)
+        {
+            _timerHelper.Stop();
         }
 
         var currentState = false;
@@ -60,28 +59,22 @@ public sealed partial class KeyIndicatorFlyout : UserControl
 
         ViewModel.Update(vkCode, currentState);
 
-        var flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
+        bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
         if (!App.FlyoutControl.IsOpen && flyoutEnabled)
         {
             App.FlyoutControl.Show();
         }
 
-        RunTimer();
-    }
-
-    private void RunTimer()
-    {
-        _hiddenTimer.Stop();
-        _hiddenTimer.Start();
+        _timerHelper.Start();
     }
 
     private void KeyIndicatorGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        _hiddenTimer.Stop();
+        _timerHelper.Stop();
     }
 
     private void KeyIndicatorGrid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        _hiddenTimer.Start();
+        _timerHelper.Start();
     }
 }

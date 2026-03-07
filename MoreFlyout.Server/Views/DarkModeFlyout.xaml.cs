@@ -10,23 +10,37 @@ public sealed partial class DarkModeFlyout : UserControl
 {
     public DarkModeFlyoutViewModel ViewModel { get; }
 
-    // DispatcherTimer to instead Timer
-    private readonly DispatcherTimer _hiddenTimer;
+    // Timer helper for auto-hide functionality
+    private readonly FlyoutTimerHelper _timerHelper;
 
     public DarkModeFlyout()
     {
         ViewModel = new DarkModeFlyoutViewModel();
         InitializeComponent();
-        RequestedTheme = SystemTheme.GetCurrentSystemTheme();
 
-        // Set DispatcherTimer to control the window will disappear after a certain period of time
+        // Set up timer to control the window will disappear after a certain period of time
         var timeoutSeconds = ConfigManager.Instance.DarkModeFlyoutSettings.TimeoutHiding;
-        _hiddenTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, timeoutSeconds) };
-        _hiddenTimer.Stop();
+        _timerHelper = new FlyoutTimerHelper(timeoutSeconds, () =>
+        {
+            if (App.FlyoutControl?.IsOpen == true && !ToggleModeButton.Flyout.IsOpen)
+            {
+                App.FlyoutControl.Hide();
+            }
+        });
     }
 
     public void InitializeFlyout(bool darkModeEnabled)
     {
+        if (App.FlyoutControl is null)
+        {
+            return;
+        }
+
+        if (App.FlyoutControl.IsOpen)
+        {
+            _timerHelper.Stop();
+        }
+
         bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
         if (!App.FlyoutControl.IsOpen && flyoutEnabled)
         {
@@ -36,28 +50,7 @@ public sealed partial class DarkModeFlyout : UserControl
         StatusTextBlock.Text = darkModeEnabled ? "DarkMode".GetLocalized() : "LightMode".GetLocalized();
         _ = ChangeGlyphWithAnimation(darkModeEnabled ? "\uE708" : "\uE706");
 
-        RunTimer();
-    }
-
-    private void RunTimer()
-    {
-        if (!_hiddenTimer.IsEnabled)
-        {
-            _hiddenTimer.Start();
-            _hiddenTimer.Tick += (sender, e) =>
-            {
-                if (App.FlyoutControl.IsOpen && !ToggleModeButton.Flyout.IsOpen)
-                {
-                    App.FlyoutControl.Hide();
-                }
-                _hiddenTimer.Stop();
-            };
-        }
-        else
-        {
-            _hiddenTimer.Stop();
-        }
-        _hiddenTimer.Start();
+        _timerHelper.Start();
     }
 
     private async Task ChangeGlyphWithAnimation(string newGlyph)
@@ -95,11 +88,11 @@ public sealed partial class DarkModeFlyout : UserControl
 
     private void DarkModeGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        _hiddenTimer.Stop();
+        _timerHelper.Stop();
     }
 
     private void DarkModeGrid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        _hiddenTimer.Start();
+        _timerHelper.Start();
     }
 }
