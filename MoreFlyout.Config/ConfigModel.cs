@@ -4,9 +4,9 @@ public class ConfigModel
 {
     public AppSettings AppSettings { get; set; } = new();
     public ServiceSettings ServiceSettings { get; set; } = new();
-    public KeyIndicatorFlyout KeyIndicatorFlyout { get; set; } = new();
-    public MediaFlyout MediaFlyout { get; set; } = new();
-    public DarkModeFlyout DarkModeFlyout { get; set; } = new();
+    public KeyIndicatorFlyoutSettings KeyIndicatorFlyoutSettings { get; set; } = new();
+    public MediaFlyoutSettings MediaFlyoutSettings { get; set; } = new();
+    public DarkModeFlyoutSettings DarkModeFlyoutSettings { get; set; } = new();
 }
 
 public class AppSettings
@@ -36,19 +36,19 @@ public class ServiceSettings
     public bool GameMode { get; set; } = true;
 }
 
-public class KeyIndicatorFlyout
+public class KeyIndicatorFlyoutSettings
 {
     public bool IsEnabled { get; set; } = true;
     public int TimeoutHiding { get; set; } = 2800;
 }
 
-public class MediaFlyout
+public class MediaFlyoutSettings
 {
     public bool IsEnabled { get; set; } = true;
     public int TimeoutHiding { get; set; } = 2800;
 }
 
-public class DarkModeFlyout
+public class DarkModeFlyoutSettings
 {
     public bool IsEnabled { get; set; } = false;
     public int TimeoutHiding { get; set; } = 2800;

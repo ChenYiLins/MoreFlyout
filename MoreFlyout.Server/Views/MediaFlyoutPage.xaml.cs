@@ -1,4 +1,4 @@
-using MoreFlyout.Config;
+﻿using MoreFlyout.Config;
 using MoreFlyout.Server.Utils;
 using MoreFlyout.Server.ViewModels;
 
@@ -23,7 +23,7 @@ public sealed partial class MediaFlyoutPage : Page
         };
 
         // Set DispatcherTimer to control the window will disappear after a certain period of time
-        var timeoutSeconds = ConfigManager.Instance.MediaFlyout.TimeoutHiding;
+        var timeoutSeconds = ConfigManager.Instance.MediaFlyoutSettings.TimeoutHiding;
         _hiddenTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, timeoutSeconds) };
         _hiddenTimer.Stop();
     }

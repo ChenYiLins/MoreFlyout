@@ -15,19 +15,19 @@ public partial class KeyIndicatorViewModel : ObservableObject
 
     private void LoadConfig()
     {
-        KeyIndicatorFlyoutEnabled = ConfigManager.Instance.KeyIndicatorFlyout.IsEnabled;
-        FlyoutTimeoutValue = ConfigManager.Instance.KeyIndicatorFlyout.TimeoutHiding;
+        KeyIndicatorFlyoutEnabled = ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled;
+        FlyoutTimeoutValue = ConfigManager.Instance.KeyIndicatorFlyoutSettings.TimeoutHiding;
     }
 
     partial void OnKeyIndicatorFlyoutEnabledChanged(bool value)
     {
-        ConfigManager.Instance.KeyIndicatorFlyout.IsEnabled = value;
+        ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled = value;
         ConfigManager.Save();
     }
 
     partial void OnFlyoutTimeoutValueChanged(int value)
     {
-        ConfigManager.Instance.KeyIndicatorFlyout.TimeoutHiding = value;
+        ConfigManager.Instance.KeyIndicatorFlyoutSettings.TimeoutHiding = value;
         ConfigManager.Save();
     }
 }

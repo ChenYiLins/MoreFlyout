@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:MoreFlyout.Server.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:styles="using:MoreFlyout.Server.Styles"
     mc:Ignorable="d">
 
     <Page.ContextFlyout>
@@ -14,9 +13,6 @@
             FlyoutPresenterStyle="{StaticResource TransparentFlyoutPresenterStyle}"
             ShouldConstrainToRootBounds="False"
             ShowMode="Transient">
-            <Flyout.SystemBackdrop>
-                <styles:AcrylicSystemBackdrop />
-            </Flyout.SystemBackdrop>
 
             <Grid
                 MinWidth="164"

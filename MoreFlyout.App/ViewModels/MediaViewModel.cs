@@ -15,19 +15,19 @@ public partial class MediaViewModel: ObservableObject
 
     private void LoadConfig()
     {
-        MediaFlyoutEnabled = ConfigManager.Instance.MediaFlyout.IsEnabled;
-        FlyoutTimeoutValue = ConfigManager.Instance.MediaFlyout.TimeoutHiding;
+        MediaFlyoutEnabled = ConfigManager.Instance.MediaFlyoutSettings.IsEnabled;
+        FlyoutTimeoutValue = ConfigManager.Instance.MediaFlyoutSettings.TimeoutHiding;
     }
 
     partial void OnMediaFlyoutEnabledChanged(bool value)
     {
-        ConfigManager.Instance.KeyIndicatorFlyout.IsEnabled = value;
+        ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled = value;
         ConfigManager.Save();
     }
 
     partial void OnFlyoutTimeoutValueChanged(int value)
     {
-        ConfigManager.Instance.KeyIndicatorFlyout.TimeoutHiding = value;
+        ConfigManager.Instance.KeyIndicatorFlyoutSettings.TimeoutHiding = value;
         ConfigManager.Save();
     }
 }
