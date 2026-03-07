@@ -1,10 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
 using MoreFlyout.Server.Services;
 using MoreFlyout.Server.Utils;
-using System.Diagnostics;
 
 namespace MoreFlyout.Server.ViewModels;
 
