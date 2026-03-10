@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Win32;
 
 namespace MoreFlyout.App.Utils;
@@ -10,8 +9,6 @@ internal class VersionInfo
 
     public static string Service => ValueOrNotFound(() => FileVersionInfo.GetVersionInfo(GetExecutionPath("server", "MoreFlyout.Server.exe"))?.FileVersion);
     public static string App => ValueOrNotFound(() => FileVersionInfo.GetVersionInfo(GetExecutionPath("app", "MoreFlyout.App.exe"))?.FileVersion);
-
-    [RequiresAssemblyFiles("Calls MoreFlyout.App.Utils.VersionInfo.CommitHash()")]
     public static string CommitHash => GetCommitHash();
     public static string NetCore => ValueOrNotFound(() => Environment.Version.ToString());
     public static string WindowsVersion => ValueOrNotFound(() => $"{Environment.OSVersion.Version.Build}.{GetRegistryValue(WindowsNtCurrentVersionPath, "UBR", "0") ?? "0"}");
@@ -55,14 +52,25 @@ internal class VersionInfo
         return directoryInfo.FullName;
     }
 
-    [RequiresAssemblyFiles("Calls System.Reflection.Assembly.Location")]
     private static string GetCommitHash()
     {
         try
         {
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            string productVersion = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion ?? "None";
-            string commitHash = productVersion[(productVersion.LastIndexOf('-') + 2)..];
+            string appExePath = GetExecutionPath("app", "MoreFlyout.App.exe");
+            string productVersion = FileVersionInfo.GetVersionInfo(appExePath).ProductVersion ?? "None";
+
+            if (productVersion == "None")
+            {
+                return "None";
+            }
+
+            int lastDashIndex = productVersion.LastIndexOf('-');
+            if (lastDashIndex < 0 || lastDashIndex + 2 >= productVersion.Length)
+            {
+                return "None";
+            }
+
+            string commitHash = productVersion[(lastDashIndex + 2)..];
             return commitHash;
         }
         catch
