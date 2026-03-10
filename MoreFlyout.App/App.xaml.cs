@@ -30,6 +30,7 @@ public partial class App : Application
 
         services.AddSingleton<MainWindow>();
         services.AddSingleton<IActivationService, ActivationService>();
+        services.AddSingleton<ICloseService, CloseService>();
         services.AddSingleton<IPageService, PageService>();
         services.AddSingleton<INavigationService, NavigationService>();
 
@@ -48,7 +49,14 @@ public partial class App : Application
     {
         MainWindow = App.GetService<MainWindow>();
 
+        MainWindow.Closed += MainWindow_Closed; ;
+
         _ = ActivateAsync(args);
+    }
+
+    private void MainWindow_Closed(object sender, WindowEventArgs args)
+    {
+        App.GetService<ICloseService>().Close();
     }
 
     private static async Task ActivateAsync(LaunchActivatedEventArgs args)
