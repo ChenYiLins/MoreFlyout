@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
@@ -18,7 +18,7 @@
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
     <Version>2.1.10</Version>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <PublishAot>False</PublishAot>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
@@ -48,7 +48,7 @@
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" Version="0.1.251008-build.2333" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
@@ -57,11 +57,11 @@
     <PackageReference Include="NLog" Version="6.1.0" />
     <PackageReference Include="WinUIEx" Version="2.9.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\MoreFlyout.Config\MoreFlyout.Config.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Update="Assets\TestBackground.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -71,5 +71,5 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
-  
+
 </Project>
