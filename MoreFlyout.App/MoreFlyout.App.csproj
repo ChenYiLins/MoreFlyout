@@ -1,47 +1,52 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<OutputType>WinExe</OutputType>
-	<TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
-	<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-	<RootNamespace>MoreFlyout.App</RootNamespace>
-	<ApplicationManifest>app.manifest</ApplicationManifest>
-	<Platforms>x86;x64;ARM64</Platforms>
-	<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-	<PublishProfile>win-$(Platform).pubxml</PublishProfile>
-	<UseWinUI>true</UseWinUI>
-	<Nullable>enable</Nullable>
-	<TrimMode>partial</TrimMode>
-	<ImplicitUsings>true</ImplicitUsings>
-	<LangVersion>preview</LangVersion>
-	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-	<IsAotCompatible>true</IsAotCompatible>
-	<ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
-	<Version>1.0.0</Version>
-
-	<!--Remove git hash from assembly informational version in .NET >= 8, Example: false = 1.0.0, true = 1.0.0+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
-	<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>MoreFlyout.App</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <Nullable>enable</Nullable>
+    <TrimMode>partial</TrimMode>
+    <ImplicitUsings>true</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <IsAotCompatible>true</IsAotCompatible>
+    <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
+    <Version>1.0.21</Version>
+    <!--Remove git hash from assembly informational version in .NET >= 8, Example: false = 1.0.0, true = 1.0.0+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
-
-	<!-- Publish Properties -->
+  <!-- Publish Properties -->
   <PropertyGroup>
-	<PublishAot>False</PublishAot>
-	<PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-	<PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-	<PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-	<PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PublishAot>False</PublishAot>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
+    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
+  <!-- Output directory-->
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutputPath>..\bin\Debug\MoreFlyout\app\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>..\bin\Release\MoreFlyout\app\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
-	<None Include="Assets\**\*">
-	  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	</None>
+    <None Include="Assets\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
   </ItemGroup>
-
   <ItemGroup>
-	<Manifest Include="$(ApplicationManifest)" />
+    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
-  
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
@@ -49,9 +54,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260209005" />
   </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\MoreFlyout.Config\MoreFlyout.Config.csproj" />
   </ItemGroup>
-  
 </Project>

@@ -27,6 +27,18 @@
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
   </PropertyGroup>
 
+  <!-- Output directory-->
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutputPath>..\bin\Debug\MoreFlyout\server\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>..\bin\Release\MoreFlyout\server\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="Assets\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
