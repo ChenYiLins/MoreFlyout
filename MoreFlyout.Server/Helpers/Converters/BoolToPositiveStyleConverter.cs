@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Data;
-
-namespace MoreFlyout.Server.Converters;
+ 
+namespace MoreFlyout.Server.Helpers.Converters;
 
 public partial class BoolToPositiveStyleConverter : IValueConverter
 {
