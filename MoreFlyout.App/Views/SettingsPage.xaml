@@ -2,9 +2,66 @@
     x:Class="MoreFlyout.App.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:MoreFlyout.App.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:MoreFlyout.App.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
-    <ScrollView />
+    <Page.Resources>
+        <converters:VisibilityNegationConverter x:Key="VisibilityNegationConverter" />
+    </Page.Resources>
+
+    <ScrollView>
+
+        <!--  TODO: Replace string to resources  -->
+        <StackPanel Style="{StaticResource PageBaseStackPanelStyle}">
+
+            <!--  Auto start  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=AutoStart}" />
+            <controls:SettingsCard Header="Start MoreFlyout with Windows">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.StartWithWindowsEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+
+            <controls:SettingsCard>
+                <controls:SettingsCard.Header>
+                    <StackPanel>
+                        <ProgressRing
+                            x:Name="ProgressAutostartDetails"
+                            IsIndeterminate="True"
+                            Visibility="{x:Bind ViewModel.ProgressAutostartDetailsVisibility, Mode=OneWay}" />
+
+                        <Grid
+                            x:Name="GridAutostartDetails"
+                            ColumnSpacing="8"
+                            Visibility="{x:Bind ViewModel.ProgressAutostartDetailsVisibility, Converter={StaticResource VisibilityNegationConverter}, Mode=OneWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{helpers:ResourceString Name=PathAt}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind ViewModel.AutoStartPath, Mode=OneWay}" />
+                        </Grid>
+
+                    </StackPanel>
+                </controls:SettingsCard.Header>
+                <Button Command="{x:Bind ViewModel.RefreshAutoStartPathCommand}" Content="Refresh" />
+            </controls:SettingsCard>
+
+            <!--  Settings  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Settings" />
+            <controls:SettingsCard Header="Hide tray icon">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.HideTrayIconEnabled, Mode=OneWay}" />
+            </controls:SettingsCard>
+
+        </StackPanel>
+
+    </ScrollView>
 </Page>
 

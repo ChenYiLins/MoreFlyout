@@ -28,6 +28,8 @@ public class ServiceSettings
     /// </summary>
     public bool AutoStart { get; set; } = false;
 
+    public string? AutoStartPath { get; set; }
+
     /// <summary>
     /// Whether the application displays an icon in the system tray
     /// </summary>

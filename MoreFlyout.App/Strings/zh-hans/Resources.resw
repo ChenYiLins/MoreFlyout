@@ -126,6 +126,9 @@
   <data name="AutoDarkMode" xml:space="preserve">
     <value>Auto dark mode</value>
   </data>
+  <data name="AutoStart" xml:space="preserve">
+    <value>Auto start</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="Media" xml:space="preserve">
     <value>媒体</value>
+  </data>
+  <data name="PathAt" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="TimeoutNumberBox_Header" xml:space="preserve">
     <value>单位: 毫秒</value>

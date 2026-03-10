@@ -13,6 +13,7 @@ public sealed partial class MainWindow : Window
     public MainWindow(INavigationService navigationService)
     {
         _navigationService = navigationService;
+
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;

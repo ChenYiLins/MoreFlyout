@@ -17,7 +17,7 @@
                 <Image
                     Width="64"
                     Height="64"
-                    Source="/Assets/AppIcon.ico" />
+                    Source="/Assets/AppIcon.png" />
                 <StackPanel Orientation="Vertical" Spacing="8">
                     <TextBlock
                         x:Name="AppNameTextBlock"
@@ -42,16 +42,20 @@
                             Orientation="Horizontal"
                             Spacing="20">
                             <StackPanel Orientation="Vertical" Spacing="8">
-                                <TextBlock Text="App/Service" />
+                                <TextBlock Text="Server" />
+                                <TextBlock Text="App" />
                                 <TextBlock Text="Commit" />
                                 <TextBlock Text=".Net" />
                                 <TextBlock Text="Windows" />
                                 <TextBlock Text="Arch" />
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Spacing="8">
-                                <!--
-                                <TextBlock Text="{x:Bind ViewModel.xxx, Mode=OneWay}" />
-                                -->
+                                <TextBlock Text="{x:Bind ViewModel.Server, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind ViewModel.AppVersion, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind ViewModel.Commit, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind ViewModel.NetCore, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind ViewModel.Windows, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind ViewModel.Arch, Mode=OneWay}" />
                             </StackPanel>
                         </StackPanel>
                     </controls:SettingsCard>

@@ -54,22 +54,4 @@
     <ProjectReference Include="..\MoreFlyout.Config\MoreFlyout.Config.csproj" />
   </ItemGroup>
   
-  <ItemGroup>
-    <Page Update="Views\DarkModePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Page Update="Views\MediaPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Page Update="Views\KeyIndicatorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  
 </Project>
