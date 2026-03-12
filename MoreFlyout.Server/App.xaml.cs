@@ -60,6 +60,9 @@ public partial class App : Application
     {
         Current.DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
 
+        // Run as a tray service; lower priority so the OS deprioritizes us when idle
+        Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
+
         if (ConfigManager.Instance.ServiceSettings.AutoStart && !AutoStart.CheckAutoStart())
         {
             AutoStart.SetAutoStart(true);

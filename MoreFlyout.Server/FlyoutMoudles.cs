@@ -139,17 +139,17 @@ public class FlyoutMoudles
     {
         // Lucky us WH_KEYBOARD_LL calls back on initial hooking thread, ie: the UI thread
         // so no need for Dispatcher mambo jumbo
-        KeyboardHookCallbackAsync(nCode, wParam, lParam);
+        KeyboardHookCallback(nCode, wParam, lParam);
         return PInvoke.CallNextHookEx(_KeyboardHookId, nCode, wParam, lParam);
     }
 
     private static LRESULT CallWndProcCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
-        KeyboardHookCallbackAsync(nCode, wParam, lParam);
+        KeyboardHookCallback(nCode, wParam, lParam);
         return PInvoke.CallNextHookEx(_CallWndProcHookId, nCode, wParam, lParam);
     }
 
-    private static async void KeyboardHookCallbackAsync(int nCode, WPARAM wParam, LPARAM lParam)
+    private static void KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
         if (nCode >= 0 && wParam == PInvoke.WM_KEYDOWN)
         {
