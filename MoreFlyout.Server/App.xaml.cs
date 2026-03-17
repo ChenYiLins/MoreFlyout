@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using MoreFlyout.Config;
+using MoreFlyout.Server.Services;
 using MoreFlyout.Server.Utils;
 using MoreFlyout.Server.Views;
 
@@ -11,8 +12,10 @@ public partial class App : Application
     public static TrayIcon? TrayIcon { get; private set; }
     public static FlyoutMoudles? FlyoutMoudles { get; private set; }
 
-    private static Logger? _Logger;
-    private static readonly Mutex _Mutex = new(false, "24043650-DED6-4E6B-8AFF-6BB03DFE3BDA");
+    private static Logger? Logger;
+    private static readonly Mutex Mutex = new(false, "24043650-DED6-4E6B-8AFF-6BB03DFE3BDA");
+
+    private PipeCommService? _commService;
 
     public App()
     {
@@ -24,8 +27,8 @@ public partial class App : Application
         var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MoreFlyout");
         NLog.GlobalDiagnosticsContext.Set("logDir", logDir);
 
-        _Logger = LogManager.GetCurrentClassLogger();
-        _Logger.Info("NLog initialized successfully, and automatic achieving has been started (reserved for 7 days)");
+        Logger = LogManager.GetCurrentClassLogger();
+        Logger.Info("NLog initialized successfully, and automatic achieving has been started (reserved for 7 days)");
 
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
@@ -34,7 +37,7 @@ public partial class App : Application
 
     private static void CheckServiceMutex()
     {
-        if (!_Mutex.WaitOne(TimeSpan.FromMilliseconds(50), false))
+        if (!Mutex.WaitOne(TimeSpan.FromMilliseconds(50), false))
         {
             Debug.WriteLine("Another instance of the service is already running. Exiting this instance");
             Environment.Exit(-1);
@@ -47,7 +50,9 @@ public partial class App : Application
         FlyoutMoudles = null;
         TrayIcon = null;
 
-        _Logger?.Info("Application is exiting");
+        _commService?.Stop();
+
+        Logger?.Info("Application is exiting");
         LogManager.Shutdown();
     }
 
@@ -72,12 +77,13 @@ public partial class App : Application
 
         FlyoutMoudles = new FlyoutMoudles();
 
-        _Logger?.Info("Flyout window activated");
+        Logger?.Info("Flyout window activated");
 
-        if (ConfigManager.Instance.ServiceSettings.ShowTrayIcon)
-        {
-            InitializeTrayIcon();
-        }
+        // Enable communication service
+        _commService = new PipeCommService();
+        _ = _commService.StartAsync();
+
+        InitializeTrayIcon();
     }
 
     private static void InitializeTrayIcon()
@@ -102,11 +108,11 @@ public partial class App : Application
                 eventArgs.Flyout = trayIconMenuFlyout.ContextFlyout;
             };
 
-            _Logger?.Info("TrayIcon initiliazed");
+            Logger?.Info("TrayIcon initiliazed");
         }
         catch (Exception ex)
         {
-            _Logger?.Error($"TrayIcon initialization exception: {ex.Message}");
+            Logger?.Error($"TrayIcon initialization exception: {ex.Message}");
         }
     }
 }

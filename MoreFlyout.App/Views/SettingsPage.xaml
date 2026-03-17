@@ -46,7 +46,8 @@
                                 Grid.Column="1"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 IsTextSelectionEnabled="True"
-                                Text="{x:Bind ViewModel.AutoStartPath, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.AutoStartPath, Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind ViewModel.AutoStartPath, Mode=OneWay}" />
                         </Grid>
 
                     </StackPanel>
@@ -57,7 +58,7 @@
             <!--  Settings  -->
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Settings" />
             <controls:SettingsCard Header="Hide tray icon">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.HideTrayIconEnabled, Mode=OneWay}" />
+                <ToggleSwitch IsOn="{x:Bind ViewModel.HideTrayIconEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
 
         </StackPanel>

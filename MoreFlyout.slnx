@@ -10,6 +10,7 @@
     <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>
+  <Project Path="MoreFlyout.Comms/MoreFlyout.Comms.csproj" />
   <Project Path="MoreFlyout.Config/MoreFlyout.Config.csproj" Id="c70a39b1-b857-4c83-af5c-ff02a2794ad3" />
   <Project Path="MoreFlyout.Server/MoreFlyout.Server.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />

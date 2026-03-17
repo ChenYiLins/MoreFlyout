@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using MoreFlyout.Comms;
 
 namespace MoreFlyout.App.ViewModels;
 
@@ -24,7 +25,8 @@ public partial class SettingsViewModel : ObservableObject
             ProgressAutostartDetailsVisibility = Visibility.Visible;
         }
 
-        AutoStartPath = "WuuuuuWaaaa";
+        bool isAutoStartEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
+        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "MoreFlyout.App", "MoreFlyout.App.exe");
 
         await Task.Delay(1000);
 
@@ -40,5 +42,52 @@ public partial class SettingsViewModel : ObservableObject
     {
         StartWithWindowsEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
         HideTrayIconEnabled = !ConfigManager.Instance.ServiceSettings.ShowTrayIcon;
+        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "MoreFlyout.App", "MoreFlyout.App.exe");
+    }
+
+    async partial void OnStartWithWindowsEnabledChanged(bool value)
+    {
+        if (value)
+        {
+            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.EnableAutoStart });
+            if (!success)
+            {
+                StartWithWindowsEnabled = false;
+            }
+        }
+        else
+        {
+            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.DisableAutoStart });
+            if (!success)
+            {
+                StartWithWindowsEnabled = true;
+            }
+        }
+
+        ConfigManager.Instance.ServiceSettings.AutoStart = StartWithWindowsEnabled;
+        ConfigManager.Save();
+    }
+
+    async partial void OnHideTrayIconEnabledChanged(bool value)
+    {
+        if (value)
+        {
+            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.DisableTrayIcon });
+            if (!success)
+            {
+                HideTrayIconEnabled = true;
+            }
+        }
+        else
+        {
+            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.EnableTrayIcon });
+            if (!success)
+            {
+                HideTrayIconEnabled = false;
+            }
+        }
+
+        ConfigManager.Instance.ServiceSettings.ShowTrayIcon = !HideTrayIconEnabled;
+        ConfigManager.Save();
     }
 }
