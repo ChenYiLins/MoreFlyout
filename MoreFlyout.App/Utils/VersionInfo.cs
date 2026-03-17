@@ -36,20 +36,10 @@ internal class VersionInfo
 
     private static string GetValidatedBasePath()
     {
-        var currentPath = AppContext.BaseDirectory;
+        var currentPath = Environment.CurrentDirectory;
         var directoryInfo = new DirectoryInfo(currentPath);
 
-        if (directoryInfo.Name.Equals("server", StringComparison.OrdinalIgnoreCase) || directoryInfo.Name.Equals("app", StringComparison.OrdinalIgnoreCase))
-        {
-            directoryInfo = directoryInfo.Parent ?? throw new InvalidOperationException("Parent directory is missing.");
-        }
-
-        if (!directoryInfo.Name.Equals("app", StringComparison.OrdinalIgnoreCase))
-        {
-            throw new InvalidOperationException($"Expected directory 'app' but found '{directoryInfo.Name}'");
-        }
-
-        return directoryInfo.FullName;
+        return directoryInfo.Parent.FullName;
     }
 
     private static string GetCommitHash()
