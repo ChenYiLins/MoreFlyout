@@ -11,9 +11,6 @@ public partial class AboutViewModel : ObservableObject
     public partial string AppVersion { get; set; }
 
     [ObservableProperty]
-    public partial string Commit { get; set; }
-
-    [ObservableProperty]
     public partial string NetCore { get; set; }
 
     [ObservableProperty]
@@ -26,7 +23,6 @@ public partial class AboutViewModel : ObservableObject
     {
         Server = VersionInfo.Service;
         AppVersion = VersionInfo.App;
-        Commit = VersionInfo.CommitHash;
         NetCore = VersionInfo.NetCore;
         Windows = VersionInfo.WindowsVersion;
         Arch = VersionInfo.Architecture;
