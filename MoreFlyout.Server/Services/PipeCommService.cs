@@ -161,6 +161,6 @@ public class PipeCommService
     private void HandleStopServer()
     {
         Logger.Info("Server is about to stop.");
-        Environment.Exit(0);
+        App.Current.Exit();
     }
 }

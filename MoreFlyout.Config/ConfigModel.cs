@@ -23,6 +23,8 @@ public class AppSettings
 
 public class ServiceSettings
 {
+    public bool IsEnabled { get; set; } = true;
+
     /// <summary>
     /// Whether to start MoreFlyout automatically on system startup
     /// </summary>

@@ -132,6 +132,9 @@
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
+  <data name="EnableMoreFlyout" xml:space="preserve">
+    <value>Enable MoreFlyout</value>
+  </data>
   <data name="ErrorMessageBox_Content" xml:space="preserve">
     <value>Somethings wrong</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="PathAt" xml:space="preserve">
     <value>Path:</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Switch</value>
   </data>
   <data name="TimeoutNumberBox_Header" xml:space="preserve">
     <value>Unit: milliseconds</value>

@@ -33,7 +33,7 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
         App.FlyoutControl?.Dispose();
         App.TrayIcon?.Dispose();
 
-        Environment.Exit(0);
+        App.Current.Exit();
     }
 
     public TrayIconMenuFlyoutViewModel()

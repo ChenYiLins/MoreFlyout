@@ -2,7 +2,23 @@
     x:Class="MoreFlyout.App.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:MoreFlyout.App.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" />
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <ScrollView>
+        <StackPanel Style="{StaticResource PageBaseStackPanelStyle}">
+
+            <!--  Switch  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Switch}" />
+            <controls:SettingsCard Header="{helpers:ResourceString Name=EnableMoreFlyout}" HeaderIcon="{ui:FontIcon Glyph=&#xE70A;}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.MoreFlyoutEnabled, Mode=TwoWay}" />
+            </controls:SettingsCard>
+
+        </StackPanel>
+    </ScrollView>
+</Page>
 

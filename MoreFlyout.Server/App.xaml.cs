@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using MoreFlyout.Config;
 using MoreFlyout.Server.Services;
 using MoreFlyout.Server.Utils;
@@ -40,7 +41,7 @@ public partial class App : Application
         if (!Mutex.WaitOne(TimeSpan.FromMilliseconds(50), false))
         {
             Debug.WriteLine("Another instance of the service is already running. Exiting this instance");
-            Environment.Exit(-1);
+            Current.Exit();
         }
     }
 
