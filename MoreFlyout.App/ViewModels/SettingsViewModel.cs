@@ -26,7 +26,7 @@ public partial class SettingsViewModel : ObservableObject
         }
 
         bool isAutoStartEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
-        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "MoreFlyout.App", "MoreFlyout.App.exe");
+        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
 
         await Task.Delay(1000);
 
@@ -42,7 +42,7 @@ public partial class SettingsViewModel : ObservableObject
     {
         StartWithWindowsEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
         HideTrayIconEnabled = !ConfigManager.Instance.ServiceSettings.ShowTrayIcon;
-        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "MoreFlyout.App", "MoreFlyout.App.exe");
+        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
     }
 
     async partial void OnStartWithWindowsEnabledChanged(bool value)
