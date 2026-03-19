@@ -29,7 +29,7 @@ public class Message
     /// </summary>
     public string Serialize()
     {
-        return JsonSerializer.Serialize(this);
+        return JsonSerializer.Serialize(this, MessageJsonContext.Default.Message);
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class Message
     {
         try
         {
-            return JsonSerializer.Deserialize<Message>(json);
+            return JsonSerializer.Deserialize(json, MessageJsonContext.Default.Message);
         }
         catch
         {
