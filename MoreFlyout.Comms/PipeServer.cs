@@ -1,11 +1,18 @@
 ﻿using System.IO.Pipes;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace MoreFlyout.Comms;
-
+    
 /// <summary>
-/// 命名管道服务器，用于Server接收来自App的消息
+/// Provides a named pipe server for inter-process communication, enabling asynchronous message exchange between
+/// processes on Windows platforms.
 /// </summary>
+/// <remarks>The pipe server listens for incoming client connections and raises events when messages are received
+/// or errors occur. This class is intended for use on Windows operating systems, as indicated by the
+/// SupportedOSPlatform attribute. Thread safety is not guaranteed for all members; callers should ensure appropriate
+/// synchronization if accessing from multiple threads.</remarks>
+[SupportedOSPlatform("windows")]
 public class PipeServer
 {
     private const string PipeName = "MoreFlyout.IPC";
@@ -13,17 +20,17 @@ public class PipeServer
     private CancellationTokenSource? _cancellationTokenSource;
 
     /// <summary>
-    /// 当收到消息时触发的事件
+    /// When a message is received from the client, this event is triggered with the deserialized Message object.
     /// </summary>
     public event EventHandler<Message>? MessageReceived;
 
     /// <summary>
-    /// 当发生错误时触发的事件
+    /// When an error occurs in the pipe server, this event is triggered with a string describing the error.
     /// </summary>
     public event EventHandler<string>? ErrorOccurred;
 
     /// <summary>
-    /// 启动管道服务器
+    /// Starts the pipe server and listens for incoming client connections. This method runs indefinitely until the server is stopped.
     /// </summary>
     public async Task StartAsync(CancellationToken cancellationToken = default)
     {
@@ -46,16 +53,16 @@ public class PipeServer
         }
         catch (OperationCanceledException)
         {
-            // 正常的取消操作
+            // Cancellation requested, exit gracefully
         }
         catch (Exception ex)
         {
-            ErrorOccurred?.Invoke(this, $"管道服务器错误: {ex.Message}");
+            ErrorOccurred?.Invoke(this, $"Pipeline server error: {ex.Message}");
         }
     }
 
     /// <summary>
-    /// 处理单个客户端连接
+    /// Handles communication with a connected client. Reads data from the pipe, deserializes it into a Message object, and raises the MessageReceived event.
     /// </summary>
     private async Task HandleClientAsync(NamedPipeServerStream pipe, CancellationToken cancellationToken)
     {
@@ -77,19 +84,19 @@ public class PipeServer
                     }
                     else
                     {
-                        ErrorOccurred?.Invoke(this, "无法反序列化消息");
+                        ErrorOccurred?.Invoke(this, "Unable to deserialize message.");
                     }
                 }
             }
         }
         catch (Exception ex)
         {
-            ErrorOccurred?.Invoke(this, $"处理客户端错误: {ex.Message}");
+            ErrorOccurred?.Invoke(this, $"Handling client errors: {ex.Message}");
         }
     }
 
     /// <summary>
-    /// 停止管道服务器
+    /// Stops the pipe server by canceling any ongoing operations and disposing of the pipe server instance.
     /// </summary>
     public void Stop()
     {
