@@ -12,17 +12,12 @@
     <UseWinUI>true</UseWinUI>
     <LangVersion>preview</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);CS8305</NoWarn>
     <Nullable>enable</Nullable>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
-    <Version>2.2.1</Version>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PublishAot>False</PublishAot>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <Version>2.2.2</Version>
   </PropertyGroup>
   <!-- Output directory-->
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
