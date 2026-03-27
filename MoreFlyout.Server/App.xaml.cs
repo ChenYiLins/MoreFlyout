@@ -91,7 +91,7 @@ public partial class App : Application
     {
         try
         {
-            TrayIcon = new TrayIcon(1, "Assets/AppIcon.ico", "MoreFlyout") { IsVisible = ConfigManager.Instance.ServiceSettings.ShowTrayIcon };
+            TrayIcon = new TrayIcon(1, "Assets/AppIcon.ico", "MoreFlyout") { IsVisible = !ConfigManager.Instance.ServiceSettings.HideTrayIcon };
 
             var trayIconMenuFlyout = new TrayIconMenuFlyout();
 

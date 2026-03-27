@@ -41,7 +41,7 @@ public partial class SettingsViewModel : ObservableObject
     private async Task LoadConfig()
     {
         StartWithWindowsEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
-        HideTrayIconEnabled = !ConfigManager.Instance.ServiceSettings.ShowTrayIcon;
+        HideTrayIconEnabled = ConfigManager.Instance.ServiceSettings.HideTrayIcon;
         var autoStartResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryAutoStart });
         AutoStartPath = autoStartResponse?.Content;
     }
@@ -76,7 +76,7 @@ public partial class SettingsViewModel : ObservableObject
             bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.DisableTrayIcon });
             if (!success)
             {
-                HideTrayIconEnabled = true;
+                HideTrayIconEnabled = false;
             }
         }
         else
@@ -84,11 +84,11 @@ public partial class SettingsViewModel : ObservableObject
             bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.EnableTrayIcon });
             if (!success)
             {
-                HideTrayIconEnabled = false;
+                HideTrayIconEnabled = true;
             }
         }
 
-        ConfigManager.Instance.ServiceSettings.ShowTrayIcon = !HideTrayIconEnabled;
+        ConfigManager.Instance.ServiceSettings.HideTrayIcon = HideTrayIconEnabled;
         ConfigManager.Save();
     }
 }

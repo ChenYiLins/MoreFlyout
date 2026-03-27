@@ -35,7 +35,7 @@ public class ServiceSettings
     /// <summary>
     /// Whether the application displays an icon in the system tray
     /// </summary>
-    public bool ShowTrayIcon { get; set; } = true;
+    public bool HideTrayIcon { get; set; } = false;
 
     public bool GameMode { get; set; } = true;
 }
