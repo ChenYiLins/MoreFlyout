@@ -25,8 +25,8 @@ public partial class SettingsViewModel : ObservableObject
             ProgressAutostartDetailsVisibility = Visibility.Visible;
         }
 
-        bool isAutoStartEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
-        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
+        var autoStartResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryAutoStart });
+        AutoStartPath = autoStartResponse?.Content;
 
         await Task.Delay(1000);
 
@@ -35,14 +35,15 @@ public partial class SettingsViewModel : ObservableObject
 
     public SettingsViewModel()
     {
-        LoadConfig();
+        _ = LoadConfig();
     }
 
-    private void LoadConfig()
+    private async Task LoadConfig()
     {
         StartWithWindowsEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
         HideTrayIconEnabled = !ConfigManager.Instance.ServiceSettings.ShowTrayIcon;
-        AutoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
+        var autoStartResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryAutoStart });
+        AutoStartPath = autoStartResponse?.Content;
     }
 
     async partial void OnStartWithWindowsEnabledChanged(bool value)

@@ -16,7 +16,7 @@ public class PipeCommService
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-    private PipeServer _pipeServer = new();
+    private readonly PipeServer _pipeServer = new();
     private CancellationTokenSource? _cancellationTokenSource;
 
     public async Task StartAsync()
@@ -27,6 +27,7 @@ public class PipeCommService
 
             _pipeServer.MessageReceived += OnMessageReceived;
             _pipeServer.ErrorOccurred += OnErrorOccurred;
+            _pipeServer.ReplyHandler = OnReplyRequested;
 
             Logger.Info("Pipeline communication service startup");
 
@@ -50,6 +51,19 @@ public class PipeCommService
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to stop pipeline communication service.");
+        }
+    }
+
+    private Message? OnReplyRequested(Message request)
+    {
+        switch (request.Type)
+        {
+            case MessageType.QueryAutoStart:
+                string autoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
+                return new Message { Type = MessageType.AutoStartResponse, Content = autoStartPath };
+
+            default:
+                return null;
         }
     }
 
@@ -149,8 +163,8 @@ public class PipeCommService
 
     private void HandleQueryAutoStart()
     {
-        bool isAutoStartEnabled = AutoStart.CheckAutoStart();
-        Logger.Info($"Auto starting status query: {isAutoStartEnabled}");
+        string autoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
+        Logger.Info($"Auto starting status query: {autoStartPath}");
     }
 
     private void HandleStartServer()

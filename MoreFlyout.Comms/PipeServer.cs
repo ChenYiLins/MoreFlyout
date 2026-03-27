@@ -3,7 +3,7 @@ using System.Runtime.Versioning;
 using System.Text;
 
 namespace MoreFlyout.Comms;
-    
+
 /// <summary>
 /// Provides a named pipe server for inter-process communication, enabling asynchronous message exchange between
 /// processes on Windows platforms.
@@ -30,6 +30,13 @@ public class PipeServer
     public event EventHandler<string>? ErrorOccurred;
 
     /// <summary>
+    /// Optional handler that generates a reply <see cref="Message"/> for a received request.
+    /// When set, the server will send the returned message back to the client.
+    /// Return <see langword="null"/> to send no reply.
+    /// </summary>
+    public Func<Message, Message?>? ReplyHandler { get; set; }
+
+    /// <summary>
     /// Starts the pipe server and listens for incoming client connections. This method runs indefinitely until the server is stopped.
     /// </summary>
     public async Task StartAsync(CancellationToken cancellationToken = default)
@@ -40,11 +47,7 @@ public class PipeServer
         {
             while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
-                _pipeServer = new NamedPipeServerStream(
-                    PipeName,
-                    PipeDirection.InOut,
-                    NamedPipeServerStream.MaxAllowedServerInstances,
-                    PipeTransmissionMode.Message);
+                _pipeServer = new NamedPipeServerStream(PipeName, PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances, PipeTransmissionMode.Message);
 
                 await _pipeServer.WaitForConnectionAsync(_cancellationTokenSource.Token);
 
@@ -81,6 +84,15 @@ public class PipeServer
                     if (message != null)
                     {
                         MessageReceived?.Invoke(this, message);
+
+                        var reply = ReplyHandler?.Invoke(message);
+                        if (reply != null)
+                        {
+                            string replyJson = reply.Serialize();
+                            byte[] replyBuffer = Encoding.UTF8.GetBytes(replyJson);
+                            await pipe.WriteAsync(replyBuffer, 0, replyBuffer.Length, cancellationToken);
+                            await pipe.FlushAsync(cancellationToken);
+                        }
                     }
                     else
                     {
