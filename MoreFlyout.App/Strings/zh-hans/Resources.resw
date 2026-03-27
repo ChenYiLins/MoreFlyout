@@ -153,6 +153,9 @@
   <data name="Media" xml:space="preserve">
     <value>媒体</value>
   </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Open log file</value>
+  </data>
   <data name="PathAt" xml:space="preserve">
     <value>Path:</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="TimeoutNumberBox_Header" xml:space="preserve">
     <value>单位: 毫秒</value>
+  </data>
+  <data name="UsedSoftware" xml:space="preserve">
+    <value>Used software</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>版本</value>

@@ -1,4 +1,5 @@
-﻿using MoreFlyout.App.Utils;
+﻿using CommunityToolkit.Mvvm.Input;
+using MoreFlyout.App.Utils;
 
 namespace MoreFlyout.App.ViewModels;
 
@@ -18,6 +19,16 @@ public partial class AboutViewModel : ObservableObject
 
     [ObservableProperty]
     public partial string Arch { get; set; }
+
+    [RelayCommand]
+    private void OpenLogFile()
+    {
+        var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"MoreFlyout/service.log");
+        if (File.Exists(logDir))
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = logDir, UseShellExecute = true });
+        }
+    }
 
     public AboutViewModel()
     {

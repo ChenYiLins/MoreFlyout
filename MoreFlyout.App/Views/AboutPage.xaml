@@ -60,6 +60,42 @@
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
 
+            <controls:SettingsCard
+                ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                Command="{x:Bind ViewModel.OpenLogFileCommand}"
+                Header="{helpers:ResourceString Name=OpenLogFile}"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE9D9;}"
+                IsClickEnabled="True" />
+
+            <controls:SettingsExpander Header="{helpers:ResourceString Name=UsedSoftware}" HeaderIcon="{ui:FontIcon Glyph=&#xEC7A;}">
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard ContentAlignment="Left">
+                        <StackPanel Margin="-12,0,0,0">
+                            <HyperlinkButton
+                                Content="Windows App SDK"
+                                NavigateUri="https://aka.ms/windowsappsdk"
+                                ToolTipService.ToolTip="https://aka.ms/windowsappsdk" />
+                            <HyperlinkButton
+                                Content="WinUI 3"
+                                NavigateUri="https://aka.ms/winui3"
+                                ToolTipService.ToolTip="https://aka.ms/winui3" />
+                            <HyperlinkButton
+                                Content="Community Toolkit / Windows"
+                                NavigateUri="https://github.com/CommunityToolkit/dotnet"
+                                ToolTipService.ToolTip="https://github.com/CommunityToolkit/dotnet" />
+                            <HyperlinkButton
+                                Content="NLog"
+                                NavigateUri="https://nlog-project.org/"
+                                ToolTipService.ToolTip="https://nlog-project.org/" />
+                            <HyperlinkButton
+                                Content="YamlDotNet"
+                                NavigateUri="https://github.com/aaubry/YamlDotNet"
+                                ToolTipService.ToolTip="https://github.com/aaubry/YamlDotNet" />
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+
         </StackPanel>
     </ScrollView>
 </Page>
