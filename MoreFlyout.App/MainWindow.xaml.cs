@@ -8,12 +8,8 @@ namespace MoreFlyout.App;
 
 public sealed partial class MainWindow : Window
 {
-    private readonly INavigationService _navigationService;
-
     public MainWindow(INavigationService navigationService)
     {
-        _navigationService = navigationService;
-
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;
@@ -24,8 +20,6 @@ public sealed partial class MainWindow : Window
 
         ApplySystemThemeToCaptionButtons();
 
-        [DllImport("user32.dll")]
-        static extern uint GetDpiForWindow([In] IntPtr hwnd);
         var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         var dpiForWindow = GetDpiForWindow(hWnd);
         var scaleFactor = dpiForWindow / 96.0;
@@ -37,9 +31,13 @@ public sealed partial class MainWindow : Window
             presenter.PreferredMaximumWidth = 10000;
         }
 
-        _navigationService.Frame = NavigationFrame;
-        _navigationService.InitializeNavigationView(NavigationViewControl);
-        _navigationService.InitializeBreadcrumbBar(BreadcrumbBarControl);
+        navigationService.Frame = NavigationFrame;
+        navigationService.InitializeNavigationView(NavigationViewControl);
+        navigationService.InitializeBreadcrumbBar(BreadcrumbBarControl);
+        return;
+
+        [DllImport("user32.dll")]
+        static extern uint GetDpiForWindow([In] IntPtr hwnd);
     }
 
     private void NavViewTitleBar_BackRequested(Microsoft.UI.Xaml.Controls.TitleBar sender, object args)
