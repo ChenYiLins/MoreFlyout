@@ -2,5 +2,5 @@
 
 public interface IErrorService
 {
-    Task ShowErrorMessage(Exception ex, XamlRoot xamlRoot, string location, string extraInfo = "");
+    Task ShowErrorMessageAsync(Exception ex, XamlRoot xamlRoot, string location, string extraInfo = "");
 }

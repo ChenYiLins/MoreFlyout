@@ -5,6 +5,8 @@ namespace MoreFlyout.App.ViewModels;
 
 public partial class SettingsViewModel : ObservableObject
 {
+    private bool _isLoading;
+
     [ObservableProperty]
     public partial bool StartWithWindowsEnabled { get; set; }
 
@@ -40,17 +42,30 @@ public partial class SettingsViewModel : ObservableObject
 
     private async Task LoadConfig()
     {
-        StartWithWindowsEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
-        HideTrayIconEnabled = ConfigManager.Instance.ServiceSettings.HideTrayIcon;
-        var autoStartResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryAutoStart });
-        AutoStartPath = autoStartResponse?.Content;
+        _isLoading = true;
+        try
+        {
+            StartWithWindowsEnabled = ConfigManager.Instance.ServiceSettings.AutoStart;
+            HideTrayIconEnabled = ConfigManager.Instance.ServiceSettings.HideTrayIcon;
+            var autoStartResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryAutoStart });
+            AutoStartPath = autoStartResponse?.Content;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
     }
 
     async partial void OnStartWithWindowsEnabledChanged(bool value)
     {
+        if (_isLoading)
+        {
+            return;
+        }
+
         if (value)
         {
-            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.EnableAutoStart });
+            var success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.EnableAutoStart });
             if (!success)
             {
                 StartWithWindowsEnabled = false;
@@ -58,7 +73,7 @@ public partial class SettingsViewModel : ObservableObject
         }
         else
         {
-            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.DisableAutoStart });
+            var success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.DisableAutoStart });
             if (!success)
             {
                 StartWithWindowsEnabled = true;
@@ -71,9 +86,14 @@ public partial class SettingsViewModel : ObservableObject
 
     async partial void OnHideTrayIconEnabledChanged(bool value)
     {
+        if (_isLoading)
+        {
+            return;
+        }
+
         if (value)
         {
-            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.DisableTrayIcon });
+            var success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.DisableTrayIcon });
             if (!success)
             {
                 HideTrayIconEnabled = false;
@@ -81,7 +101,7 @@ public partial class SettingsViewModel : ObservableObject
         }
         else
         {
-            bool success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.EnableTrayIcon });
+            var success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.EnableTrayIcon });
             if (!success)
             {
                 HideTrayIconEnabled = true;

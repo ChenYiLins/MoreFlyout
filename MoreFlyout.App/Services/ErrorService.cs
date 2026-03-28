@@ -1,4 +1,5 @@
-﻿using MoreFlyout.App.Contracts.Services;
+﻿using System.Diagnostics;
+using MoreFlyout.App.Contracts.Services;
 using MoreFlyout.App.Helpers;
 
 namespace MoreFlyout.App.Services;
@@ -8,7 +9,7 @@ public class ErrorService : IErrorService
     private readonly Queue<DialogRequest> _dialogQueue = new();
     private bool _isDialogShowing;
 
-    public async Task ShowErrorMessage(Exception ex, XamlRoot xamlRoot, string location, string extraInfo = "")
+    public async Task ShowErrorMessageAsync(Exception ex, XamlRoot xamlRoot, string location, string extraInfo = "")
     {
         var error = "ErrorMessageBox_Content".GetLocalized() + $"\n\nError occurred in: {location}" + $"\nSource: {ex.Source}" + $"\nMessage: {ex.Message}";
         if (extraInfo.Length > 0)
@@ -57,8 +58,8 @@ public class ErrorService : IErrorService
 
             if (result == ContentDialogResult.Primary)
             {
-                //var issueUri = @"https://github.com/Armin2208/Windows-Auto-Night-Mode/issues";
-                //Process.Start(new ProcessStartInfo(issueUri) { UseShellExecute = true, Verb = "open" });
+                const string issueUri = @"https://github.com/ChenYiLins/MoreFlyout/issues";
+                Process.Start(new ProcessStartInfo(issueUri) { UseShellExecute = true, Verb = "open" });
             }
         }
 

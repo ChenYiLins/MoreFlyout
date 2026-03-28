@@ -33,6 +33,7 @@ public partial class App : Application
         services.AddSingleton<ICloseService, CloseService>();
         services.AddSingleton<IPageService, PageService>();
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<IErrorService, ErrorService>();
 
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AboutViewModel>();

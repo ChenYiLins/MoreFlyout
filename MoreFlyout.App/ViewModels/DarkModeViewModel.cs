@@ -2,6 +2,8 @@
 
 public partial class DarkModeViewModel: ObservableObject
 {
+    private bool _isLoading;
+
     [ObservableProperty]
     public partial bool DarkModeFlyoutEnabled { get; set; }
 
@@ -15,18 +17,36 @@ public partial class DarkModeViewModel: ObservableObject
 
     private void LoadConfig()
     {
-        DarkModeFlyoutEnabled = ConfigManager.Instance.DarkModeFlyoutSettings.IsEnabled;
-        FlyoutTimeoutValue = ConfigManager.Instance.DarkModeFlyoutSettings.TimeoutHiding;
+        _isLoading = true;
+        try
+        {
+            DarkModeFlyoutEnabled = ConfigManager.Instance.DarkModeFlyoutSettings.IsEnabled;
+            FlyoutTimeoutValue = ConfigManager.Instance.DarkModeFlyoutSettings.TimeoutHiding;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
     }
 
     partial void OnDarkModeFlyoutEnabledChanged(bool value)
     {
+        if (_isLoading)
+        {
+            return;
+        }
+
         ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled = value;
         ConfigManager.Save();
     }
 
     partial void OnFlyoutTimeoutValueChanged(int value)
     {
+        if (_isLoading)
+        {
+            return;
+        }
+
         ConfigManager.Instance.KeyIndicatorFlyoutSettings.TimeoutHiding = value;
         ConfigManager.Save();
     }
