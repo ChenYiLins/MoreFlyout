@@ -43,6 +43,13 @@ public enum MessageType
     StopServer,
 
     /// <summary>
+    /// Represents a server that processes and responds to query requests.
+    /// </summary>
+    QueryServer,
+
+    ServerResponse,
+
+    /// <summary>
     /// Error response
     /// </summary>
     Error

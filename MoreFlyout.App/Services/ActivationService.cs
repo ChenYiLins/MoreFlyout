@@ -2,6 +2,8 @@
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using MoreFlyout.App.Contracts.Services;
+using MoreFlyout.App.Helpers;
+using MoreFlyout.Comms;
 using Windows.Devices.Display;
 using Windows.Devices.Enumeration;
 using Windows.Graphics;
@@ -10,6 +12,8 @@ namespace MoreFlyout.App.Services;
 
 public class ActivationService(INavigationService navigationService) : IActivationService
 {
+    private ContentDialog? _serverInfoDialog;
+
     public async Task ActivateAsync(object activationArgs)
     {
         // Navigate to default page
@@ -20,6 +24,24 @@ public class ActivationService(INavigationService navigationService) : IActivati
 
         // Activate the MainWindow.
         App.MainWindow.Activate();
+
+        // Start Server and check result
+        var serverIssued = StartService();
+        if (serverIssued)
+        {
+            await InitalizeServerInfoDialogAsync();
+        }
+
+        // Verify Server is running
+        var serverVerified = await VerifyServiceStartupAsync();
+        if (serverIssued && !serverVerified)
+        {
+            ShowUnresponsiveInfo();
+        }
+        else if (serverIssued && serverVerified)
+        {
+            _serverInfoDialog?.Hide();
+        }
     }
 
     private static async Task MoveWindowAsync()
@@ -67,11 +89,54 @@ public class ActivationService(INavigationService navigationService) : IActivati
         return monitorSize;
     }
 
+    private async Task InitalizeServerInfoDialogAsync()
+    {
+        await WaitForXamlRootAsync();
+
+        _serverInfoDialog = new ContentDialog
+        {
+            Title = "LaunchingServer".GetLocalized(),
+            Content = new StackPanel
+            {
+                Orientation = Orientation.Vertical,
+                Spacing = 32,
+                Children =
+                {
+                    new TextBlock { Text = "Msg_NoServer".GetLocalized() },
+                    new ProgressBar { IsIndeterminate = true },
+                },
+            },
+            XamlRoot = App.MainWindow.Content.XamlRoot,
+        };
+
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(async () => await _serverInfoDialog.ShowAsync());
+    }
+
+    private void ShowUnresponsiveInfo()
+    {
+        _serverInfoDialog?.Content = new StackPanel
+        {
+            Orientation = Orientation.Vertical,
+            Spacing = 32,
+            Children =
+            {
+                new InfoBar
+                {
+                    Title = "ErrorOccurred".GetLocalized(),
+                    Severity = InfoBarSeverity.Error,
+                    IsOpen = true,
+                    IsClosable = false,
+                    Message = "Msg_ServiceUnresponsive".GetLocalized(),
+                },
+            },
+        };
+    }
+
     private static async Task WaitForXamlRootAsync()
     {
         var tcs = new TaskCompletionSource();
 
-        int attempts = 0;
+        var attempts = 0;
         const int maxAttempts = 50;
         const int delayMs = 50;
 
@@ -81,7 +146,7 @@ public class ActivationService(INavigationService navigationService) : IActivati
             {
                 while (attempts < maxAttempts)
                 {
-                    if (App.MainWindow.Content?.XamlRoot != null)
+                    if (App.MainWindow.Content?.XamlRoot is not null)
                     {
                         tcs.SetResult();
                         return;
@@ -99,43 +164,44 @@ public class ActivationService(INavigationService navigationService) : IActivati
 
     private static bool StartService()
     {
-        if (!Debugger.IsAttached)
+        if (Debugger.IsAttached)
         {
-            using Mutex serviceRunning = new(false, "330f929b-ac7a-4791-9958-f8b9268ca35d");
-            if (serviceRunning.WaitOne(TimeSpan.FromMilliseconds(100), false))
-            {
-                using Process svc = new();
-                svc.StartInfo.UseShellExecute = false;
-                //svc.StartInfo.FileName = Helper.ExecutionPathService;
-                svc.StartInfo.CreateNoWindow = true;
-                svc.Start();
-                serviceRunning.ReleaseMutex();
-                return true;
-            }
+            return false;
+        }
+
+        using Mutex serviceRunning = new(false, "24043650-DED6-4E6B-8AFF-6BB03DFE3BDA");
+        string serverFilePath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "server", "MoreFlyout.Server.exe");
+        if (serviceRunning.WaitOne(TimeSpan.FromMilliseconds(100), false))
+        {
+            using Process svc = new();
+            svc.StartInfo.UseShellExecute = false;
+            svc.StartInfo.FileName = serverFilePath;
+            svc.StartInfo.CreateNoWindow = true;
+            svc.Start();
+            serviceRunning.ReleaseMutex();
+            return true;
         }
         return false;
     }
 
     private static async Task<bool> VerifyServiceStartupAsync()
     {
-        //const int maxRetries = 5;
-        //ApiResponse response = null!;
-        //for (int i = 0; i < maxRetries; i++)
-        //{
-        //    response = await Task.Run(() => ApiResponse.FromString(MessageHandler<,>.Client.SendMessageAndGetReply(Command.Alive)));
-        //    if (response.StatusCode == StatusCode.Ok)
-        //        break;
-        //    await Task.Delay(1000);
-        //}
+        if (Debugger.IsAttached)
+        {
+            return false;
+        }
 
-        //if (response.StatusCode == StatusCode.Timeout)
-        //{
-        //    return false;
-        //}
-        //else
-        //{
-        //    return true;
-        //}
-        return true;
+        const int maxRetries = 5;
+        for (int i = 0; i < maxRetries; i++)
+        {
+            var serverResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryServer });
+            if (serverResponse is { Type: MessageType.ServerResponse, Content: ResponseType.Ok })
+            {
+                return true;
+            }
+            await Task.Delay(1000);
+        }
+
+        return false;
     }
 }

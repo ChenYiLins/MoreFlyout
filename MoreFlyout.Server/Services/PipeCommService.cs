@@ -59,8 +59,11 @@ public class PipeCommService
         switch (request.Type)
         {
             case MessageType.QueryAutoStart:
-                string autoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
+                string autoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "server", "MoreFlyout.Server.exe");
                 return new Message { Type = MessageType.AutoStartResponse, Content = autoStartPath };
+
+            case MessageType.QueryServer:
+                return new Message { Type = MessageType.ServerResponse, Content = ResponseType.Ok };
 
             default:
                 return null;
@@ -101,6 +104,9 @@ public class PipeCommService
 
                 case MessageType.StopServer:
                     HandleStopServer();
+                    break;
+
+                case MessageType.QueryServer:
                     break;
 
                 default:
