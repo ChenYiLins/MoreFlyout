@@ -129,6 +129,9 @@
   <data name="AutoStart" xml:space="preserve">
     <value>Auto start</value>
   </data>
+  <data name="AutoStartMoreFlyout" xml:space="preserve">
+    <value>Start MoreFlyout with Windows</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -150,6 +153,9 @@
   <data name="keyIndicator" xml:space="preserve">
     <value>key indicator</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
   <data name="LaunchingServer" xml:space="preserve">
     <value>Launching server</value>
   </data>
@@ -168,16 +174,46 @@
   <data name="PathAt" xml:space="preserve">
     <value>Path:</value>
   </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="RestartNeeded" xml:space="preserve">
+    <value>Need to restart the application</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Switch" xml:space="preserve">
     <value>Switch</value>
   </data>
   <data name="TimeoutNumberBox_Header" xml:space="preserve">
     <value>Unit: milliseconds</value>
   </data>
+  <data name="Msg_Translator" xml:space="preserve">
+    <value>Translator: ChenYiLins</value>
+  </data>
   <data name="UsedSoftware" xml:space="preserve">
     <value>Used software</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="Msg_PathNotFound" xml:space="preserve">
+    <value>The path to the Server was not found</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="OpenConfigFile" xml:space="preserve">
+    <value>Open config file</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="OpenConfigFolder" xml:space="preserve">
+    <value>Open config folder</value>
   </data>
 </root>

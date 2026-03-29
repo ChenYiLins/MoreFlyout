@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using MoreFlyout.Config;
 using MoreFlyout.Server.Services;
 using MoreFlyout.Server.Utils;
@@ -17,6 +16,20 @@ public partial class App : Application
     private static readonly Mutex Mutex = new(false, "24043650-DED6-4E6B-8AFF-6BB03DFE3BDA");
 
     private PipeCommService? _commService;
+
+    public static void ReleaseSingleInstanceMutex()
+    {
+        try
+        {
+            Mutex.ReleaseMutex();
+        }
+        catch
+        {
+            // May not be called from the owning thread; ignore.
+        }
+
+        Mutex.Dispose();
+    }
 
     public App()
     {
@@ -38,10 +51,19 @@ public partial class App : Application
 
     private static void CheckServiceMutex()
     {
-        if (!Mutex.WaitOne(TimeSpan.FromMilliseconds(50), false))
+        try
         {
-            Debug.WriteLine("Another instance of the service is already running. Exiting this instance");
-            Current.Exit();
+            if (!Mutex.WaitOne(TimeSpan.FromMilliseconds(50), false))
+            {
+                Debug.WriteLine("Another instance of the service is already running. Exiting this instance");
+                Mutex.Dispose();
+                Application.Current.Exit();
+            }
+        }
+        catch (AbandonedMutexException)
+        {
+            // Previous instance disposed the mutex during restart.
+            // WaitOne still grants ownership, so we can safely continue.
         }
     }
 
@@ -68,6 +90,8 @@ public partial class App : Application
 
         // Run as a tray service; lower priority so the OS deprioritizes us when idle
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
+
+        Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = ConfigManager.Instance.ServiceSettings.SelectedLanguageCode;
 
         if (ConfigManager.Instance.ServiceSettings.AutoStart && !AutoStart.CheckAutoStart())
         {
@@ -115,5 +139,12 @@ public partial class App : Application
         {
             Logger?.Error($"TrayIcon initialization exception: {ex.Message}");
         }
+    }
+
+    public static void Dispose()
+    {
+        App.FlyoutMoudles?.Dispose();
+        App.FlyoutControl?.Dispose();
+        App.TrayIcon?.Dispose();
     }
 }

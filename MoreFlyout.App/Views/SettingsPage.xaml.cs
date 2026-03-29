@@ -6,8 +6,7 @@ public sealed partial class SettingsPage : Page
 
     public SettingsPage()
     {
-        ViewModel = new SettingsViewModel();
+        ViewModel = App.GetService<SettingsViewModel>();
         InitializeComponent();
     }
 }
-

@@ -33,9 +33,9 @@ public enum MessageType
     AutoStartResponse,
 
     /// <summary>
-    /// Start the server
+    /// Restart the server
     /// </summary>
-    StartServer,
+    RestartServer,
 
     /// <summary>
     /// Stop the server

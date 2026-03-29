@@ -88,8 +88,9 @@ public class PipeClient
                 return null;
             }
         }
-        catch
+        catch(Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"Error in PipeClient SendMessageAndGetReplyAsync: {ex}");
             return null;
         }
     }

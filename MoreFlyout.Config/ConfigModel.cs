@@ -19,6 +19,10 @@ public class AppSettings
     /// </summary>
     /// <remarks>The value typical representatives different window states, the maximum is 0, the minimum is 1, and the normal state is 2.</remarks>
     public int WindowState { get; set; } = 2;
+
+    public string SelectedLanguageCode { get; set; } = "en-us";
+
+    public bool LanguageChanged { get; set; } = false;
 }
 
 public class ServiceSettings
@@ -38,6 +42,8 @@ public class ServiceSettings
     public bool HideTrayIcon { get; set; } = false;
 
     public bool GameMode { get; set; } = true;
+
+    public string SelectedLanguageCode { get; set; } = "en-us";
 }
 
 public class KeyIndicatorFlyoutSettings

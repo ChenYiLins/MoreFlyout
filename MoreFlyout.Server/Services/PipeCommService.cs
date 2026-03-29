@@ -1,4 +1,5 @@
-﻿using MoreFlyout.Comms;
+﻿using System.Diagnostics;
+using MoreFlyout.Comms;
 using MoreFlyout.Config;
 using MoreFlyout.Server.Utils;
 
@@ -59,7 +60,7 @@ public class PipeCommService
         switch (request.Type)
         {
             case MessageType.QueryAutoStart:
-                string autoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "server", "MoreFlyout.Server.exe");
+                string autoStartPath = CommonHelper.ExecutionPathServer;
                 return new Message { Type = MessageType.AutoStartResponse, Content = autoStartPath };
 
             case MessageType.QueryServer:
@@ -98,8 +99,8 @@ public class PipeCommService
                     HandleQueryAutoStart();
                     break;
 
-                case MessageType.StartServer:
-                    HandleStartServer();
+                case MessageType.RestartServer:
+                    HandleRestartServer();
                     break;
 
                 case MessageType.StopServer:
@@ -169,18 +170,21 @@ public class PipeCommService
 
     private void HandleQueryAutoStart()
     {
-        string autoStartPath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "app", "MoreFlyout.App.exe");
-        Logger.Info($"Auto starting status query: {autoStartPath}");
+        Logger.Info($"Auto starting status query: {CommonHelper.ExecutionPathServer}");
     }
 
-    private void HandleStartServer()
+    private void HandleRestartServer()
     {
-        Logger.Info("Server startup request has been processed.");
+        App.ReleaseSingleInstanceMutex();
+        Process.Start(new ProcessStartInfo(CommonHelper.ExecutionPathServer) { UseShellExecute = false });
+        App.Dispose();
+        Application.Current.Exit();
+        Logger.Info("Server restartup request has been processed.");
     }
 
     private void HandleStopServer()
     {
         Logger.Info("Server is about to stop.");
-        App.Current.Exit();
+        Application.Current.Exit();
     }
 }

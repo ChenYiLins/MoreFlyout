@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 using MoreFlyout.App.Contracts.Services;
+using MoreFlyout.App.Helpers;
 using MoreFlyout.App.Services;
 
 namespace MoreFlyout.App;
@@ -9,6 +11,8 @@ public partial class App : Application
     public static Window MainWindow { get; set; } = Window.Current;
     public IServiceProvider Services { get; }
 
+    private static readonly Mutex Mutex = new(false, "{A41B77F1-2820-4907-AF43-A9FD254D2ED2}");
+
     public static T GetService<T>()
         where T : class
     {
@@ -17,11 +21,49 @@ public partial class App : Application
             : service;
     }
 
+    public static void ReleaseSingleInstanceMutex()
+    {
+        try
+        {
+            Mutex.ReleaseMutex();
+        }
+        catch
+        {
+            // May not be called from the owning thread; ignore.
+        }
+
+        Mutex.Dispose();
+    }
+
     public App()
     {
+        CheckAppMutex();
+
         InitializeComponent();
 
         Services = ConfigureServices();
+    }
+
+    public static void CheckAppMutex()
+    {
+        try
+        {
+            if (!Mutex.WaitOne(TimeSpan.FromMilliseconds(50), false) && !Debugger.IsAttached)
+            {
+                List<Process> processes = [.. Process.GetProcessesByName("MoreFlyout.App")];
+                if (processes.Count > 0)
+                {
+                    Helpers.WindowHelper.BringProcessToFront(processes[0]);
+                    Mutex.Dispose();
+                    Application.Current.Exit();
+                }
+            }
+        }
+        catch (AbandonedMutexException)
+        {
+            // Previous instance disposed the mutex during restart.
+            // WaitOne still grants ownership, so we can safely continue.
+        }
     }
 
     private static ServiceProvider ConfigureServices()
@@ -48,6 +90,8 @@ public partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = LanguageHelper.GetDefaultLanguage();
+
         MainWindow = App.GetService<MainWindow>();
 
         MainWindow.Closed += MainWindow_Closed; ;

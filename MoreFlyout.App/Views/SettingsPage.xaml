@@ -8,6 +8,8 @@
     xmlns:helpers="using:MoreFlyout.App.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewModels="using:MoreFlyout.App.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewModels:SettingsViewModel}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:VisibilityNegationConverter x:Key="VisibilityNegationConverter" />
@@ -15,27 +17,20 @@
 
     <ScrollView>
 
-        <!--  TODO: Replace string to resources  -->
         <StackPanel Style="{StaticResource PageBaseStackPanelStyle}">
 
             <!--  Auto start  -->
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=AutoStart}" />
-            <controls:SettingsCard Header="Start MoreFlyout with Windows">
+            <controls:SettingsCard Header="{helpers:ResourceString Name=AutoStartMoreFlyout}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.StartWithWindowsEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
 
             <controls:SettingsCard>
                 <controls:SettingsCard.Header>
                     <StackPanel>
-                        <ProgressRing
-                            x:Name="ProgressAutostartDetails"
-                            IsIndeterminate="True"
-                            Visibility="{x:Bind ViewModel.ProgressAutostartDetailsVisibility, Mode=OneWay}" />
+                        <ProgressRing IsIndeterminate="True" Visibility="{x:Bind ViewModel.ProgressAutostartDetailsVisibility, Mode=OneWay}" />
 
-                        <Grid
-                            x:Name="GridAutostartDetails"
-                            ColumnSpacing="8"
-                            Visibility="{x:Bind ViewModel.ProgressAutostartDetailsVisibility, Converter={StaticResource VisibilityNegationConverter}, Mode=OneWay}">
+                        <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.ProgressAutostartDetailsVisibility, Converter={StaticResource VisibilityNegationConverter}, Mode=OneWay}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -52,14 +47,56 @@
 
                     </StackPanel>
                 </controls:SettingsCard.Header>
-                <Button Command="{x:Bind ViewModel.RefreshAutoStartPathCommand}" Content="Refresh" />
+                <Button Command="{x:Bind ViewModel.RefreshAutoStartPathCommand}" Content="{helpers:ResourceString Name=Refresh}" />
             </controls:SettingsCard>
 
             <!--  Settings  -->
-            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Settings" />
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Settings}" />
+
+            <!--  Hide tray icon  -->
             <controls:SettingsCard Header="Hide tray icon">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.HideTrayIconEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
+
+            <!--  Language  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Language}" />
+            <controls:SettingsCard
+                Description="{helpers:ResourceString Name=Msg_Translator}"
+                Header="{helpers:ResourceString Name=Language}"
+                HeaderIcon="{ui:FontIcon Glyph=&#xF2B7;}">
+                <ComboBox
+                    DisplayMemberPath="DisplayName"
+                    ItemsSource="{x:Bind ViewModel.LanguageOptions}"
+                    SelectedValue="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}"
+                    SelectedValuePath="CultureCode" />
+            </controls:SettingsCard>
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.IsLanguageChangedInfoBarOpen, Mode=OneWay}"
+                Message="{helpers:ResourceString Name=RestartNeeded}"
+                Severity="Warning">
+                <InfoBar.ActionButton>
+                    <Button
+                        MinWidth="120"
+                        HorizontalAlignment="Right"
+                        Command="{x:Bind ViewModel.RestartAppCommand}"
+                        Content="{helpers:ResourceString Name=Restart}"
+                        Style="{ThemeResource AccentButtonStyle}" />
+                </InfoBar.ActionButton>
+            </InfoBar>
+
+            <!--  Configuration  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Configuration}" />
+            <controls:SettingsCard
+                ActionIcon="{ui:FontIcon Glyph=&#xE932;}"
+                Command="{x:Bind ViewModel.OpenConfigFileCommand}"
+                Header="{helpers:ResourceString Name=OpenConfigFile}"
+                IsClickEnabled="True" />
+            <controls:SettingsCard
+                ActionIcon="{ui:FontIcon Glyph=&#xE838;}"
+                Command="{x:Bind ViewModel.OpenConfigFolderCommand}"
+                Header="{helpers:ResourceString Name=OpenConfigFolder}"
+                IsClickEnabled="True" />
 
         </StackPanel>
 
