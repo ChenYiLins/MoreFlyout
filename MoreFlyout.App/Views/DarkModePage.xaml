@@ -8,15 +8,32 @@
     xmlns:helpers="using:MoreFlyout.App.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewModels="using:MoreFlyout.App.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewModels:DarkModeViewModel}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </Page.Resources>
 
     <ScrollView>
         <StackPanel Style="{StaticResource PageBaseStackPanelStyle}">
 
-            <controls:SettingsCard Header="{helpers:ResourceString Name=AutoDarkMode}">
+            <InfoBar
+                IsClosable="False"
+                IsOpen="{x:Bind ViewModel.AutoDarkModeInstalled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                Message="{helpers:ResourceString Name=Msg_MissingADM}"
+                Severity="Warning">
+                <InfoBar.ActionButton>
+                    <HyperlinkButton
+                        MinWidth="120"
+                        HorizontalAlignment="Right"
+                        Content="{helpers:ResourceString Name=LearnMore}"
+                        NavigateUri="https://github.com/AutoDarkMode/Windows-Auto-Night-Mode" />
+                </InfoBar.ActionButton>
+            </InfoBar>
+
+            <controls:SettingsCard Header="{helpers:ResourceString Name=AutoDarkMode}" IsEnabled="{x:Bind ViewModel.AutoDarkModeInstalled, Mode=OneWay}">
                 <controls:SettingsCard.HeaderIcon>
                     <ImageIcon Source="/Assets/AutoDarkModeIcon.ico" />
                 </controls:SettingsCard.HeaderIcon>

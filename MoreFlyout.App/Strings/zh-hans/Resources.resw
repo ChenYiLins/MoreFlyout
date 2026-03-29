@@ -177,7 +177,7 @@
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="RestartNeeded" xml:space="preserve">
+  <data name="Msg_RestartNeeded" xml:space="preserve">
     <value>Need to restart the application</value>
   </data>
   <data name="Settings" xml:space="preserve">
@@ -215,5 +215,11 @@
   </data>
   <data name="OpenConfigFolder" xml:space="preserve">
     <value>Open config folder</value>
+  </data>
+  <data name="Msg_MissingADM" xml:space="preserve">
+    <value>Auto Dark Mode is not installed in your computer, so you cannot enable this option</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Learn more</value>
   </data>
 </root>

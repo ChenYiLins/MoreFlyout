@@ -73,7 +73,7 @@
             <InfoBar
                 IsClosable="False"
                 IsOpen="{x:Bind ViewModel.IsLanguageChangedInfoBarOpen, Mode=OneWay}"
-                Message="{helpers:ResourceString Name=RestartNeeded}"
+                Message="{helpers:ResourceString Name=Msg_RestartNeeded}"
                 Severity="Warning">
                 <InfoBar.ActionButton>
                     <Button
