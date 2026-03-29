@@ -2,17 +2,17 @@
 
 public class ConfigManager
 {
-    private static readonly string _ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MoreFlyout", "config.yaml");
-    private static readonly YamlStorage<ConfigModel> _Storage = new(_ConfigPath);
-    private static FileSystemWatcher? _FileWatcher;
-    private static Timer? _DebounceTimer;
-    private static readonly Lock _DebounceLock = new();
+    private static readonly string ConfigPath = CommonHelper.ConfigPath;
+    private static readonly YamlStorage<ConfigModel> Storage = new(ConfigPath);
+    private static FileSystemWatcher? FileWatcher;
+    private static Timer? DebounceTimer;
+    private static readonly Lock DebounceLock = new();
 
     public static event EventHandler? ConfigChanged;
 
     public static ConfigModel Instance
     {
-        get { return field ??= _Storage.Load(); }
+        get { return field ??= Storage.Load(); }
         private set;
     }
 
@@ -21,7 +21,7 @@ public class ConfigManager
     /// </summary>
     public static void Save()
     {
-        _Storage.Save(Instance);
+        Storage.Save(Instance);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class ConfigManager
     /// </summary>
     public static void Reload()
     {
-        Instance = _Storage.Load();
+        Instance = Storage.Load();
     }
 
     /// <summary>
@@ -37,13 +37,13 @@ public class ConfigManager
     /// </summary>
     public static void StartWatching()
     {
-        if (_FileWatcher is not null)
+        if (FileWatcher is not null)
         {
             return;
         }
 
-        var configDirectory = Path.GetDirectoryName(_ConfigPath);
-        var configFileName = Path.GetFileName(_ConfigPath);
+        var configDirectory = Path.GetDirectoryName(ConfigPath);
+        var configFileName = Path.GetFileName(ConfigPath);
 
         if (string.IsNullOrEmpty(configDirectory) || string.IsNullOrEmpty(configFileName))
         {
@@ -55,9 +55,9 @@ public class ConfigManager
             Directory.CreateDirectory(configDirectory);
         }
 
-        _FileWatcher = new FileSystemWatcher(configDirectory, configFileName) { NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size, EnableRaisingEvents = true };
+        FileWatcher = new FileSystemWatcher(configDirectory, configFileName) { NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size, EnableRaisingEvents = true };
 
-        _FileWatcher.Changed += OnConfigFileChanged;
+        FileWatcher.Changed += OnConfigFileChanged;
     }
 
     /// <summary>
@@ -65,23 +65,23 @@ public class ConfigManager
     /// </summary>
     public static void StopWatching()
     {
-        if (_FileWatcher is not null)
+        if (FileWatcher is not null)
         {
-            _FileWatcher.Changed -= OnConfigFileChanged;
-            _FileWatcher.Dispose();
-            _FileWatcher = null;
+            FileWatcher.Changed -= OnConfigFileChanged;
+            FileWatcher.Dispose();
+            FileWatcher = null;
         }
 
-        _DebounceTimer?.Dispose();
-        _DebounceTimer = null;
+        DebounceTimer?.Dispose();
+        DebounceTimer = null;
     }
 
     private static void OnConfigFileChanged(object sender, FileSystemEventArgs e)
     {
-        lock (_DebounceLock)
+        lock (DebounceLock)
         {
-            _DebounceTimer?.Dispose();
-            _DebounceTimer = new Timer(
+            DebounceTimer?.Dispose();
+            DebounceTimer = new Timer(
                 _ =>
                 {
                     try
