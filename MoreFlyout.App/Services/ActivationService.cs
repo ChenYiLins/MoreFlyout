@@ -170,12 +170,11 @@ public class ActivationService(INavigationService navigationService) : IActivati
         }
 
         using Mutex serviceRunning = new(false, "24043650-DED6-4E6B-8AFF-6BB03DFE3BDA");
-        string serverFilePath = Path.Combine(Directory.GetParent(Environment.ProcessPath!)!.Parent!.FullName, "server", "MoreFlyout.Server.exe");
         if (serviceRunning.WaitOne(TimeSpan.FromMilliseconds(100), false))
         {
             using Process svc = new();
             svc.StartInfo.UseShellExecute = false;
-            svc.StartInfo.FileName = serverFilePath;
+            svc.StartInfo.FileName = CommonHelper.ExecutionPathServer;
             svc.StartInfo.CreateNoWindow = true;
             svc.Start();
             serviceRunning.ReleaseMutex();
