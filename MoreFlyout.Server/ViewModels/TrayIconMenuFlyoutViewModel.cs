@@ -27,13 +27,11 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    private static void Close()
+    private void Close()
     {
-        App.FlyoutMoudles?.Dispose();
-        App.FlyoutControl?.Dispose();
-        App.TrayIcon?.Dispose();
+        App.Dispose();
 
-        App.Current.Exit();
+        Application.Current.Exit();
     }
 
     public TrayIconMenuFlyoutViewModel()

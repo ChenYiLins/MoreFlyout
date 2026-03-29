@@ -2,7 +2,7 @@
 
 public class ConfigManager
 {
-    private static readonly string _ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"MoreFlyout/config.yaml");
+    private static readonly string _ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MoreFlyout", "config.yaml");
     private static readonly YamlStorage<ConfigModel> _Storage = new(_ConfigPath);
     private static FileSystemWatcher? _FileWatcher;
     private static Timer? _DebounceTimer;

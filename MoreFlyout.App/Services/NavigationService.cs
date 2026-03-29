@@ -2,8 +2,8 @@
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using MoreFlyout.App.Contracts.Services;
-using Windows.System;
 using MoreFlyout.App.Models;
+using Windows.System;
 
 namespace MoreFlyout.App.Services;
 

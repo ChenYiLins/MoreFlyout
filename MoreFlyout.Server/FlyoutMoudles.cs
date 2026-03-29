@@ -59,7 +59,7 @@ public class FlyoutMoudles
 
                 var darkModeEnabled = _settings.GetColorValue(UIColorType.Foreground) == Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
 
-                App.FlyoutControl.DispatcherQueue.TryEnqueue(()=>
+                App.FlyoutControl.DispatcherQueue.TryEnqueue(() =>
                 {
                     App.FlyoutControl.RootContent = DarkModeFlyout;
                     DarkModeFlyout.InitializeFlyout(darkModeEnabled);

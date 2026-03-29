@@ -39,7 +39,7 @@ public sealed partial class KeyIndicatorFlyout : UserControl
             return;
         }
 
-        if(App.FlyoutControl.IsOpen)
+        if (App.FlyoutControl.IsOpen)
         {
             _timerHelper.Stop();
         }

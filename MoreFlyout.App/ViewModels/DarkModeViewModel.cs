@@ -1,6 +1,6 @@
 ﻿namespace MoreFlyout.App.ViewModels;
 
-public partial class DarkModeViewModel: ObservableObject
+public partial class DarkModeViewModel : ObservableObject
 {
     private bool _isLoading;
 

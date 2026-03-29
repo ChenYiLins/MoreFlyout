@@ -8,7 +8,7 @@ public class FlyoutTimerHelper
     public FlyoutTimerHelper(int timeoutMilliseconds, Action onTimeout)
     {
         _onTimeout = onTimeout ?? throw new ArgumentNullException(nameof(onTimeout));
-        
+
         _hiddenTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromMilliseconds(timeoutMilliseconds)

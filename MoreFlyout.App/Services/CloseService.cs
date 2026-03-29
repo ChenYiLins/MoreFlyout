@@ -33,7 +33,7 @@ public class CloseService : ICloseService
                 _ => 2,
             };
 
-            if(presenter.State == OverlappedPresenterState.Restored)
+            if (presenter.State == OverlappedPresenterState.Restored)
             {
                 var windowPositonAndSize = new int[4];
                 windowPositonAndSize[0] = App.MainWindow.AppWindow.Position.X;
