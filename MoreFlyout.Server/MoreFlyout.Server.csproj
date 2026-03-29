@@ -17,7 +17,7 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
-    <Version>2.3.3</Version>
+    <Version>2.3.4</Version>
   </PropertyGroup>
   <!-- Output directory-->
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
