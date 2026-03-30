@@ -222,4 +222,7 @@
   <data name="LearnMore" xml:space="preserve">
     <value>Learn more</value>
   </data>
+  <data name="GitHubRepo" xml:space="preserve">
+    <value>GitHub repository</value>
+  </data>
 </root>

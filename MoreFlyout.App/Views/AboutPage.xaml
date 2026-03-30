@@ -96,6 +96,14 @@
                 </controls:SettingsExpander.Items>
             </controls:SettingsExpander>
 
+            <!--  Github  -->
+            <controls:SettingsCard
+                ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                Command="{x:Bind ViewModel.OpenGitHubRepoCommand}"
+                Header="{helpers:ResourceString Name=GitHubRepo}"
+                HeaderIcon="{ui:FontIcon Glyph=&#xE774;}"
+                IsClickEnabled="True" />
+
         </StackPanel>
     </ScrollView>
 </Page>

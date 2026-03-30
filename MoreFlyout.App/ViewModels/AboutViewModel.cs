@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MoreFlyout.App.Utils;
+using Windows.System;
 
 namespace MoreFlyout.App.ViewModels;
 
@@ -28,6 +29,12 @@ public partial class AboutViewModel : ObservableObject
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = logDir, UseShellExecute = true });
         }
+    }
+
+    [RelayCommand]
+    private async Task OpenGitHubRepo()
+    {
+        await Launcher.LaunchUriAsync(new Uri("https://github.com/ChenYiLins/MoreFlyout"));
     }
 
     public AboutViewModel()
