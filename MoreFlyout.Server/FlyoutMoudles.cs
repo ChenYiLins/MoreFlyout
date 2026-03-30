@@ -14,22 +14,36 @@ namespace MoreFlyout.Server;
 
 public class FlyoutMoudles
 {
-    private static readonly Logger _Logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     // This static assignment will ensure GC doesn't move the procedure around
-    private static readonly HOOKPROC _KeyboardHook = KeyboardCallback;
-    private static readonly HOOKPROC _CallWndProcHook = CallWndProcCallback;
-    private static UnhookWindowsHookExSafeHandle? _KeyboardHookId;
-    private static UnhookWindowsHookExSafeHandle? _CallWndProcHookId;
+    private static readonly HOOKPROC KeyboardHook = KeyboardCallback;
+    private static readonly HOOKPROC CallWndProcHook = CallWndProcCallback;
+    private static UnhookWindowsHookExSafeHandle? KeyboardHookId;
+    private static UnhookWindowsHookExSafeHandle? CallWndProcHookId;
 
     private UISettings? _settings;
 
     [AllowNull]
-    private static KeyIndicatorFlyout KeyIndicatorFlyout { get => field ??= new(); set; }
+    private static KeyIndicatorFlyout KeyIndicatorFlyout
+    {
+        get => field ??= new KeyIndicatorFlyout();
+        set;
+    }
+
     [AllowNull]
-    private static MediaFlyout MediaFlyout { get => field ??= new(); set; }
+    private static MediaFlyout MediaFlyout
+    {
+        get => field ??= new MediaFlyout();
+        set;
+    }
+
     [AllowNull]
-    private static DarkModeFlyout DarkModeFlyout { get => field ??= new(); set; }
+    private static DarkModeFlyout DarkModeFlyout
+    {
+        get => field ??= new DarkModeFlyout();
+        set;
+    }
 
     public FlyoutMoudles()
     {
@@ -66,11 +80,11 @@ public class FlyoutMoudles
                 });
             };
 
-            _Logger.Info("Auto Dark Mode flyout is enabled");
+            Logger.Info("Auto Dark Mode flyout is enabled");
         }
         else
         {
-            _Logger.Info("Auto Dark Mode flyout is not enabled");
+            Logger.Info("Auto Dark Mode flyout is not enabled");
         }
     }
 
@@ -88,31 +102,31 @@ public class FlyoutMoudles
         if (ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled || ConfigManager.Instance.MediaFlyoutSettings.IsEnabled)
         {
             // Hook here (expected to be done in UI thread in our case, it facilitates everything)
-            _KeyboardHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _KeyboardHook, null, 0);
+            KeyboardHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, KeyboardHook, null, 0);
             var hModule = PInvoke.GetModuleHandle(Process.GetCurrentProcess().MainModule!.ModuleName);
-            _CallWndProcHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_CALLWNDPROC, _CallWndProcHook, hModule, PInvoke.GetCurrentThreadId());
+            CallWndProcHookId = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_CALLWNDPROC, CallWndProcHook, hModule, PInvoke.GetCurrentThreadId());
 
-            _Logger.Info("Key Indicator or Media flyouts is enabled, install hooks");
+            Logger.Info("Key Indicator or Media flyouts is enabled, install hooks");
         }
         else
         {
-            _Logger.Info("Key Indicator and Media flyouts is not enabled");
+            Logger.Info("Key Indicator and Media flyouts is not enabled");
         }
     }
 
     private static void TeardownStaticModules()
     {
         // Unhook on exit (more or less useless)
-        if (_KeyboardHookId is not null && !_KeyboardHookId.IsClosed)
+        if (KeyboardHookId is not null && !KeyboardHookId.IsClosed)
         {
-            _KeyboardHookId.Close();
-            _KeyboardHookId = null;
+            KeyboardHookId.Close();
+            KeyboardHookId = null;
         }
 
-        if (_CallWndProcHookId is not null && !_CallWndProcHookId.IsClosed)
+        if (CallWndProcHookId is not null && !CallWndProcHookId.IsClosed)
         {
-            _CallWndProcHookId.Close();
-            _CallWndProcHookId = null;
+            CallWndProcHookId.Close();
+            CallWndProcHookId = null;
         }
 
         KeyIndicatorFlyout = null;
@@ -125,7 +139,7 @@ public class FlyoutMoudles
         TeardownInstanceModules();
         TeardownStaticModules();
 
-        _Logger.Info("The program exits and all modules are removed");
+        Logger.Info("The program exits and all modules are removed");
 
         App.FlyoutControl?.DispatcherQueue.TryEnqueue(() =>
         {
@@ -140,13 +154,13 @@ public class FlyoutMoudles
         // Lucky us WH_KEYBOARD_LL calls back on initial hooking thread, ie: the UI thread
         // so no need for Dispatcher mambo jumbo
         KeyboardHookCallback(nCode, wParam, lParam);
-        return PInvoke.CallNextHookEx(_KeyboardHookId, nCode, wParam, lParam);
+        return PInvoke.CallNextHookEx(KeyboardHookId, nCode, wParam, lParam);
     }
 
     private static LRESULT CallWndProcCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
         KeyboardHookCallback(nCode, wParam, lParam);
-        return PInvoke.CallNextHookEx(_CallWndProcHookId, nCode, wParam, lParam);
+        return PInvoke.CallNextHookEx(CallWndProcHookId, nCode, wParam, lParam);
     }
 
     private static void KeyboardHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
@@ -166,10 +180,12 @@ public class FlyoutMoudles
                 KeyIndicatorFlyout.InitializeFlyout(vkCode);
             }
             else if (
-                (vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PLAY_PAUSE
-                || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_NEXT_TRACK
-                || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PREV_TRACK
-                || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_STOP) && ConfigManager.Instance.MediaFlyoutSettings.IsEnabled
+                (
+                    vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PLAY_PAUSE
+                    || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_NEXT_TRACK
+                    || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_PREV_TRACK
+                    || vkCode == (int)VIRTUAL_KEY.VK_MEDIA_STOP
+                ) && ConfigManager.Instance.MediaFlyoutSettings.IsEnabled
             )
             {
                 App.FlyoutControl.RootContent = MediaFlyout;

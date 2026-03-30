@@ -7,7 +7,7 @@ namespace MoreFlyout.Server.Services;
 
 public partial class MediaServices : IDisposable
 {
-    private static readonly Logger _Logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     private GlobalSystemMediaTransportControlsSessionManager? _sessionManager;
     private GlobalSystemMediaTransportControlsSession? _currentSession;
@@ -37,7 +37,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error(ex, $"Initialize SMTC failed: {ex.Message}");
+            Logger.Error(ex, $"Initialize SMTC failed: {ex.Message}");
             throw new Exception($"Initialize SMTC failed: {ex.Message}", ex);
         }
     }
@@ -77,7 +77,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error(ex, $"Update the current session failed: {ex.Message}");
+            Logger.Error(ex, $"Update the current session failed: {ex.Message}");
         }
     }
 
@@ -117,11 +117,11 @@ public partial class MediaServices : IDisposable
         }
         catch (COMException ex)
         {
-            _Logger.Error(ex, $"Failed to load media information: {ex.Message}");
+            Logger.Error(ex, $"Failed to load media information: {ex.Message}");
         }
         catch (Exception ex)
         {
-            _Logger.Error(ex, $"Exception occurred while loading media information: {ex.Message}");
+            Logger.Error(ex, $"Exception occurred while loading media information: {ex.Message}");
         }
     }
 
@@ -139,7 +139,7 @@ public partial class MediaServices : IDisposable
 
             if (stream is null || stream.Size == 0)
             {
-                _Logger.Warn("Thumbnail stream is null or has size 0");
+                Logger.Warn("Thumbnail stream is null or has size 0");
                 return null;
             }
 
@@ -160,7 +160,7 @@ public partial class MediaServices : IDisposable
                     }
                     catch (Exception ex)
                     {
-                        _Logger.Error(ex, $"Failed to set image source on UI thread: {ex.Message}");
+                        Logger.Error(ex, $"Failed to set image source on UI thread: {ex.Message}");
                         tcs.SetException(ex);
                     }
                 });
@@ -169,7 +169,7 @@ public partial class MediaServices : IDisposable
             }
             else
             {
-                _Logger.Warn("No DispatcherQueue provided, thumbnail loading may fail");
+                Logger.Warn("No DispatcherQueue provided, thumbnail loading may fail");
                 image = new BitmapImage();
                 await image.SetSourceAsync(stream);
             }
@@ -178,12 +178,12 @@ public partial class MediaServices : IDisposable
         }
         catch (COMException comEx)
         {
-            _Logger.Error($"Exception in loading thumbnail COM: 0x{comEx.HResult:X8} - {comEx.Message}");
+            Logger.Error($"Exception in loading thumbnail COM: 0x{comEx.HResult:X8} - {comEx.Message}");
             return null;
         }
         catch (Exception ex)
         {
-            _Logger.Error(ex, $"Failed to load thumbnail: {ex.Message}");
+            Logger.Error(ex, $"Failed to load thumbnail: {ex.Message}");
             return null;
         }
         finally
@@ -233,7 +233,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Failed to load playback status: {ex.Message}");
+            Logger.Error($"Failed to load playback status: {ex.Message}");
         }
     }
 
@@ -274,7 +274,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Failed to get playback status: {ex.Message}");
+            Logger.Error($"Failed to get playback status: {ex.Message}");
             return null;
         }
     }
@@ -310,7 +310,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Failed to load timeline information: {ex.Message}");
+            Logger.Error($"Failed to load timeline information: {ex.Message}");
         }
     }
 
@@ -342,7 +342,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Failed to load timeline information: {ex.Message}");
+            Logger.Error($"Failed to load timeline information: {ex.Message}");
             return null;
         }
     }
@@ -364,7 +364,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Playing failed: {ex.Message}");
+            Logger.Error($"Playing failed: {ex.Message}");
             return false;
         }
     }
@@ -382,7 +382,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Pause failed: {ex.Message}");
+            Logger.Error($"Pause failed: {ex.Message}");
             return false;
         }
     }
@@ -400,7 +400,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Toggle play/pause failed: {ex.Message}");
+            Logger.Error($"Toggle play/pause failed: {ex.Message}");
             return false;
         }
     }
@@ -418,7 +418,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"The next failed: {ex.Message}");
+            Logger.Error($"The next failed: {ex.Message}");
             return false;
         }
     }
@@ -436,7 +436,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"The previous failed: {ex.Message}");
+            Logger.Error($"The previous failed: {ex.Message}");
             return false;
         }
     }
@@ -454,7 +454,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Stop failed: {ex.Message}");
+            Logger.Error($"Stop failed: {ex.Message}");
             return false;
         }
     }
@@ -472,7 +472,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Failed to change playback position: {ex.Message}");
+            Logger.Error($"Failed to change playback position: {ex.Message}");
             return false;
         }
     }
@@ -489,7 +489,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Failed to change shuffle: {ex.Message}");
+            Logger.Error($"Failed to change shuffle: {ex.Message}");
             return false;
         }
     }
@@ -507,7 +507,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error($"Failed to change the repeating mode: {ex.Message}");
+            Logger.Error($"Failed to change the repeating mode: {ex.Message}");
             return false;
         }
     }
@@ -598,7 +598,7 @@ public partial class MediaServices : IDisposable
         }
         catch (Exception ex)
         {
-            _Logger.Error(ex, $"Exception occurred during disposal: {ex.Message}");
+            Logger.Error(ex, $"Exception occurred during disposal: {ex.Message}");
         }
 
         GC.SuppressFinalize(this);

@@ -12,8 +12,8 @@ public sealed partial class KeyIndicatorFlyout : UserControl
     public KeyIndicatorFlyoutViewModel ViewModel { get; set; }
 
     // Define key state
-    private static bool _NumKeyState;
-    private static bool _CapsKeyState;
+    private static bool NumKeyState;
+    private static bool CapsKeyState;
 
     // Timer helper for auto-hide functionality
     private readonly FlyoutTimerHelper _timerHelper;
@@ -28,8 +28,8 @@ public sealed partial class KeyIndicatorFlyout : UserControl
         _timerHelper = new FlyoutTimerHelper(timeoutSeconds, () => App.FlyoutControl?.Hide());
 
         // Get the key state
-        _NumKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_NUMLOCK) & 1) == 1;
-        _CapsKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_CAPITAL) & 1) == 1;
+        NumKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_NUMLOCK) & 1) == 1;
+        CapsKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_CAPITAL) & 1) == 1;
     }
 
     public void InitializeFlyout(int vkCode)
@@ -48,13 +48,13 @@ public sealed partial class KeyIndicatorFlyout : UserControl
 
         if (vkCode == (int)VIRTUAL_KEY.VK_NUMLOCK)
         {
-            _NumKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_NUMLOCK) & 1) == 1;
-            currentState = _NumKeyState;
+            NumKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_NUMLOCK) & 1) == 1;
+            currentState = NumKeyState;
         }
         else if (vkCode == (int)VIRTUAL_KEY.VK_CAPITAL)
         {
-            _CapsKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_CAPITAL) & 1) == 1;
-            currentState = _CapsKeyState;
+            CapsKeyState = (PInvoke.GetKeyState((int)VIRTUAL_KEY.VK_CAPITAL) & 1) == 1;
+            currentState = CapsKeyState;
         }
 
         ViewModel.Update(vkCode, currentState);

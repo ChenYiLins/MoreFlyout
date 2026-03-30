@@ -4,7 +4,7 @@ namespace MoreFlyout.Server.Helpers;
 
 internal static class AnimatedHelpers
 {
-    private static Storyboard CreateStoryboard(DependencyObject target, string property, int from, int to, double durationMs, double cp1x, double cp1y, double cp2x, double cp2y)
+    private static Storyboard CreateStoryboard(DependencyObject target, string property, int from, int to, double durationMs, double cp1X, double cp1Y, double cp2X, double cp2Y)
     {
         var storyboard = new Storyboard();
         var keyFrames = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
@@ -13,7 +13,7 @@ internal static class AnimatedHelpers
         keyFrames.KeyFrames.Add(
             new SplineDoubleKeyFrame()
             {
-                KeySpline = new() { ControlPoint1 = new(cp1x, cp1y), ControlPoint2 = new(cp2x, cp2y) },
+                KeySpline = new() { ControlPoint1 = new(cp1X, cp1Y), ControlPoint2 = new(cp2X, cp2Y) },
                 KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(durationMs)),
                 Value = to,
             }

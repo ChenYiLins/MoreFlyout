@@ -6,9 +6,9 @@ namespace MoreFlyout.Server.Helpers;
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
 public sealed partial class ResourceString : MarkupExtension
 {
-    private static readonly ResourceLoader _ResourceLoader = new();
+    private static readonly ResourceLoader ResourceLoader = new();
 
     public string Name { get; set; } = string.Empty;
 
-    protected override object ProvideValue() => _ResourceLoader.GetString(Name);
+    protected override object ProvideValue() => ResourceLoader.GetString(Name);
 }
