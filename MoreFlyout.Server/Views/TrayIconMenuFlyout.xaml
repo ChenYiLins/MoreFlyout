@@ -10,7 +10,7 @@
     <Page.ContextFlyout>
         <MenuFlyout>
 
-            <MenuFlyoutItem Text="{helpers:ResourceString Name=Settings}">
+            <MenuFlyoutItem Text="{helpers:ResourceString Name=Settings}" Command="{x:Bind ViewModel.OpenSettingsCommand}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE713;" />
                 </MenuFlyoutItem.Icon>

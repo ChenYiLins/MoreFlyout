@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using System.Diagnostics;
+using CommunityToolkit.Mvvm.Input;
 using MoreFlyout.Config;
 
 namespace MoreFlyout.Server.ViewModels;
@@ -6,6 +7,7 @@ namespace MoreFlyout.Server.ViewModels;
 public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
 {
     private bool _isInitializing;
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     [ObservableProperty]
     public partial bool KeyIndicatorFlyoutEnabled { get; set; }
@@ -17,12 +19,25 @@ public partial class TrayIconMenuFlyoutViewModel : ObservableRecipient
     public partial bool DarkModeFlyoutEnabled { get; set; }
 
     [RelayCommand]
-    private static void OpenLogFile()
+    private void OpenSettings()
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo { FileName = CommonHelper.ExecutionPathApp, UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"Failed to open MoreFlyout.App: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
+    private void OpenLogFile()
     {
         var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"MoreFlyout/service.log");
         if (File.Exists(logDir))
         {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = logDir, UseShellExecute = true });
+            Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = logDir, UseShellExecute = true });
         }
     }
 
