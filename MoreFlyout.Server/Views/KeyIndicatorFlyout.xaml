@@ -14,8 +14,8 @@
     </UserControl.Resources>
 
     <Grid
-        Width="196"
-        Height="48"
+        MinWidth="196"
+        MinHeight="48"
         Padding="8"
         ColumnSpacing="8"
         PointerEntered="KeyIndicatorGrid_PointerEntered"
