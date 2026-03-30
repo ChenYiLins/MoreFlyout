@@ -8,8 +8,6 @@
     xmlns:helpers="using:MoreFlyout.App.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
-    xmlns:viewModels="using:MoreFlyout.App.ViewModels"
-    d:DataContext="{d:DesignInstance Type=viewModels:MediaViewModel}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
