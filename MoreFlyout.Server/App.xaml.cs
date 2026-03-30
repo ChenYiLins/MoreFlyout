@@ -37,14 +37,14 @@ public partial class App : Application
 
         InitializeComponent();
 
-        //Set up Logger
-        var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MoreFlyout");
-        NLog.GlobalDiagnosticsContext.Set("logDir", logDir);
-
-        Logger = LogManager.GetCurrentClassLogger();
-        Logger.Info("NLog initialized successfully, and automatic achieving has been started (reserved for 7 days)");
-
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+
+        //Set up Logger
+        NLog.GlobalDiagnosticsContext.Set("logDir", CommonHelper.ConfigFolderPath);
+        LogManager.AutoShutdown = false;
+        Logger = LogManager.GetCurrentClassLogger();
+        Logger.Info("Application started");
+        Logger.Info("NLog initialized successfully, and automatic achieving has been started (reserved for 7 days)");
 
         UnhandledException += App_UnhandledException;
     }
@@ -76,6 +76,7 @@ public partial class App : Application
         _commService?.Stop();
 
         Logger?.Info("Application is exiting");
+        Logger?.Info("----------------------");
         LogManager.Shutdown();
     }
 
