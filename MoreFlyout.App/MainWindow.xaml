@@ -62,17 +62,27 @@
                     Tag="Home" />
 
                 <NavigationViewItem
-                    Content="{helpers:ResourceString Name=keyIndicator}"
-                    Icon="{ui:FontIcon Glyph=&#xE92E;}"
-                    Tag="KeyIndicator" />
-                <NavigationViewItem
-                    Content="{helpers:ResourceString Name=Media}"
-                    Icon="{ui:FontIcon Glyph=&#xE8D6;}"
-                    Tag="Media" />
-                <NavigationViewItem
-                    Content="{helpers:ResourceString Name=AutoDarkMode}"
-                    Icon="{ui:FontIcon Glyph=&#xE793;}"
-                    Tag="DarkMode" />
+                    Content="{helpers:ResourceString Name=Condition}"
+                    Icon="{ui:FontIcon Glyph=&#xE835;}"
+                    Tag="Condition" />
+
+                <NavigationViewItem Content="{helpers:ResourceString Name=Module}" Icon="{ui:FontIcon Glyph=&#xE71D;}">
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem
+                            Content="{helpers:ResourceString Name=keyIndicator}"
+                            Icon="{ui:FontIcon Glyph=&#xE92E;}"
+                            Tag="KeyIndicator" />
+                        <NavigationViewItem
+                            Content="{helpers:ResourceString Name=Media}"
+                            Icon="{ui:FontIcon Glyph=&#xE8D6;}"
+                            Tag="Media" />
+                        <NavigationViewItem
+                            Content="{helpers:ResourceString Name=AutoDarkMode}"
+                            Icon="{ui:FontIcon Glyph=&#xE793;}"
+                            Tag="DarkMode" />
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>

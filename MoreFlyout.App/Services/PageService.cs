@@ -12,6 +12,7 @@ public class PageService : IPageService
     public PageService()
     {
         Configure<HomeViewModel, HomePage>();
+        Configure<ConditionViewModel,ConditionPage>();
         Configure<AboutViewModel, AboutPage>();
         Configure<SettingsViewModel, SettingsPage>();
 

@@ -78,6 +78,7 @@ public partial class App : Application
         services.AddSingleton<IErrorService, ErrorService>();
 
         services.AddTransient<HomeViewModel>();
+        services.AddTransient<ConditionViewModel>();
         services.AddTransient<AboutViewModel>();
         services.AddTransient<SettingsViewModel>();
 
