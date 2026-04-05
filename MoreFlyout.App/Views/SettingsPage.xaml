@@ -52,7 +52,7 @@
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Settings}" />
 
             <!--  Hide tray icon  -->
-            <controls:SettingsCard Header="Hide tray icon">
+            <controls:SettingsCard Header="{helpers:ResourceString Name=HideTrayIcon}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.HideTrayIconEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
 

@@ -10,5 +10,3 @@ public sealed partial class AboutPage : Page
         InitializeComponent();
     }
 }
-
-

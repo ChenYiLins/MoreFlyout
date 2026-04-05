@@ -19,11 +19,8 @@
                     Height="64"
                     Source="/Assets/AppIcon.png" />
                 <StackPanel Orientation="Vertical" Spacing="8">
-                    <TextBlock
-                        x:Name="AppNameTextBlock"
-                        Style="{StaticResource TitleTextBlockStyle}"
-                        Text="MoreFlyout" />
-                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="© 2026 ChenYiLins and community partner" />
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="MoreFlyout" />
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{helpers:ResourceString Name=Msg_AboutMoreFlyout}" />
                 </StackPanel>
             </StackPanel>
 
@@ -34,7 +31,7 @@
                 HeaderIcon="{ui:FontIcon Glyph=&#xe946;}"
                 IsExpanded="True">
                 <!--  Click="CopyVersionInfoButton_Click"  -->
-                <Button x:Name="CopyVersionInfoButton" Content="{helpers:ResourceString Name=Copy}" />
+                <Button Content="{helpers:ResourceString Name=Copy}" />
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard ContentAlignment="Left">
                         <StackPanel

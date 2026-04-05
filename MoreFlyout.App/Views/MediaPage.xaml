@@ -20,7 +20,7 @@
                 <ToggleSwitch IsOn="{x:Bind ViewModel.MediaFlyoutEnabled, Mode=TwoWay}" />
             </controls:SettingsCard>
 
-            <controls:SettingsCard Header="Show advanced options" HeaderIcon="{ui:FontIcon Glyph=&#xE8A1;}">
+            <controls:SettingsCard Header="{helpers:ResourceString Name=ShowAdvancedOptions}" HeaderIcon="{ui:FontIcon Glyph=&#xE8A1;}">
                 <ToggleSwitch x:Name="AdvanceOptionsToggleSwitch" />
             </controls:SettingsCard>
 
