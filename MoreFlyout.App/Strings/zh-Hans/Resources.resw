@@ -121,108 +121,123 @@
     <value>关于</value>
   </data>
   <data name="AppearanceAndBehavior" xml:space="preserve">
-    <value>Appearance and behavior</value>
+    <value>外观和行为</value>
   </data>
   <data name="AutoDarkMode" xml:space="preserve">
-    <value>Auto dark mode</value>
+    <value>Auto Dark Mode</value>
   </data>
   <data name="AutoStart" xml:space="preserve">
-    <value>Auto start</value>
+    <value>自动启动</value>
   </data>
   <data name="AutoStartMoreFlyout" xml:space="preserve">
-    <value>Start MoreFlyout with Windows</value>
+    <value>MoreFlyout将跟随Windows启动</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>复制</value>
   </data>
   <data name="EnableMoreFlyout" xml:space="preserve">
-    <value>Enable MoreFlyout</value>
+    <value>启用MoreFlyout</value>
   </data>
   <data name="ErrorMessageBox_Content" xml:space="preserve">
-    <value>Somethings wrong</value>
+    <value>发生了一些错误</value>
   </data>
   <data name="ErrorOccurred" xml:space="preserve">
     <value>发生错误</value>
   </data>
   <data name="FlyoutTimeout" xml:space="preserve">
-    <value>Flyout residence time</value>
+    <value>浮出控件停留时间</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Home</value>
+    <value>主页面</value>
   </data>
   <data name="keyIndicator" xml:space="preserve">
     <value>键盘指示器</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>语言</value>
   </data>
   <data name="LaunchingServer" xml:space="preserve">
-    <value>Launching server</value>
+    <value>启动服务中</value>
   </data>
   <data name="Media" xml:space="preserve">
     <value>媒体</value>
   </data>
   <data name="Msg_NoServer" xml:space="preserve">
-    <value>Server is not running, starting server.</value>
+    <value>服务没有运行，正在启用服务</value>
   </data>
   <data name="Msg_ServiceUnresponsive" xml:space="preserve">
-    <value>The Server was not started successfully or there was a problem that led to no response. Please close the program and try again.</value>
+    <value>发生了一些问题导致服务启动失败了。请关闭程序后再尝试一下。</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>打开日志文件</value>
   </data>
   <data name="PathAt" xml:space="preserve">
-    <value>Path:</value>
+    <value>路径：</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>刷新</value>
   </data>
   <data name="Msg_RestartNeeded" xml:space="preserve">
-    <value>Need to restart the application</value>
+    <value>需要重启应用</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>设置</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>切换</value>
   </data>
   <data name="TimeoutNumberBox_Header" xml:space="preserve">
     <value>单位: 毫秒</value>
   </data>
   <data name="Msg_Translator" xml:space="preserve">
-    <value>Translator: ChenYiLins</value>
+    <value>翻译者：陈翼霖</value>
   </data>
   <data name="UsedSoftware" xml:space="preserve">
-    <value>Used software</value>
+    <value>使用的第三方库</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>版本</value>
   </data>
   <data name="Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>重启</value>
   </data>
   <data name="Msg_PathNotFound" xml:space="preserve">
-    <value>The path to the Server was not found</value>
+    <value>没有找到服务的路径</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>载入中...</value>
   </data>
   <data name="OpenConfigFile" xml:space="preserve">
-    <value>Open config file</value>
+    <value>打开配置文件</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value>Configuration</value>
+    <value>配置</value>
   </data>
   <data name="OpenConfigFolder" xml:space="preserve">
-    <value>Open config folder</value>
+    <value>打开配置文件夹</value>
   </data>
   <data name="Msg_MissingADM" xml:space="preserve">
-    <value>Auto Dark Mode is not installed in your computer, so you cannot enable this option</value>
+    <value>你的电脑并没有安装Auto Dark Mode，所以你不能启用这个选项</value>
   </data>
   <data name="LearnMore" xml:space="preserve">
-    <value>Learn more</value>
+    <value>了解更多</value>
   </data>
   <data name="GitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>GitHub仓库</value>
+  </data>
+  <data name="ShowAdvancedOptions" xml:space="preserve">
+    <value>显示高级选项</value>
+  </data>
+  <data name="HideTrayIcon" xml:space="preserve">
+    <value>隐藏托盘图标</value>
+  </data>
+  <data name="Msg_AboutMoreFlyout" xml:space="preserve">
+    <value>© 2026 陈翼霖和社区伙伴们</value>
+  </data>
+  <data name="Module" xml:space="preserve">
+    <value>模块</value>
+  </data>
+  <data name="Condition" xml:space="preserve">
+    <value>条件</value>
   </data>
 </root>

@@ -117,127 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
+  <data name="StatusWords_NumUnlock" xml:space="preserve">
+    <value>数字键未锁定</value>
   </data>
-  <data name="AppearanceAndBehavior" xml:space="preserve">
-    <value>Appearance and behavior</value>
+  <data name="StatusWords_Numlock" xml:space="preserve">
+    <value>数字键已锁定</value>
   </data>
-  <data name="AutoDarkMode" xml:space="preserve">
-    <value>Auto Dark Mode</value>
+  <data name="StatusWords_CapsUnlock" xml:space="preserve">
+    <value>大写键未锁定</value>
   </data>
-  <data name="AutoStart" xml:space="preserve">
-    <value>Auto start</value>
+  <data name="StatusWords_Capslock" xml:space="preserve">
+    <value>大写键已锁定</value>
   </data>
-  <data name="AutoStartMoreFlyout" xml:space="preserve">
-    <value>Start MoreFlyout with Windows</value>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
   </data>
-  <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="EnableMoreFlyout" xml:space="preserve">
-    <value>Enable MoreFlyout</value>
-  </data>
-  <data name="ErrorMessageBox_Content" xml:space="preserve">
-    <value>Somethings wrong</value>
-  </data>
-  <data name="ErrorOccurred" xml:space="preserve">
-    <value>Error occurred</value>
-  </data>
-  <data name="FlyoutTimeout" xml:space="preserve">
-    <value>Flyout residence time</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="keyIndicator" xml:space="preserve">
-    <value>key indicator</value>
-  </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="LaunchingServer" xml:space="preserve">
-    <value>Launching server</value>
-  </data>
-  <data name="Media" xml:space="preserve">
-    <value>Media</value>
-  </data>
-  <data name="Msg_NoServer" xml:space="preserve">
-    <value>Server is not running, starting server.</value>
-  </data>
-  <data name="Msg_ServiceUnresponsive" xml:space="preserve">
-    <value>The Server was not started successfully or there was a problem that led to no response. Please close the program and try again.</value>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
     <value>Open log file</value>
   </data>
-  <data name="PathAt" xml:space="preserve">
-    <value>Path:</value>
+  <data name="KeyIndicator" xml:space="preserve">
+    <value>Key indicator</value>
   </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+  <data name="Media" xml:space="preserve">
+    <value>Media</value>
   </data>
-  <data name="Msg_RestartNeeded" xml:space="preserve">
-    <value>Need to restart the application</value>
+  <data name="DarkMode" xml:space="preserve">
+    <value>Dark mode</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+  <data name="LightMode" xml:space="preserve">
+    <value>Light mode</value>
   </data>
-  <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Toggle theme</value>
   </data>
-  <data name="TimeoutNumberBox_Header" xml:space="preserve">
-    <value>Unit: milliseconds</value>
+  <data name="ForceLightTheme" xml:space="preserve">
+    <value>Force light theme</value>
   </data>
-  <data name="Msg_Translator" xml:space="preserve">
-    <value>Translator: ChenYiLins</value>
+  <data name="ForceDarkTheme" xml:space="preserve">
+    <value>Force dark theme</value>
   </data>
-  <data name="UsedSoftware" xml:space="preserve">
-    <value>Used software</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>Version</value>
-  </data>
-  <data name="Restart" xml:space="preserve">
-    <value>Restart</value>
-  </data>
-  <data name="Msg_PathNotFound" xml:space="preserve">
-    <value>The path to the Server was not found</value>
-  </data>
-  <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="OpenConfigFile" xml:space="preserve">
-    <value>Open config file</value>
-  </data>
-  <data name="Configuration" xml:space="preserve">
-    <value>Configuration</value>
-  </data>
-  <data name="OpenConfigFolder" xml:space="preserve">
-    <value>Open config folder</value>
-  </data>
-  <data name="Msg_MissingADM" xml:space="preserve">
-    <value>Auto Dark Mode is not installed in your computer, so you cannot enable this option</value>
-  </data>
-  <data name="LearnMore" xml:space="preserve">
-    <value>Learn more</value>
-  </data>
-  <data name="GitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
-  </data>
-  <data name="ShowAdvancedOptions" xml:space="preserve">
-    <value>Show advanced options</value>
-  </data>
-  <data name="HideTrayIcon" xml:space="preserve">
-    <value>Hide tray icon</value>
-  </data>
-  <data name="Msg_AboutMoreFlyout" xml:space="preserve">
-    <value>© 2026 ChenYiLins and community partner</value>
-  </data>
-  <data name="Module" xml:space="preserve">
-    <value>Module</value>
-  </data>
-  <data name="Condition" xml:space="preserve">
-    <value>Condition</value>
+  <data name="PauseAutoSwitch" xml:space="preserve">
+    <value>Pause auto switch</value>
   </data>
 </root>

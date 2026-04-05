@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
   </data>
   <data name="AppearanceAndBehavior" xml:space="preserve">
     <value>Appearance and behavior</value>
@@ -142,7 +142,7 @@
     <value>Somethings wrong</value>
   </data>
   <data name="ErrorOccurred" xml:space="preserve">
-    <value>Error occurred</value>
+    <value>发生错误</value>
   </data>
   <data name="FlyoutTimeout" xml:space="preserve">
     <value>Flyout residence time</value>
@@ -151,7 +151,7 @@
     <value>Home</value>
   </data>
   <data name="keyIndicator" xml:space="preserve">
-    <value>key indicator</value>
+    <value>键盘指示器</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -160,7 +160,7 @@
     <value>Launching server</value>
   </data>
   <data name="Media" xml:space="preserve">
-    <value>Media</value>
+    <value>媒体</value>
   </data>
   <data name="Msg_NoServer" xml:space="preserve">
     <value>Server is not running, starting server.</value>
@@ -187,7 +187,7 @@
     <value>Switch</value>
   </data>
   <data name="TimeoutNumberBox_Header" xml:space="preserve">
-    <value>Unit: milliseconds</value>
+    <value>单位: 毫秒</value>
   </data>
   <data name="Msg_Translator" xml:space="preserve">
     <value>Translator: ChenYiLins</value>
@@ -196,7 +196,7 @@
     <value>Used software</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>Version</value>
+    <value>版本</value>
   </data>
   <data name="Restart" xml:space="preserve">
     <value>Restart</value>

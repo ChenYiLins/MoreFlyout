@@ -133,33 +133,33 @@
     <value>设置</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>关闭</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>打开日志文件</value>
   </data>
   <data name="KeyIndicator" xml:space="preserve">
-    <value>Key indicator</value>
+    <value>键盘指示器</value>
   </data>
   <data name="Media" xml:space="preserve">
-    <value>Media</value>
+    <value>媒体</value>
   </data>
   <data name="DarkMode" xml:space="preserve">
-    <value>Dark mode</value>
+    <value>深色模式</value>
   </data>
   <data name="LightMode" xml:space="preserve">
-    <value>Light mode</value>
+    <value>浅色模式</value>
   </data>
   <data name="ToggleTheme" xml:space="preserve">
-    <value>Toggle theme</value>
+    <value>切换主题</value>
   </data>
   <data name="ForceLightTheme" xml:space="preserve">
-    <value>Force light theme</value>
+    <value>强制浅色模式</value>
   </data>
   <data name="ForceDarkTheme" xml:space="preserve">
-    <value>Force dark theme</value>
+    <value>强制深色模式</value>
   </data>
   <data name="PauseAutoSwitch" xml:space="preserve">
-    <value>Pause auto switch</value>
+    <value>暂停自动切换</value>
   </data>
 </root>

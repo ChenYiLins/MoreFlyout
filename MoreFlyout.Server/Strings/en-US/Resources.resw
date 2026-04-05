@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="StatusWords_NumUnlock" xml:space="preserve">
-    <value>The number keys are not locked</value>
+    <value>The number keys are unlocked</value>
   </data>
   <data name="StatusWords_Numlock" xml:space="preserve">
     <value>The number keys are locked</value>
   </data>
   <data name="StatusWords_CapsUnlock" xml:space="preserve">
-    <value>The caps keys are not locked</value>
+    <value>The caps keys are unlocked</value>
   </data>
   <data name="StatusWords_Capslock" xml:space="preserve">
     <value>The caps keys are locked</value>
