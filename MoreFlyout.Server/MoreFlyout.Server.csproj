@@ -17,7 +17,8 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
-    <Version>2.3.12</Version>
+    <Version>2.3.13</Version>
+    <CsWinRTIncludes>Microsoft.UI.Content.ContentExternalBackdropLink;Microsoft.UI.Content.IContentExternalBackdropLink</CsWinRTIncludes>
   </PropertyGroup>
   <!-- Output directory-->
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -30,8 +31,16 @@
     <OutputPath>..\bin\Release\MoreFlyout\server\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <CsWinRTInputs Include="Microsoft.UI.winmd" />
     <None Include="Assets\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="Assets\TestBackground.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -41,21 +50,13 @@
     <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" Version="0.1.251217-build.2433" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.275" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.0-experimental5" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
     <PackageReference Include="NLog" Version="6.1.3" />
     <PackageReference Include="WinUIEx" Version="2.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoreFlyout.Config\MoreFlyout.Config.csproj" />
     <ProjectReference Include="..\MoreFlyout.Comms\MoreFlyout.Comms.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Assets\TestBackground.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
 </Project>

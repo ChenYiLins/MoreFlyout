@@ -17,11 +17,6 @@ public sealed partial class FlyoutControl : UserControl
     private bool _isBackdropLinkAttached;
     private bool _isPopupAnimationPlaying;
 
-    internal ContentBackdropManager? BackdropManager { get; private set; }
-
-    [GeneratedDependencyProperty(DefaultValue = BackdropKind.Acrylic)]
-    public partial BackdropKind BackdropKind { get; set; }
-
     [GeneratedDependencyProperty]
     public partial UIElement? RootContent { get; set; }
 
@@ -54,7 +49,6 @@ public sealed partial class FlyoutControl : UserControl
                 await Task.Delay(1);
 
                 UpdateFlyoutTheme();
-                UpdateBackdropManager(true);
                 UpdateFlyoutRegion();
 
                 // Ensure to hide first
@@ -89,77 +83,10 @@ public sealed partial class FlyoutControl : UserControl
         storyboard.Completed += CloseAnimationStoryboard_Completed;
     }
 
-    private void UpdateBackdropManager(bool coerce = false)
-    {
-        var isTaskbarLight = SystemTheme.GetCurrentSystemTheme() == ElementTheme.Light;
-        //var isTaskbarColorPrevalence = SystemTheme.IsTaskbarColorPrevalenceEnabled();
-        var isTaskbarColorPrevalence = false;
-        bool shouldUpdateBackdrop = _wasTaskbarLightLastTimeChecked != isTaskbarLight || _wasTaskbarColorPrevalenceLastTimeChecked != isTaskbarColorPrevalence;
-        _wasTaskbarLightLastTimeChecked = isTaskbarLight;
-        _wasTaskbarColorPrevalenceLastTimeChecked = isTaskbarColorPrevalence;
-
-        if (!shouldUpdateBackdrop && !coerce)
-        {
-            return;
-        }
-
-        var controller = BackdropControllerHelpers.CreateController(BackdropKind, isTaskbarLight, isTaskbarColorPrevalence, Resources);
-        if (controller is null)
-        {
-            return;
-        }
-
-        BackdropManager?.Dispose();
-        BackdropManager = null;
-        BackdropManager = ContentBackdropManager.Create(controller, ElementCompositionPreview.GetElementVisual(IslandsGrid).Compositor, ActualTheme);
-
-        UpdateBackdrop(true, true);
-    }
-
     private void Content_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         UpdateBackdropVisual();
         UpdateFlyoutRegion();
-    }
-
-    private void UpdateBackdrop(bool isEnabled, bool coerce = false)
-    {
-        if (isEnabled)
-        {
-            if (_isBackdropLinkAttached)
-            {
-                if (coerce)
-                {
-                    if (_backdropLink is null)
-                    {
-                        return;
-                    }
-
-                    BackdropManager?.RemoveLink(_backdropLink);
-                    _backdropLink = null;
-                    _isBackdropLinkAttached = false;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            _backdropLink = BackdropManager?.CreateLink();
-            _isBackdropLinkAttached = true;
-            UpdateBackdropVisual();
-        }
-        else
-        {
-            if (_backdropLink is null)
-            {
-                return;
-            }
-
-            BackdropManager?.RemoveLink(_backdropLink);
-            _backdropLink = null;
-            _isBackdropLinkAttached = false;
-        }
     }
 
     private void UpdateBackdropVisual()
@@ -252,6 +179,5 @@ public sealed partial class FlyoutControl : UserControl
     public void Dispose()
     {
         _host?.Dispose();
-        BackdropManager?.Dispose();
     }
 }
