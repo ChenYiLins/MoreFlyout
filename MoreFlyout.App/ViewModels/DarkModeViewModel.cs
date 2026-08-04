@@ -83,7 +83,7 @@ public partial class DarkModeViewModel : ObservableObject
             return;
         }
 
-        ConfigManager.Instance.KeyIndicatorFlyoutSettings.IsEnabled = value;
+        ConfigManager.Instance.DarkModeFlyoutSettings.IsEnabled = value;
         ConfigManager.Save();
     }
 
@@ -94,7 +94,7 @@ public partial class DarkModeViewModel : ObservableObject
             return;
         }
 
-        ConfigManager.Instance.KeyIndicatorFlyoutSettings.TimeoutHiding = value;
+        ConfigManager.Instance.DarkModeFlyoutSettings.TimeoutHiding = value;
         ConfigManager.Save();
     }
 }
