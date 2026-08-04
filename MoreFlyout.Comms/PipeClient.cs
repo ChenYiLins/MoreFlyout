@@ -1,4 +1,5 @@
-﻿using System.IO.Pipes;
+﻿using System.Diagnostics;
+using System.IO.Pipes;
 using System.Runtime.Versioning;
 using System.Text;
 
@@ -24,23 +25,42 @@ public class PipeClient
     /// successfully; otherwise, <see langword="false"/>.</returns>
     public static async Task<bool> SendMessageAsync(Message message)
     {
+        if (message is null)
+        {
+            throw new ArgumentNullException(nameof(message), "Can't send empty message.");
+        }
+
         try
         {
-            using (var pipeClient = new NamedPipeClientStream(PipeServerName, PipeName, PipeDirection.Out))
-            {
-                await pipeClient.ConnectAsync(ConnectTimeoutMs);
+            using var pipeClient = new NamedPipeClientStream(PipeServerName, PipeName, PipeDirection.Out);
+            await pipeClient.ConnectAsync(ConnectTimeoutMs);
 
-                string json = message.Serialize();
-                byte[] buffer = Encoding.UTF8.GetBytes(json);
+            string json = message.Serialize();
+            byte[] buffer = Encoding.UTF8.GetBytes(json);
 
-                await pipeClient.WriteAsync(buffer, 0, buffer.Length);
-                await pipeClient.FlushAsync();
+            await pipeClient.WriteAsync(buffer, 0, buffer.Length);
+            await pipeClient.FlushAsync();
 
-                return true;
-            }
+            return true;
         }
-        catch
+        catch (TimeoutException ex)
         {
+            Debug.WriteLine($"[Error] Timeout while connecting to the named pipe server: {ex}");
+            return false;
+        }
+        catch (IOException ex)
+        {
+            Debug.WriteLine($"[Error] IO error while sending message to the named pipe server: {ex}");
+            return false;
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.WriteLine("[Error] Operation canceled while sending message to the named pipe server.");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[Error] Unexpected error while sending message to the named pipe server: {ex}");
             return false;
         }
     }
@@ -88,9 +108,9 @@ public class PipeClient
                 return null;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error in PipeClient SendMessageAndGetReplyAsync: {ex}");
+            Debug.WriteLine($"[Error] Error in PipeClient SendMessageAndGetReplyAsync: {ex}");
             return null;
         }
     }

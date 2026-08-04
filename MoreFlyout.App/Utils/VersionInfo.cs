@@ -21,7 +21,22 @@ internal class VersionInfo
 
     private static string GetFileVersion(string folderPath, string fileName)
     {
-        return ValueOrDefault(() => FileVersionInfo.GetVersionInfo(GetExecutionPath(folderPath, fileName))?.FileVersion);
+        var executionPath = GetExecutionPath(folderPath, fileName);
+
+        if (!File.Exists(executionPath))
+        {
+            return NotFound;
+        }
+
+        try
+        {
+            var versionInfo = FileVersionInfo.GetVersionInfo(executionPath);
+            return !string.IsNullOrWhiteSpace(versionInfo.FileVersion) ? versionInfo.FileVersion : NotFound;
+        }
+        catch
+        {
+            return NotFound;
+        }
     }
 
     private static string ValueOrDefault(Func<string?> getValue)
