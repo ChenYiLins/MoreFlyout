@@ -1,4 +1,4 @@
-﻿namespace MoreFlyout.Comms;
+namespace MoreFlyout.Comms;
 
 /// <summary>
 /// Specifies the types of messages used to control or query the auto-start and server operations.
@@ -35,19 +35,19 @@ public enum MessageType
     /// <summary>
     /// Restart the server
     /// </summary>
-    RestartServer,
+    RestartService,
 
     /// <summary>
     /// Stop the server
     /// </summary>
-    StopServer,
+    StopService,
 
     /// <summary>
     /// Represents a server that processes and responds to query requests.
     /// </summary>
-    QueryServer,
+    QueryService,
 
-    ServerResponse,
+    ServiceResponse,
 
     /// <summary>
     /// Error response

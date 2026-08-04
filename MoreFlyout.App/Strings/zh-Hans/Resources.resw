@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -156,13 +156,13 @@
   <data name="Language" xml:space="preserve">
     <value>语言</value>
   </data>
-  <data name="LaunchingServer" xml:space="preserve">
+  <data name="LaunchingService" xml:space="preserve">
     <value>启动服务中</value>
   </data>
   <data name="Media" xml:space="preserve">
     <value>媒体</value>
   </data>
-  <data name="Msg_NoServer" xml:space="preserve">
+  <data name="Msg_NoService" xml:space="preserve">
     <value>服务没有运行，正在启用服务</value>
   </data>
   <data name="Msg_ServiceUnresponsive" xml:space="preserve">

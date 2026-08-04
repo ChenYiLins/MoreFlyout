@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.Win32;
 
 namespace MoreFlyout.App.Utils;
@@ -6,14 +6,14 @@ namespace MoreFlyout.App.Utils;
 internal class VersionInfo
 {
     private const string WindowsNtCurrentVersionPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion";
-    private const string ServerFolderName = "server";
-    private const string ServerExeName = "MoreFlyout.Server.exe";
+    private const string ServiceFolderName = "service";
+    private const string ServiceExeName = "MoreFlyout.Service.exe";
     private const string AppFolderName = "app";
     private const string AppExeName = "MoreFlyout.App.exe";
     private const string NotFound = "not found";
     private const string UbrRegistryName = "UBR";
 
-    public static string Service => GetFileVersion(ServerFolderName, ServerExeName);
+    public static string Service => GetFileVersion(ServiceFolderName, ServiceExeName);
     public static string App => GetFileVersion(AppFolderName, AppExeName);
     public static string NetCore => ValueOrDefault(() => Environment.Version.ToString());
     public static string WindowsVersion => ValueOrDefault(() => $"{Environment.OSVersion.Version.Build}.{GetRegistryValue(WindowsNtCurrentVersionPath, UbrRegistryName, "0") ?? "0"}");

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using MoreFlyout.App.Utils;
 using Windows.System;
 
@@ -7,7 +7,7 @@ namespace MoreFlyout.App.ViewModels;
 public partial class AboutViewModel : ObservableObject
 {
     [ObservableProperty]
-    public partial string Server { get; set; }
+    public partial string Service { get; set; }
 
     [ObservableProperty]
     public partial string AppVersion { get; set; }
@@ -39,7 +39,7 @@ public partial class AboutViewModel : ObservableObject
 
     public AboutViewModel()
     {
-        Server = VersionInfo.Service;
+        Service = VersionInfo.Service;
         AppVersion = VersionInfo.App;
         NetCore = VersionInfo.NetCore;
         Windows = VersionInfo.WindowsVersion;

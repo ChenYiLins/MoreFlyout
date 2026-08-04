@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using MoreFlyout.App.Contracts.Services;
 using MoreFlyout.Comms;
 
@@ -49,7 +49,7 @@ public partial class HomeViewModel : ObservableObject
                     Process.Start(
                         new ProcessStartInfo()
                         {
-                            FileName = Path.Combine(directoryInfo.FullName, "server", "MoreFlyout.Server.exe"),
+                            FileName = Path.Combine(directoryInfo.FullName, "service", "MoreFlyout.Service.exe"),
                             UseShellExecute = false,
                             CreateNoWindow = true,
                         }
@@ -64,7 +64,7 @@ public partial class HomeViewModel : ObservableObject
         }
         else
         {
-            var success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.StopServer });
+            var success = await PipeClient.SendMessageAsync(new Message() { Type = MessageType.StopService });
             if (!success)
             {
                 MoreFlyoutEnabled = true;

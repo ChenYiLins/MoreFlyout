@@ -39,14 +39,14 @@
                             Orientation="Horizontal"
                             Spacing="20">
                             <StackPanel Orientation="Vertical" Spacing="8">
-                                <TextBlock Text="Server" />
+                                <TextBlock Text="Service" />
                                 <TextBlock Text="App" />
                                 <TextBlock Text=".Net" />
                                 <TextBlock Text="Windows" />
                                 <TextBlock Text="Arch" />
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Spacing="8">
-                                <TextBlock Text="{x:Bind ViewModel.Server, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind ViewModel.Service, Mode=OneWay}" />
                                 <TextBlock Text="{x:Bind ViewModel.AppVersion, Mode=OneWay}" />
                                 <TextBlock Text="{x:Bind ViewModel.NetCore, Mode=OneWay}" />
                                 <TextBlock Text="{x:Bind ViewModel.Windows, Mode=OneWay}" />

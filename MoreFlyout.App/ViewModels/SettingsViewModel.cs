@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using CommunityToolkit.Mvvm.Input;
@@ -63,7 +63,7 @@ public partial class SettingsViewModel : ObservableObject
     {
         try
         {
-            await PipeClient.SendMessageAsync(new Message() { Type = MessageType.RestartServer });
+            await PipeClient.SendMessageAsync(new Message() { Type = MessageType.RestartService });
         }
         catch (Exception ex)
         {

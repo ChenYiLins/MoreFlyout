@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using MoreFlyout.App.Contracts.Services;
@@ -12,7 +12,7 @@ namespace MoreFlyout.App.Services;
 
 public class ActivationService(INavigationService navigationService) : IActivationService
 {
-    private ContentDialog? _serverInfoDialog;
+    private ContentDialog? _serviceInfoDialog;
 
     public async Task ActivateAsync(object activationArgs)
     {
@@ -25,22 +25,22 @@ public class ActivationService(INavigationService navigationService) : IActivati
         // Activate the MainWindow.
         App.MainWindow.Activate();
 
-        // Start Server and check result
-        var serverIssued = StartService();
-        if (serverIssued)
+        // Start Service and check result
+        var serviceIssued = StartService();
+        if (serviceIssued)
         {
-            await InitalizeServerInfoDialogAsync();
+            await InitalizeServiceInfoDialogAsync();
         }
 
-        // Verify Server is running
-        var serverVerified = await VerifyServiceStartupAsync();
-        if (serverIssued && !serverVerified)
+        // Verify Service is running
+        var serviceVerified = await VerifyServiceStartupAsync();
+        if (serviceIssued && !serviceVerified)
         {
             ShowUnresponsiveInfo();
         }
-        else if (serverIssued && serverVerified)
+        else if (serviceIssued && serviceVerified)
         {
-            _serverInfoDialog?.Hide();
+            _serviceInfoDialog?.Hide();
         }
     }
 
@@ -89,32 +89,32 @@ public class ActivationService(INavigationService navigationService) : IActivati
         return monitorSize;
     }
 
-    private async Task InitalizeServerInfoDialogAsync()
+    private async Task InitalizeServiceInfoDialogAsync()
     {
         await WaitForXamlRootAsync();
 
-        _serverInfoDialog = new ContentDialog
+        _serviceInfoDialog = new ContentDialog
         {
-            Title = "LaunchingServer".GetLocalized(),
+            Title = "LaunchingService".GetLocalized(),
             Content = new StackPanel
             {
                 Orientation = Orientation.Vertical,
                 Spacing = 32,
                 Children =
                 {
-                    new TextBlock { Text = "Msg_NoServer".GetLocalized() },
+                    new TextBlock { Text = "Msg_NoService".GetLocalized() },
                     new ProgressBar { IsIndeterminate = true },
                 },
             },
             XamlRoot = App.MainWindow.Content.XamlRoot,
         };
 
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(async () => await _serverInfoDialog.ShowAsync());
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(async () => await _serviceInfoDialog.ShowAsync());
     }
 
     private void ShowUnresponsiveInfo()
     {
-        _serverInfoDialog?.Content = new StackPanel
+        _serviceInfoDialog?.Content = new StackPanel
         {
             Orientation = Orientation.Vertical,
             Spacing = 32,
@@ -174,7 +174,7 @@ public class ActivationService(INavigationService navigationService) : IActivati
         {
             using Process svc = new();
             svc.StartInfo.UseShellExecute = false;
-            svc.StartInfo.FileName = CommonHelper.ExecutionPathServer;
+            svc.StartInfo.FileName = CommonHelper.ExecutionPathService;
             svc.StartInfo.CreateNoWindow = true;
             svc.Start();
             serviceRunning.ReleaseMutex();
@@ -193,8 +193,8 @@ public class ActivationService(INavigationService navigationService) : IActivati
         const int maxRetries = 5;
         for (int i = 0; i < maxRetries; i++)
         {
-            var serverResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryServer });
-            if (serverResponse is { Type: MessageType.ServerResponse, Content: ResponseType.Ok })
+            var serviceResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryService });
+            if (serviceResponse is { Type: MessageType.ServiceResponse, Content: ResponseType.Ok })
             {
                 return true;
             }
