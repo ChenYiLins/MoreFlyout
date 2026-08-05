@@ -1,4 +1,4 @@
-using MoreFlyout.Config;
+﻿using MoreFlyout.Config;
 using MoreFlyout.Service.Helpers;
 using MoreFlyout.Service.Utils;
 using MoreFlyout.Service.ViewModels;
@@ -40,7 +40,8 @@ public sealed partial class MediaFlyout : UserControl
             _timerHelper.Stop();
         }
 
-        bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
+        bool flyoutEnabled =
+            (!ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive()) && (!ConfigManager.Instance.ServiceSettings.EnergySaver || !EnergySaver.IsEnergySaverEnabled());
         if (!App.FlyoutControl.IsOpen && flyoutEnabled)
         {
             App.FlyoutControl.Show();

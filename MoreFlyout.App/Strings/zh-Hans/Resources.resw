@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -239,5 +239,17 @@
   </data>
   <data name="Condition" xml:space="preserve">
     <value>条件</value>
+  </data>
+  <data name="GameMode" xml:space="preserve">
+    <value>Game mode</value>
+  </data>
+  <data name="EnergySaver" xml:space="preserve">
+    <value>Energy Saver</value>
+  </data>
+  <data name="EnergySaverDescription" xml:space="preserve">
+    <value>When Energy Saver mode is enabled, disable all flyouts</value>
+  </data>
+  <data name="GameModeDescription" xml:space="preserve">
+    <value>When a full-screen application is running, disable all flyouts</value>
   </data>
 </root>

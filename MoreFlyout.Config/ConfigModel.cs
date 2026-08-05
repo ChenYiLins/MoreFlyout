@@ -43,6 +43,8 @@ public class ServiceSettings
 
     public bool GameMode { get; set; } = true;
 
+    public bool EnergySaver { get; set; } = false;
+
     public string SelectedLanguageCode { get; set; } = "en-us";
 }
 

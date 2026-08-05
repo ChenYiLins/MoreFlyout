@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml.Media.Animation;
+﻿using Microsoft.UI.Xaml.Media.Animation;
 using MoreFlyout.Config;
 using MoreFlyout.Service.Helpers;
 using MoreFlyout.Service.Utils;
@@ -41,7 +41,8 @@ public sealed partial class DarkModeFlyout : UserControl
             _timerHelper.Stop();
         }
 
-        bool flyoutEnabled = !ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive();
+        bool flyoutEnabled =
+            (!ConfigManager.Instance.ServiceSettings.GameMode || !Screen.IsFullScreenActive()) && (!ConfigManager.Instance.ServiceSettings.EnergySaver || !EnergySaver.IsEnergySaverEnabled());
         if (!App.FlyoutControl.IsOpen && flyoutEnabled)
         {
             App.FlyoutControl.Show();
