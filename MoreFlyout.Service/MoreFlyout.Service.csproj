@@ -16,7 +16,7 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
-    <Version>2.4.0</Version>
+    <Version>2.4.1</Version>
     <CsWinRTIncludes>Microsoft.UI.Content.ContentExternalBackdropLink;Microsoft.UI.Content.IContentExternalBackdropLink</CsWinRTIncludes>
   </PropertyGroup>
 
@@ -24,11 +24,11 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <OutputPath>..\bin\Debug\MoreFlyout\Service\</OutputPath>
+    <OutputPath>..\bin\Debug\MoreFlyout\service\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>..\bin\Release\MoreFlyout\Service\</OutputPath>
+    <OutputPath>..\bin\Release\MoreFlyout\service\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
