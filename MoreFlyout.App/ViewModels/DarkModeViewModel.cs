@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using MoreFlyout.App.Utils;
 
 namespace MoreFlyout.App.ViewModels;
 
@@ -25,7 +25,7 @@ public partial class DarkModeViewModel : ObservableObject
         _isLoading = true;
         try
         {
-            AutoDarkModeInstalled = IsAutoDarkModeInstalled();
+            AutoDarkModeInstalled = AutoDarkMode.IsAutoDarkModeInstalled();
             if (!AutoDarkModeInstalled)
             {
                 ConfigManager.Instance.DarkModeFlyoutSettings.IsEnabled = false;
@@ -39,41 +39,6 @@ public partial class DarkModeViewModel : ObservableObject
         {
             _isLoading = false;
         }
-    }
-
-    private static bool IsAutoDarkModeInstalled()
-    {
-        var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var commonPath = Path.Combine(localAppData, "Programs", "AutoDarkMode");
-        if (Directory.Exists(commonPath))
-        {
-            return true;
-        }
-
-        string[] registryPaths = [@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall", @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"];
-
-        Microsoft.Win32.RegistryKey[] roots = [Microsoft.Win32.Registry.LocalMachine, Microsoft.Win32.Registry.CurrentUser];
-
-        foreach (var root in roots)
-        {
-            foreach (var path in registryPaths)
-            {
-                using var key = root.OpenSubKey(path);
-                if (key is null)
-                    continue;
-
-                foreach (var subKeyName in key.GetSubKeyNames())
-                {
-                    using var subKey = key.OpenSubKey(subKeyName);
-                    if (subKey?.GetValue("DisplayName") is string displayName && displayName.Contains("Auto Dark Mode", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 
     partial void OnDarkModeFlyoutEnabledChanged(bool value)
