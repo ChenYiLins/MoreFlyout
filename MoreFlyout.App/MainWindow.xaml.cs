@@ -25,7 +25,7 @@ public sealed partial class MainWindow : Window
         var scaleFactor = dpiForWindow / 96.0;
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
-            presenter.PreferredMinimumWidth = (int)(920 * scaleFactor);
+            presenter.PreferredMinimumWidth = (int)(600 * scaleFactor);
             presenter.PreferredMinimumHeight = (int)(600 * scaleFactor);
             presenter.PreferredMaximumHeight = 10000;
             presenter.PreferredMaximumWidth = 10000;

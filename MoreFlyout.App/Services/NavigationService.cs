@@ -36,6 +36,7 @@ public class NavigationService : INavigationService
     {
         _navigationView = navigationView;
         _navigationView.SelectionChanged += OnSelectionChanged;
+        _navigationView.DisplayModeChanged += DislplayModeChanged;
 
         _navigationView.PointerPressed += NavigationView_PointerPressed;
         _navigationView.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
@@ -87,6 +88,24 @@ public class NavigationService : INavigationService
         {
             pageKey = "MoreFlyout.App.ViewModels." + pageKey + "ViewModel";
             NavigateTo(pageKey);
+        }
+    }
+
+    private void DislplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+    {
+        if (args.DisplayMode == NavigationViewDisplayMode.Minimal)
+        {
+            foreach (var item in _breadcrumbItems)
+            {
+                item.BreadcrumbBarTextBlockPadding = new Thickness(32, 0, 0, 0);
+            }
+        }
+        else
+        {
+            foreach (var item in _breadcrumbItems)
+            {
+                item.BreadcrumbBarTextBlockPadding = new Thickness(0, 0, 0, 0);
+            }
         }
     }
 

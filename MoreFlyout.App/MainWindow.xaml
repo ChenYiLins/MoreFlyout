@@ -40,13 +40,15 @@
 
             <NavigationView.Header>
                 <BreadcrumbBar x:Name="BreadcrumbBarControl" MaxWidth="{StaticResource PageContentMaxWidth}">
-
                     <BreadcrumbBar.ItemTemplate>
                         <DataTemplate x:DataType="models:BreadcrumbItem">
                             <BreadcrumbBarItem AutomationProperties.Name="{Binding Content}" Content="{Binding}">
                                 <BreadcrumbBarItem.ContentTemplate>
                                     <DataTemplate x:DataType="models:BreadcrumbItem">
-                                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Content}" />
+                                        <TextBlock
+                                            Padding="{Binding BreadcrumbBarTextBlockPadding, Mode=OneWay}"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{Binding Content}" />
                                     </DataTemplate>
                                 </BreadcrumbBarItem.ContentTemplate>
                             </BreadcrumbBarItem>
