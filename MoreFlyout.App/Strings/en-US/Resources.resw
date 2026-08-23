@@ -252,4 +252,22 @@
   <data name="GameModeDescription" xml:space="preserve">
     <value>When a full-screen application is running, disable all flyouts</value>
   </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Msg_ServiceNotRunning" xml:space="preserve">
+    <value>Service is not running</value>
+  </data>
+  <data name="Msg_ServiceRunning" xml:space="preserve">
+    <value>Service is running</value>
+  </data>
+  <data name="Msg_CheckingServiceStatus" xml:space="preserve">
+    <value>Checking service status...</value>
+  </data>
 </root>

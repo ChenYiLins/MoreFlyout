@@ -7,18 +7,77 @@
     xmlns:helpers="using:MoreFlyout.App.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:userControls="using:MoreFlyout.App.UserControls"
     mc:Ignorable="d">
+    <Page.Resources>
+        <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+    </Page.Resources>
 
     <ScrollView>
-        <StackPanel Style="{StaticResource PageBaseStackPanelStyle}">
+        <Grid
+            MaxWidth="{StaticResource PageContentMaxWidth}"
+            Padding="16,0,20,16"
+            ColumnSpacing="16"
+            RowSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-            <!--  Switch  -->
-            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Switch}" />
-            <controls:SettingsCard Header="{helpers:ResourceString Name=EnableMoreFlyout}" HeaderIcon="{ui:FontIcon Glyph=&#xE70A;}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.MoreFlyoutEnabled, Mode=TwoWay}" />
-            </controls:SettingsCard>
+            <StackPanel Orientation="Vertical">
+                <!--  Information  -->
+                <StackPanel Grid.Row="0">
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Information}" />
+                    <InfoBar
+                        Title="{helpers:ResourceString Name=Service}"
+                        Background="{ThemeResource ControlFillColorDefaultBrush}"
+                        IsClosable="False"
+                        IsOpen="True"
+                        Message="{x:Bind ViewModel.ServiceStatusMessage, Mode=OneWay}"
+                        Severity="{x:Bind ViewModel.ServiceStatusSeverity, Mode=OneWay}" />
+                </StackPanel>
 
-        </StackPanel>
+                <!--  Switch  -->
+                <StackPanel Grid.Row="1">
+                    <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Switch}" />
+                    <controls:SettingsCard
+                        ContentAlignment="Right"
+                        Header="{helpers:ResourceString Name=EnableMoreFlyout}"
+                        HeaderIcon="{ui:FontIcon Glyph=&#xE70A;}">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.MoreFlyoutEnabled, Mode=TwoWay}" />
+                    </controls:SettingsCard>
+                </StackPanel>
+            </StackPanel>
+
+            <!--  Module  -->
+            <StackPanel x:Name="ModuleCard" Grid.Column="1">
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Module}" />
+                <userControls:SettingsGroup MinWidth="400" ItemsSource="{x:Bind ViewModel.ModuleItems, Mode=OneWay}" />
+            </StackPanel>
+
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ModuleCard.(Grid.Column)" Value="0" />
+                        <Setter Target="ModuleCard.(Grid.Row)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </ScrollView>
 </Page>
 

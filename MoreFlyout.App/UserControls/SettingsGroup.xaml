@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="MoreFlyout.App.UserControls.SettingsGroup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MoreFlyout.App.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:MoreFlyout.App.Models"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+        <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+    </UserControl.Resources>
+
+    <ItemsRepeater
+        x:Name="SettingsGroupRepeater"
+        ElementPrepared="OnSettingsGroupRepeaterElementPrepared"
+        ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+        <ItemsRepeater.Layout>
+            <StackLayout Orientation="Vertical" Spacing="0" />
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="models:SettingsGroupItem">
+
+                <controls:SettingsCard
+                    Padding="12,4,12,4"
+                    ui:FrameworkElementExtensions.AncestorType="local:SettingsGroup"
+                    Click="OnSettingsCardClick"
+                    ContentAlignment="Right"
+                    HeaderIcon="{x:Bind Icon, Mode=OneWay}"
+                    IsClickEnabled="{Binding (ui:FrameworkElementExtensions.Ancestor).IsItemClickable, RelativeSource={RelativeSource Self}}"
+                    Tag="{x:Bind}">
+                    <controls:SettingsCard.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Bind Label, Mode=OneWay}" />
+                            <InfoBadge
+                                x:Name="NewInfoBadge"
+                                Margin="4,0,0,0"
+                                Style="{StaticResource NewInfoBadgeStyle}"
+                                Visibility="{x:Bind IsNew, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <FontIcon
+                                Width="20"
+                                Margin="4,0,0,0"
+                                FontSize="16"
+                                Glyph="&#xE72E;"
+                                Visibility="{x:Bind IsLocked, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}" />
+                        </StackPanel>
+                    </controls:SettingsCard.Header>
+
+                    <ToggleSwitch
+                        HorizontalAlignment="Right"
+                        AutomationProperties.Name="{x:Bind Label, Mode=OneWay}"
+                        IsEnabled="{x:Bind IsLocked, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                        IsOn="{x:Bind IsEnabled, Mode=TwoWay}"
+                        OffContent=""
+                        OnContent="" />
+                </controls:SettingsCard>
+
+            </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+    </ItemsRepeater>
+
+</UserControl>

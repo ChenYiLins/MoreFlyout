@@ -1,8 +1,9 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using MoreFlyout.App.Contracts.Services;
 using MoreFlyout.App.Helpers;
+using MoreFlyout.App.Utils;
 using MoreFlyout.Comms;
 using Windows.Devices.Display;
 using Windows.Devices.Enumeration;
@@ -33,14 +34,17 @@ public class ActivationService(INavigationService navigationService) : IActivati
         }
 
         // Verify Service is running
-        var serviceVerified = await VerifyServiceStartupAsync();
-        if (serviceIssued && !serviceVerified)
+        if(ConfigManager.Instance.ServiceSettings.IsEnabled)
         {
-            ShowUnresponsiveInfo();
-        }
-        else if (serviceIssued && serviceVerified)
-        {
-            _serviceInfoDialog?.Hide();
+            var serviceVerified = await ServiceStatus.VerifyServiceStartupAsync();
+            if (serviceIssued && !serviceVerified)
+            {
+                ShowUnresponsiveInfo();
+            }
+            else if (serviceIssued && serviceVerified)
+            {
+                _serviceInfoDialog?.Hide();
+            }
         }
     }
 
@@ -180,27 +184,6 @@ public class ActivationService(INavigationService navigationService) : IActivati
             serviceRunning.ReleaseMutex();
             return true;
         }
-        return false;
-    }
-
-    private static async Task<bool> VerifyServiceStartupAsync()
-    {
-        if (Debugger.IsAttached)
-        {
-            return false;
-        }
-
-        const int maxRetries = 5;
-        for (int i = 0; i < maxRetries; i++)
-        {
-            var serviceResponse = await PipeClient.SendMessageAndGetReplyAsync(new Message() { Type = MessageType.QueryService });
-            if (serviceResponse is { Type: MessageType.ServiceResponse, Content: ResponseType.Ok })
-            {
-                return true;
-            }
-            await Task.Delay(1000);
-        }
-
         return false;
     }
 }
